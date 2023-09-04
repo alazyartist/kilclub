@@ -1,0 +1,52 @@
+App Talk
+
+
+## Customer Facing ##
+
+Logged In:
+  - Services nearby
+  - Refer a friend
+  - Leave A Review
+  - Manage Account
+  - Top Listing
+  - What is available to you as a club member
+
+New User:
+  - Sign in / Create Account
+  - Enter zip code to see nearby services
+  - Reasons to "join the club"
+    - Free to join (Basic Plan)
+      - See business showcase
+      - See business star-rating (A-B Tests pending)
+    - Paid:
+      - See business reviews
+      - Access to discounts (when available)
+
+Footer:
+  - Recently used/reviewed services
+  - Mission Statement
+  - Contact Us
+  - About US
+  - Press
+  - **Our Competition
+
+
+
+## Business Facing - The Tax Payer ##
+
+New Business:
+  - Sales Pitch version of the Mission Statement
+    - What is being offered
+    - Why this service is better than previously available options
+      - Ease of used
+      - Genuine reviews by actual customers
+
+Logged in:
+  - Manage Account
+  - Link to view/edit business profile
+  - See your ratings
+
+Footer:
+  - Contact Us
+
+

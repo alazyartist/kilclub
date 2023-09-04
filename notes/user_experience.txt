@@ -1,0 +1,14 @@
+1) User visits website
+2) Brief Mission Statement / Call to Action
+3) Sees Zip Search and Business Icons
+4) Type in my zip, brought to...
+5) Businesses in your area
+    - A map makes sense in browsing
+6) interactive graphic of area
+7) Select a busness category
+8) List of those businesses
+    - Filter options
+    - Price/Requirements
+9) Click on businesses
+10) See business profile
+    - Future communications determined by business

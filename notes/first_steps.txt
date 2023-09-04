@@ -1,0 +1,57 @@
+- uploald images to database
+- Display images
+- determine business/customer account
+- Review submit/display
+- Business/Customer Toggle
+- Request Location Services
+  - Route into google api
+- How to specify business the service area
+- Upload business service/price/other offerings
+  - Contact information
+  - Info required by potential customer
+  - What services
+  - Service areas
+
+- *Background/Certification Check
+- *Service Workers / PWA
+
+
+
+
+
+
+
+
+
+#################
+Landing Page
+
+- Input Zip Code
+- Business Icon Grid
+- Sign up button
+  - Ask for phone number
+    - Are you a business
+      - Yes: Pay us
+      - No: Back to search page with exter user privilages
+- Manage Account / User Profile
+
+
+
+
+
+
+
+####################
+Data Traffic
+
+- Images
+  - uplaod images
+  - image carrosel / grid
+
+- Ratings
+  - Updoad
+  - Display
+
+- Business
+  - Create a business
+  - Show list of available businesses in the database
