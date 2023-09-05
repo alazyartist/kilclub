@@ -6,7 +6,7 @@ const Header = () => {
   const [isOpen, openMenu] = useState(true);
   return (
     <>
-      <div className="border-accent fixed top-0 flex w-full justify-between border-b-2 p-2 pb-4 ">
+      <div className="border-accent bg-base-light sticky top-0 flex w-full justify-between border-b-2 p-2 pb-4 ">
         <Link
           href={"/"}
           className="text-accent-light text-4xl font-extrabold tracking-tighter sm:text-[5rem]"

@@ -10,7 +10,7 @@ import React from "react";
 
 const HeaderMenu = () => {
   return (
-    <div className="flex-coll bg-base-light absolute right-4 top-10 z-10 gap-2 rounded-md p-2 text-zinc-900">
+    <div className="flex-coll bg-base-light fixed right-4 top-10 z-10 gap-2 rounded-md p-2 text-zinc-900">
       <SignedIn>
         <MenuLink href="/upgrade" title="Upgrade" />
         <MenuLink href="/history" title="History" />
