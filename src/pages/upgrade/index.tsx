@@ -4,15 +4,15 @@ import React from "react";
 const UpgradeFlow = () => {
   return (
     <div className="flex-coll h-full w-full items-center gap-2">
-      <h1 className="pt-14 text-2xl font-bold">I am a</h1>
+      <h1 className="pt-14 text-2xl font-bold lg:text-5xl">I am a</h1>
       <Link
-        className="bg-accent-light w-[200px] rounded-md p-2 text-center text-white"
+        className="bg-accent-light w-[200px] rounded-md p-2 text-center text-white lg:text-3xl"
         href="/upgrade/customer"
       >
         Customer
       </Link>
       <Link
-        className="bg-accent-light w-[200px] rounded-md p-2 text-center text-white"
+        className="bg-accent-light w-[200px] rounded-md p-2 text-center text-white lg:text-3xl"
         href="/upgrade/business"
       >
         Business

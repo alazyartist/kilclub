@@ -20,7 +20,7 @@ const Header = () => {
           <HamburgerSVG />
         </p>
       </div>
-      {isOpen && <HeaderMenu />}
+      {isOpen && <HeaderMenu close={openMenu} />}
     </>
   );
 };
