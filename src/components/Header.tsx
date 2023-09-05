@@ -3,7 +3,7 @@ import HeaderMenu from "./HeaderMenu";
 import Link from "next/link";
 
 const Header = () => {
-  const [isOpen, openMenu] = useState(true);
+  const [isOpen, openMenu] = useState(false);
   return (
     <>
       <div className="border-accent bg-base-light sticky top-0 flex w-full justify-between border-b-2 p-2 pb-4 ">

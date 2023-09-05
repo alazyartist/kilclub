@@ -12,7 +12,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
     <ClerkProvider {...pageProps}>
       <Header />
       <Background>
-        <Component {...pageProps} />;
+        <Component {...pageProps} />
       </Background>
     </ClerkProvider>
   );
