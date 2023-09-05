@@ -1,7 +1,7 @@
 import React from "react";
 
 const UpgradeFlow = () => {
-  return <div>UpgradeFlow</div>;
+  return <div className="w-ful h-full">UpgradeFlow</div>;
 };
 
 export default UpgradeFlow;

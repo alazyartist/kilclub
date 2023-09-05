@@ -5,7 +5,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: { // Grayscale
+        primary: {
+          // Grayscale
           light: "#40c4ff",
           DEFAULT: "#00b0ff",
           dark: "#0091ea",
@@ -16,7 +17,7 @@ export default {
           dark: "#c51162",
         },
         base: {
-          light: "f4f4f5",
+          light: "#f4f4f5",
           DEFAULT: "#bbc",
           dark: "#99a",
         },
