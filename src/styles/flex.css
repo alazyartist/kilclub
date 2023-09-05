@@ -1,5 +1,5 @@
 .flex-coll{
-  display: flex;
+  @apply flex;
   flex-direction: column;
 }
 .flex-row{
