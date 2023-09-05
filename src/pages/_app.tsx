@@ -10,8 +10,8 @@ import Header from "~/components/Header";
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <ClerkProvider {...pageProps}>
-      <Header />
       <Background>
+        <Header />
         <Component {...pageProps} />;
       </Background>
     </ClerkProvider>
