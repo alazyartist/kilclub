@@ -1,4 +1,5 @@
 import React from "react";
+import { api } from "~/utils/api";
 
 interface UpgradeProps {
   upgrade: string;
@@ -12,6 +13,7 @@ const UpgradeCard: React.FC<UpgradeProps> = ({
   discount,
   description,
 }) => {
+  const test = api.user.upgrade.useQuery();
   return (
     <div className="bg-accent max-w-[80vw] space-y-2 rounded-md p-4 text-white ">
       <div className="-center flex justify-between">
