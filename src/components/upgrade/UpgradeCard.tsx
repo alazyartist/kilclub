@@ -4,7 +4,7 @@ import { api } from "~/utils/api";
 interface UpgradeProps {
   upgrade: string;
   cost: string | number;
-  discount?: string | number;
+  discount?: number;
   description: string;
 }
 const UpgradeCard: React.FC<UpgradeProps> = ({
