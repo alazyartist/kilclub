@@ -15,16 +15,16 @@ export default function Testing() {
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
             Keep <span className="text-[hsl(280,100%,70%)]">it</span> Local
           </h1>
-          <div className="-center flex-col gap-8">
+          <div className="-center flex-coll gap-8">
             <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+              className="max-w-xs flex-coll gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
               href="/test"
             >
               <h3 className="text-2xl font-bold">Button One</h3>
               <div className="text-lg">----------</div>
             </Link>
             <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+              className="max-w-xs flex-coll gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
               href="https://create.t3.gg/en/introduction"
               target="_blank"
             >

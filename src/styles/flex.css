@@ -1,10 +1,9 @@
-.flex-col{
+.flex-coll{
   display: flex;
   flex-direction: column;
 }
 .flex-row{
-  display: flex;
-  flex-direction: row;
+  @apply flex;
 }
 .flex-grid{
   display: flex;
@@ -17,3 +16,6 @@
   justify-content: center;
   align-items: center;
 }
+
+
+

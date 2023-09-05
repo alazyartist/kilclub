@@ -1,4 +1,4 @@
-import { SignIn, UserButton } from "@clerk/nextjs";
+import { SignIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Head from "next/head";
 import Link from "next/link";
 
@@ -33,7 +33,9 @@ export default function Home() {
             </Link>
           </div>
           <UserButton />
-          <SignIn />
+          <SignedOut>
+            <SignIn />
+          </SignedOut>
         </div>
       </main>
     </>
