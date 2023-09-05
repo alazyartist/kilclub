@@ -1,8 +1,8 @@
-import { SignIn, UserButton } from "@clerk/nextjs";
+import { SignIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Head from "next/head";
 import Link from "next/link";
 
-export default function Home() {
+export default function Testing() {
   return (
     <>
       <Head>
@@ -15,7 +15,7 @@ export default function Home() {
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
             Keep <span className="text-[hsl(280,100%,70%)]">it</span> Local
           </h1>
-          <div className="flex-col -center gap-8">
+          <div className="-center flex-col gap-8">
             <Link
               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
               href="/test"
@@ -33,7 +33,9 @@ export default function Home() {
             </Link>
           </div>
           <UserButton />
-          <SignIn />
+          <SignedOut>
+            <SignIn />
+          </SignedOut>
         </div>
       </main>
     </>
