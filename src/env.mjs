@@ -8,6 +8,9 @@ export const env = createEnv({
    */
   server: {
     DATABASE_URL: z.string().url(),
+    STRIPE_PUBLIC_KEY: z.string(),
+    STRIPE_SECRET_KEY: z.string(),
+    CLERK_SECRET_KEY: z.string(),
     NODE_ENV: z.enum(["development", "test", "production"]),
   },
 
@@ -26,6 +29,9 @@ export const env = createEnv({
    */
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
+    STRIPE_PUBLIC_KEY: process.env.STRIPE_PUBLIC_KEY,
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+    CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
     NODE_ENV: process.env.NODE_ENV,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },

@@ -1,7 +1,10 @@
 import React from "react";
 import UpgradeCard from "~/components/upgrade/UpgradeCard";
+import { api } from "~/utils/api";
 
 const Business = () => {
+  const stripeSecret = api.payments.getClientSecret.useQuery();
+
   return (
     <div className="h-full space-y-2 py-2">
       <UpgradeCard
