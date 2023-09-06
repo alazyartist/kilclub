@@ -18,6 +18,7 @@ const HeaderMenu = ({
       <SignedIn>
         <MenuLink close={close} href="/upgrade" title="Upgrade" />
         <MenuLink close={close} href="/history" title="History" />
+        <MenuLink close={close} href="/profile" title="Profile" />
         <div className="place-self-center">
           <UserButton />
         </div>
