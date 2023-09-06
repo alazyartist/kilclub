@@ -22,9 +22,9 @@ const Posting: React.FC<PostingProps> = ({
   };
 
   return (
-    <div className="w-[80vw] max-h-[20vh] bg-base-light text-black pl-4 pr-4 flex-coll -center">
+    <div className="w-[80vw] bg-base-light text-black pl-4 pr-4 flex-coll -center">
       <span
-        className="w-full p-1 font-strong text-2xl text-right border-2 border-accent "
+        className="w-full p-1 font-strong text-2xl text-right border-2 border-accent"
         onClick={toggleLocation}
       >
         {showLocation ? zipcode : location}
@@ -33,17 +33,39 @@ const Posting: React.FC<PostingProps> = ({
         <span>{star_rating}/5</span>
         <span>{date.toLocaleDateString()}</span>
       </div>
-      <div className="w-full flex-row justify-start overflow-auto gap-4">
-        {photos.map((photo, index) => (
-          <img
-            key={index} // Use a unique key for each photo
-            width={100}
-            height={100}
-            src={`./temp_photos/${photo}`} // Replace 'temp_photos' with your actual photo path
-            alt={`Photo ${index + 1}`}
-            style={{ maxWidth: "100%", height: "auto" }} // Adjust the style as needed
-          />
-        ))}
+      <div className="w-full flex-coll justify-start overflow-auto gap-4 max-h-[256px]">
+        <div className="grid grid-cols-3 grid-rows-2 gap-4">
+          {photos.slice(0, 1).map((photo, index) => (
+            <img
+              key={index}
+              width={200} // Adjust the width as needed
+              height={200} // Adjust the height as needed
+              src={`./temp_photos/${photo}`}
+              alt={`Photo ${index + 1}`}
+              style={{ gridColumn: "span 2", gridRow: "span 2" }}
+            />
+          ))}
+          {photos.slice(1, 3).map((photo, index) => (
+            <img
+              key={index}
+              width={200}
+              height={200}
+              src={`./temp_photos/${photo}`}
+              alt={`Photo ${index + 1}`}
+            />
+          ))}
+        </div>
+        <div className="grid grid-cols-4 gap-4">
+          {photos.slice(3).map((photo, index) => (
+            <img
+              key={index}
+              width={100}
+              height={100}
+              src={`./temp_photos/${photo}`}
+              alt={`Photo ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
