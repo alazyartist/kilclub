@@ -33,7 +33,7 @@ const Posting: React.FC<PostingProps> = ({
         <span>{star_rating}/5</span>
         <span>{date.toLocaleDateString()}</span>
       </div>
-      <div className="w-full flex-row justify-center overflow-auto">
+      <div className="w-full flex-row justify-start overflow-auto gap-4">
         {photos.map((photo, index) => (
           <img
             key={index} // Use a unique key for each photo
