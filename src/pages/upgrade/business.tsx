@@ -13,6 +13,7 @@ const Business = () => {
         description="Unlock the potential for business growth and community engagement with our 'Founder' tier. Build with us and get a lifetime of savings, expand your reach, and elevate your business to new heights within our vibrant community."
         upgrade="Founder"
       />
+
       {/* <UpgradeCard
         cost={99}
         description="Unlock the potential for business growth and community engagement with our 'Business Builder' tier. When you choose this tier, you gain access to a wealth of resources, expert guidance, and a thriving network of local businesses. We're here to help you lay a solid foundation, expand your reach, and elevate your business to new heights within our vibrant community."

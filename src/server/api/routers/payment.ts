@@ -6,6 +6,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
+import Stripe from "stripe";
 
 export const paymentRouter = createTRPCRouter({
   getClientSecret: protectedProcedure.query(({ ctx }) => {
