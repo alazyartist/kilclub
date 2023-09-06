@@ -1,9 +1,32 @@
 import React from "react";
 import JobPosting from "./JobPosting";
 
+const photoFilenames = [
+  "1.png",
+  "2.png",
+  "3.png",
+  "4.png",
+  "5.png"
+];
+
 const jobs = [
-  { jobid: 1111, location: "location_1", zipcode: 12345, star_rating: 1.1, date: "09/06/2023" },
-  { jobid: 2222, location: "location_2", zipcode: 67890, star_rating: 2.2, date: "09/06/2023" }];
+  {
+    jobid: 1111,
+    location: "location_1",
+    zipcode: 12345,
+    star_rating: 1.1,
+    date: "09/06/2023",
+    photos: photoFilenames
+  },
+  {
+    jobid: 2222,
+    location: "location_2",
+    zipcode: 67890,
+    star_rating: 2.2,
+    date: "09/06/2023",
+    photos: photoFilenames
+  },
+];
 
 const Logo = () => {
   return (
@@ -21,16 +44,17 @@ const Logo = () => {
 
 const Profile = () => {
   return (
-    <div className="h-full space-y-2 py-2 flex-coll -center">
+    <div className="h-full space-y-2 py-2 flex-coll -center gap-8">
       <Logo />
-      <div>
+      <div className="flex-coll -center gap-8">
         {jobs.map((job) => (
-          <JobPosting 
+          <JobPosting
             key={job.jobid}
             location={job.location}
             zipcode={job.zipcode}
             star_rating={job.star_rating}
             date={new Date(job.date)}
+            photos={job.photos}
           />
         ))}
       </div>
