@@ -90,8 +90,6 @@ const isAuthed = t.middleware((opts) => {
   if (!ctx?.auth?.userId) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
-  console.log(ctx.auth.userId);
-  console.log("I'M RUNNING MIDDLEWARE");
   if (ctx.auth.userId) return next();
 });
 
