@@ -4,11 +4,16 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
+import Background from "~/components/Background";
+import Header from "~/components/Header";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <ClerkProvider {...pageProps}>
-      <Component {...pageProps} />;
+      <Header />
+      <Background>
+        <Component {...pageProps} />;
+      </Background>
     </ClerkProvider>
   );
 };
