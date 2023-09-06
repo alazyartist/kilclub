@@ -4,7 +4,6 @@ import JobPosting from "./JobPosting";
 const jobs = [
   { jobid: 1111, location: "location_1", zipcode: 12345, star_rating: 1.1, date: "09/06/2023" },
   { jobid: 2222, location: "location_2", zipcode: 67890, star_rating: 2.2, date: "09/06/2023" }];
-console.log(jobs)
 
 const Logo = () => {
   return (
