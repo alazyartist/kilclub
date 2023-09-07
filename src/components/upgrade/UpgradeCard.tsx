@@ -1,6 +1,7 @@
 import { useClerk, useUser } from "@clerk/nextjs";
 import React from "react";
 import { api } from "~/utils/api";
+import PaymentEmbed from "../payment/PaymentEmbed";
 
 interface UpgradeProps {
   upgrade: string;
@@ -50,7 +51,13 @@ const UpgradeCard: React.FC<UpgradeProps> = ({
       >
         Upgrade Now
       </button>
-      {customer_id && <div>PAYMENT FORM</div>}
+      {customer_id && (
+        <div>
+          {customer_id && (
+            <PaymentEmbed clientSecret={customer_id.clientSecret} />
+          )}
+        </div>
+      )}
     </div>
   );
 };
