@@ -12,8 +12,8 @@ datasource db {
 }
 
 model User {
-    user_id        String   @id @default(cuid())
-    stripe_customer_id  String?
+    user_id        String   @id @unique @default(cuid())
+    stripe_customer_id  String? @unique
     subscription_tier  String?
     subscription_id  String?
     subscription_status  String?

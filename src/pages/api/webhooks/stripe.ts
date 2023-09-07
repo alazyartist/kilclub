@@ -30,12 +30,23 @@ export default async function stripehandler(
         console.log(event);
         break;
       case "customer.subscription.created":
-        console.log(event);
+        //TODO: finish syncronization with database
+        console.log(event.data.object.id);
+        console.log(event.data.object.plan);
+        //id
+        //customer
+        //status
         break;
       case "customer.subscription.updated":
-        console.log(event);
+        //TODO: finish syncronization with database
+        const subscription_id = event.data.object.id;
+        const tier = event.data.object.plan.id;
+        const customer_id = event.data.object.customer;
+        const status = event.data.object.status;
+        console.log(subscription_id, tier, customer_id, status);
         break;
       case "customer.subscription.deleted":
+        //TODO: finish syncronization with database
         console.log(event);
         break;
     }

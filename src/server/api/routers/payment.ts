@@ -72,6 +72,8 @@ const findOrCreateCustomer = async (
   }
 };
 
+//TODO: finish syncronization with database for findOrCreateSubscription
+
 const findOrCreateSubscription = async (
   customer_id: string,
   user_id: string,
