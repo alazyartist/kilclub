@@ -15,8 +15,8 @@ const UpgradeCard: React.FC<UpgradeProps> = ({
   discount,
   description,
 }) => {
-  const { mutate, data: customer_id } =
-    api.payments.createCustomer.useMutation();
+  const { mutate, data: subscription } =
+    api.payments.createCustomerSubscription.useMutation();
   const { user, isSignedIn } = useUser();
   console.log(user?.firstName, user?.lastName);
   const name = user?.firstName + " " + user?.lastName;
@@ -42,19 +42,23 @@ const UpgradeCard: React.FC<UpgradeProps> = ({
           )}
         </div>
       </div>
-      <div className="rounded-sm bg-zinc-200 p-2 text-sm text-accent-dark ">
-        {description}
-      </div>
-      <button
-        onClick={() => createCustomer()}
-        className="w-full rounded-md bg-accent-light px-2 py-1 text-center"
-      >
-        Upgrade Now
-      </button>
-      {customer_id && (
+      {!subscription && (
+        <>
+          <div className="rounded-sm bg-zinc-200 p-2 text-sm text-accent-dark ">
+            {description}
+          </div>
+          <button
+            onClick={() => createCustomer()}
+            className="w-full rounded-md bg-accent-light px-2 py-1 text-center"
+          >
+            Upgrade Now
+          </button>
+        </>
+      )}
+      {subscription && (
         <div>
-          {customer_id && (
-            <PaymentEmbed clientSecret={customer_id.clientSecret} />
+          {subscription && (
+            <PaymentEmbed clientSecret={subscription.clientSecret} />
           )}
         </div>
       )}
