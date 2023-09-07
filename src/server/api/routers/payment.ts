@@ -1,3 +1,4 @@
+import { PrismaClient } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import Stripe from "stripe";
 import { z } from "zod";
@@ -17,9 +18,19 @@ export const paymentRouter = createTRPCRouter({
   createCustomerSubscription: protectedProcedure
     .input(z.object({ email: z.string(), name: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const customer_id = await findOrCreateCustomer(input);
+      const user_id = ctx.auth.userId;
+      if (!user_id) return;
+      const customer_id = await findOrCreateCustomer(
+        input,
+        user_id,
+        ctx.prisma,
+      );
       if (customer_id) {
-        const subscription = await findOrCreateSubscription(customer_id);
+        const subscription = await findOrCreateSubscription(
+          customer_id,
+          user_id,
+          ctx.prisma,
+        );
         if (subscription) {
           return {
             sub_id: subscription.id,
@@ -28,14 +39,13 @@ export const paymentRouter = createTRPCRouter({
         }
       }
     }),
-  createCheckoutSession: protectedProcedure
-    .input(z.object({ userId: z.string() }))
-    .mutation(({ input, ctx }) => {
-      return;
-    }),
 });
 
-const findOrCreateCustomer = async (input: { email: string; name: string }) => {
+const findOrCreateCustomer = async (
+  input: { email: string; name: string },
+  user_id: string,
+  prisma: PrismaClient,
+) => {
   const existingCustomer = await stripe.customers.list({
     email: input.email,
   });
@@ -50,6 +60,11 @@ const findOrCreateCustomer = async (input: { email: string; name: string }) => {
         name: input.name,
       });
       const new_customer_id = newCustomer.id;
+      await prisma.user.update({
+        where: { user_id: user_id },
+        data: { stripe_customer_id: new_customer_id },
+      });
+
       return new_customer_id;
     } catch (err) {
       console.log("FAILED_TO_CREATE_STRIPE_CUSTOMER");
@@ -57,7 +72,11 @@ const findOrCreateCustomer = async (input: { email: string; name: string }) => {
   }
 };
 
-const findOrCreateSubscription = async (customer_id: string) => {
+const findOrCreateSubscription = async (
+  customer_id: string,
+  user_id: string,
+  prisma: PrismaClient,
+) => {
   const customer = await stripe.customers.retrieve(customer_id, {
     expand: ["subscriptions"],
   });
@@ -74,7 +93,6 @@ const findOrCreateSubscription = async (customer_id: string) => {
       //@ts-ignore
       client_secret = latestInvoice.payment_intent.client_secret;
     }
-    console.log(latestSubscription.id);
     return { id: latestSubscription.id, client_secret: client_secret };
   } else {
     const subscription = await stripe.subscriptions.create({

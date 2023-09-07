@@ -73,7 +73,12 @@ const CheckoutForm = () => {
   };
   return (
     <form onSubmit={handleSubmit} className="flex-coll">
-      <PaymentElement />
+      {error && (
+        <div className="w-full text-center">
+          <p>{error.message}</p>
+        </div>
+      )}
+      <PaymentElement className="mb-4 flex max-h-[60vh] " />
       <button
         className="rounded-md bg-accent-light p-2"
         type="submit"
@@ -81,11 +86,6 @@ const CheckoutForm = () => {
       >
         Join
       </button>
-      {error && (
-        <div className="w-full text-center">
-          <p>{error.message}</p>
-        </div>
-      )}
     </form>
   );
 };

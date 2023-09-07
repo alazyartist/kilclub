@@ -25,6 +25,20 @@ export default async function stripehandler(
       env.STRIPE_WEBHOOK_SECRET,
     );
     console.log(event.type);
+    switch (event.type) {
+      case "customer.created":
+        console.log(event);
+        break;
+      case "customer.subscription.created":
+        console.log(event);
+        break;
+      case "customer.subscription.updated":
+        console.log(event);
+        break;
+      case "customer.subscription.deleted":
+        console.log(event);
+        break;
+    }
     res.status(200).end();
   } catch (err) {
     console.log(err);
