@@ -1,3 +1,4 @@
+import { useClerk, useUser } from "@clerk/nextjs";
 import React from "react";
 import { api } from "~/utils/api";
 
@@ -13,9 +14,18 @@ const UpgradeCard: React.FC<UpgradeProps> = ({
   discount,
   description,
 }) => {
-  const test = api.user.upgrade.useQuery();
+  const { mutate, data: customer_id } =
+    api.payments.createCustomer.useMutation();
+  const { user, isSignedIn } = useUser();
+  console.log(user?.firstName, user?.lastName);
+  const name = user?.firstName + " " + user?.lastName;
+  const email = user?.primaryEmailAddress?.emailAddress;
+  const createCustomer = () => {
+    if (!email || !name) return;
+    mutate({ email, name });
+  };
   return (
-    <div className="bg-accent max-w-[80vw] space-y-2 rounded-md p-4 text-white ">
+    <div className="max-w-[80vw] space-y-2 rounded-md bg-accent p-4 text-white ">
       <div className="-center flex justify-between">
         <h1 className="p-2 text-xl font-bold">{upgrade}</h1>
         <div className="flex flex-col gap-1 p-2">
@@ -31,12 +41,16 @@ const UpgradeCard: React.FC<UpgradeProps> = ({
           )}
         </div>
       </div>
-      <div className="text-accent-dark rounded-sm bg-zinc-200 p-2 text-sm ">
+      <div className="rounded-sm bg-zinc-200 p-2 text-sm text-accent-dark ">
         {description}
       </div>
-      <button className="bg-accent-light w-full rounded-md px-2 py-1 text-center">
+      <button
+        onClick={() => createCustomer()}
+        className="w-full rounded-md bg-accent-light px-2 py-1 text-center"
+      >
         Upgrade Now
       </button>
+      {customer_id && <div>PAYMENT FORM</div>}
     </div>
   );
 };
