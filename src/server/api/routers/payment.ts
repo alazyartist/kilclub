@@ -15,6 +15,16 @@ export const paymentRouter = createTRPCRouter({
     //return stripe PublicKey
     return env.STRIPE_PUBLIC_KEY;
   }),
+  createBillingPortal: protectedProcedure
+    .input(z.object({ stripe_customer_id: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const session = await stripe.billingPortal.sessions.create({
+        customer: input.stripe_customer_id,
+        return_url: "http://localhost:3000/account",
+      });
+
+      return session.url;
+    }),
   createCustomerSubscription: protectedProcedure
     .input(
       z.object({

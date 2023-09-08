@@ -14,10 +14,11 @@ const HeaderMenu = ({
   close: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (
-    <div className="flex-coll bg-base-light fixed right-4 top-10 z-10 gap-2 rounded-md p-2 text-zinc-900">
+    <div className="flex-coll fixed right-4 top-10 z-10 gap-2 rounded-md bg-base-light p-2 text-zinc-900">
       <SignedIn>
         <MenuLink close={close} href="/upgrade" title="Upgrade" />
         <MenuLink close={close} href="/history" title="History" />
+        <MenuLink close={close} href="/account" title="Account" />
         <div className="place-self-center">
           <UserButton />
         </div>
