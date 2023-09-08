@@ -12,6 +12,7 @@ const Business = () => {
         discount={15}
         description="Unlock the potential for business growth and community engagement with our 'Founder' tier. Build with us and get a lifetime of savings, expand your reach, and elevate your business to new heights within our vibrant community."
         upgrade="Founder"
+        price_id="founder"
       />
 
       {/* <UpgradeCard

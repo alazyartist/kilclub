@@ -16,7 +16,13 @@ export const paymentRouter = createTRPCRouter({
     return env.STRIPE_PUBLIC_KEY;
   }),
   createCustomerSubscription: protectedProcedure
-    .input(z.object({ email: z.string(), name: z.string() }))
+    .input(
+      z.object({
+        email: z.string(),
+        name: z.string(),
+        price_id: z.union([z.literal("founder"), z.literal("local")]),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       const user_id = ctx.auth.userId;
       if (!user_id) return;
@@ -30,11 +36,13 @@ export const paymentRouter = createTRPCRouter({
           customer_id,
           user_id,
           ctx.prisma,
+          input.price_id,
         );
         if (subscription) {
           return {
             sub_id: subscription.id,
             clientSecret: subscription.client_secret,
+            paid: subscription.paid,
           };
         }
       }
@@ -72,12 +80,11 @@ const findOrCreateCustomer = async (
   }
 };
 
-//TODO: finish syncronization with database for findOrCreateSubscription
-
 const findOrCreateSubscription = async (
   customer_id: string,
   user_id: string,
   prisma: PrismaClient,
+  price_id: string,
 ) => {
   const customer = await stripe.customers.retrieve(customer_id, {
     expand: ["subscriptions"],
@@ -95,14 +102,18 @@ const findOrCreateSubscription = async (
       //@ts-ignore
       client_secret = latestInvoice.payment_intent.client_secret;
     }
-    return { id: latestSubscription.id, client_secret: client_secret };
+    return {
+      id: latestSubscription.id,
+      client_secret: client_secret,
+      paid: latestInvoice.paid,
+    };
   } else {
     try {
       const subscription = await stripe.subscriptions.create({
         customer: customer_id,
         items: [
           {
-            price: "founder",
+            price: price_id,
           },
         ],
         payment_behavior: "default_incomplete",
@@ -116,18 +127,22 @@ const findOrCreateSubscription = async (
           data: {
             subscription_id: subscription.id,
             subscription_status: subscription.status,
-            subscription_tier: "founder",
-            isBusiness: true,
+            subscription_tier: price_id,
+            isBusiness: price_id === "founder" ? true : false,
           },
         });
+        console.log(subscription.latest_invoice);
+        return {
+          id: subscription.id,
+          client_secret:
+            //@ts-ignore
+            subscription.latest_invoice.payment_intent.client_secret,
+          //@ts-ignore
+          paid: subscription.latest_invoice.paid,
+        };
       }
-
-      return {
-        id: subscription.id,
-        //@ts-ignore
-        client_secret: subscription.latest_invoice.payment_intent.client_secret,
-      };
     } catch (err) {
+      console.log(err);
       console.log("FAILED_TO_CREATE_SUBSCRIPTION");
     }
   }

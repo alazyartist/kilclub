@@ -8,22 +8,23 @@ interface UpgradeProps {
   cost: string | number;
   discount?: number;
   description: string;
+  price_id: "founder" | "local";
 }
 const UpgradeCard: React.FC<UpgradeProps> = ({
   upgrade,
   cost,
   discount,
   description,
+  price_id,
 }) => {
   const { mutate, data: subscription } =
     api.payments.createCustomerSubscription.useMutation();
   const { user, isSignedIn } = useUser();
-  console.log(user?.firstName, user?.lastName);
   const name = user?.firstName + " " + user?.lastName;
   const email = user?.primaryEmailAddress?.emailAddress;
   const createCustomer = () => {
     if (!email || !name) return;
-    mutate({ email, name });
+    mutate({ email, name, price_id });
   };
   return (
     <div className="max-w-[80vw] space-y-2 rounded-md bg-accent p-4 text-white ">
@@ -55,7 +56,16 @@ const UpgradeCard: React.FC<UpgradeProps> = ({
           </button>
         </>
       )}
-      {subscription && (
+      {subscription && subscription.paid && (
+        <div>
+          <h1 className="text-center text-lg font-bold">Already a member</h1>
+          <p className="text-xs">
+            To manage your membership
+            <br /> please use the account settings
+          </p>
+        </div>
+      )}
+      {subscription && !subscription.paid && (
         <div>
           {subscription && (
             <PaymentEmbed clientSecret={subscription.clientSecret} />

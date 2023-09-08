@@ -51,7 +51,7 @@ export default async function stripehandler(
             subscription_id: subscription_id,
             subscription_status: status,
             subscription_tier: tier,
-            isBusiness: true,
+            isBusiness: tier === "founder" ? true : false,
           },
         });
 
@@ -68,7 +68,6 @@ export default async function stripehandler(
             subscription_id: subscription_id,
             subscription_status: status,
             subscription_tier: tier,
-            isBusiness: true,
           },
         });
         console.log("deleted", subscription_id, tier, customer_id, status);
