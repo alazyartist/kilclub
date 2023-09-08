@@ -33,8 +33,8 @@ const HamburgerSVG = ({ ...props }) => {
       <path
         className="stroke-accent hover:stroke-accent-dark"
         d="M1 1h8M1 4h 8M1 7h8"
-        stroke-width="1.4"
-        stroke-linecap="round"
+        strokeWidth="1.4"
+        strokeLinecap="round"
       />
     </svg>
   );

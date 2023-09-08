@@ -12,7 +12,12 @@ datasource db {
 }
 
 model User {
-    user_id        String   @id @default(cuid())
+    user_id        String   @id @unique @default(cuid())
+    stripe_customer_id  String? @unique
+    subscription_tier  String?
+    subscription_id  String?
+    subscription_status  String?
+    isBusiness  Boolean?
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
