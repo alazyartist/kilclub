@@ -6,7 +6,7 @@ const Business = () => {
   const stripeSecret = api.payments.getClientSecret.useQuery();
 
   return (
-    <div className="h-full space-y-2 py-2">
+    <div className="flex h-full min-h-[100vh] w-full flex-col items-center space-y-2 py-2">
       <UpgradeCard
         cost={150}
         discount={15}
