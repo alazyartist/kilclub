@@ -97,21 +97,38 @@ const findOrCreateSubscription = async (
     }
     return { id: latestSubscription.id, client_secret: client_secret };
   } else {
-    const subscription = await stripe.subscriptions.create({
-      customer: customer_id,
-      items: [
-        {
-          price: "founder",
-        },
-      ],
-      payment_behavior: "default_incomplete",
-      payment_settings: { save_default_payment_method: "on_subscription" },
-      expand: ["latest_invoice.payment_intent"],
-    });
-    return {
-      id: subscription.id,
-      //@ts-ignore
-      client_secret: subscription.latest_invoice.payment_intent.client_secret,
-    };
+    try {
+      const subscription = await stripe.subscriptions.create({
+        customer: customer_id,
+        items: [
+          {
+            price: "founder",
+          },
+        ],
+        payment_behavior: "default_incomplete",
+        payment_settings: { save_default_payment_method: "on_subscription" },
+        expand: ["latest_invoice.payment_intent"],
+      });
+
+      if (subscription) {
+        await prisma.user.update({
+          where: { user_id: user_id },
+          data: {
+            subscription_id: subscription.id,
+            subscription_status: subscription.status,
+            subscription_tier: "founder",
+            isBusiness: true,
+          },
+        });
+      }
+
+      return {
+        id: subscription.id,
+        //@ts-ignore
+        client_secret: subscription.latest_invoice.payment_intent.client_secret,
+      };
+    } catch (err) {
+      console.log("FAILED_TO_CREATE_SUBSCRIPTION");
+    }
   }
 };

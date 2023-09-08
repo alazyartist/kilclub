@@ -25,29 +25,53 @@ export default async function stripehandler(
       env.STRIPE_WEBHOOK_SECRET,
     );
     console.log(event.type);
+    let subscription_id, tier, customer_id, status;
+
     switch (event.type) {
       case "customer.created":
         console.log(event);
         break;
       case "customer.subscription.created":
         //TODO: finish syncronization with database
-        console.log(event.data.object.id);
-        console.log(event.data.object.plan);
-        //id
-        //customer
-        //status
+        subscription_id = event.data.object.id;
+        tier = event.data.object.plan.id;
+        customer_id = event.data.object.customer;
+        status = event.data.object.status;
+
         break;
       case "customer.subscription.updated":
         //TODO: finish syncronization with database
-        const subscription_id = event.data.object.id;
-        const tier = event.data.object.plan.id;
-        const customer_id = event.data.object.customer;
-        const status = event.data.object.status;
-        console.log(subscription_id, tier, customer_id, status);
+        subscription_id = event.data.object.id;
+        tier = event.data.object.plan.id;
+        customer_id = event.data.object.customer;
+        status = event.data.object.status;
+        await prisma.user.update({
+          where: { stripe_customer_id: customer_id },
+          data: {
+            subscription_id: subscription_id,
+            subscription_status: status,
+            subscription_tier: tier,
+            isBusiness: true,
+          },
+        });
+
         break;
       case "customer.subscription.deleted":
+        subscription_id = event.data.object.id;
+        tier = event.data.object.plan.id;
+        customer_id = event.data.object.customer;
+        status = event.data.object.status;
         //TODO: finish syncronization with database
-        console.log(event);
+        await prisma.user.update({
+          where: { stripe_customer_id: customer_id },
+          data: {
+            subscription_id: subscription_id,
+            subscription_status: status,
+            subscription_tier: tier,
+            isBusiness: true,
+          },
+        });
+        console.log("deleted", subscription_id, tier, customer_id, status);
         break;
     }
     res.status(200).end();
