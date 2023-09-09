@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import HeaderMenu from "./HeaderMenu";
 import Link from "next/link";
+import { api } from "~/utils/api";
+import { useUser } from "@clerk/nextjs";
 
 const Header = () => {
   const [isOpen, openMenu] = useState(false);
   return (
-    <>
-      <div className="border-accent bg-base-light sticky top-0 flex w-full justify-between border-b-2 p-2 pb-4 ">
+    <header>
+      <div className="sticky top-0 flex w-full justify-between border-b-2 border-accent bg-base-light p-2 pb-4 ">
         <Link
+          onClick={() => openMenu(false)}
           href={"/"}
-          className="text-accent-light text-4xl font-extrabold tracking-tighter sm:text-[5rem]"
+          className="text-4xl font-extrabold tracking-tighter text-accent-light sm:text-[5rem]"
         >
           keep<span className="text-accent-dark">it</span>local.club
         </Link>
@@ -21,7 +24,7 @@ const Header = () => {
         </p>
       </div>
       {isOpen && <HeaderMenu close={openMenu} />}
-    </>
+    </header>
   );
 };
 
