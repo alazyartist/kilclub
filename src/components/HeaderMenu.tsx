@@ -51,14 +51,17 @@ const PrivateMenu = () => {
     <>
       {user && (
         <>
-          {!user?.subscription_id && (
+          {!user?.subscription_id || user.subscription_status === "canceled" && (
             <MenuLink close={close} href="/upgrade" title="Upgrade" />
           )}
           {!user?.isBusiness && (
             <MenuLink close={close} href="/history" title="History" />
           )}
           {user?.isBusiness && (
-            <MenuLink close={close} href="/jobs" title="Jobs" />
+            <>
+              <MenuLink close={close} href="/jobs" title="Jobs" />
+              <MenuLink close={close} href="/profile" title="Profile" />
+            </>
           )}
           <MenuLink close={close} href="/account" title="Account" />
           <div className="place-self-center">
