@@ -7,7 +7,7 @@ import { useUser } from "@clerk/nextjs";
 const Header = () => {
   const [isOpen, openMenu] = useState(false);
   return (
-    <>
+    <header>
       <div className="sticky top-0 flex w-full justify-between border-b-2 border-accent bg-base-light p-2 pb-4 ">
         <Link
           onClick={() => openMenu(false)}
@@ -24,7 +24,7 @@ const Header = () => {
         </p>
       </div>
       {isOpen && <HeaderMenu close={openMenu} />}
-    </>
+    </header>
   );
 };
 
