@@ -17,4 +17,13 @@ export const userRouter = createTRPCRouter({
       return user?.stripe_customer_id;
     }
   }),
+  getUser: protectedProcedure.query(async ({ ctx }) => {
+    if (ctx.auth.userId) {
+      const user = await prisma.user.findUnique({
+        where: { user_id: ctx.auth.userId },
+      });
+
+      return user;
+    }
+  }),
 });
