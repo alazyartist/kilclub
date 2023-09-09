@@ -1,4 +1,4 @@
-import { UserProfile } from "@clerk/nextjs";
+import { UserButton, UserProfile } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { api } from "~/utils/api";
@@ -14,8 +14,9 @@ const Account = () => {
         />
       )}
 
-      <div className="flex w-full flex-col items-center ">
-        <UserProfile />
+      <div className="flex w-[80vw] content-center items-center gap-8 place-self-center rounded-md bg-accent p-2 ">
+        <p className="text-sm text-zinc-100">Manage User Info {"->"}</p>
+        <UserButton />
       </div>
     </div>
   );
@@ -37,7 +38,10 @@ const SubscriptionDetails = ({
       router.push(billingPortalUrl);
     }
   }, [billingPortalUrl]);
-  if (!user) return <div>User Subscription Not Found</div>;
+  if (!user)
+    return (
+      <div className="w-full text-center">User Information Loading...</div>
+    );
   const { subscription_tier: tier, subscription_status: status } = user;
 
   return (

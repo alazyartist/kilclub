@@ -4,6 +4,7 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
+  useUser,
 } from "@clerk/nextjs";
 import { User } from "@prisma/client";
 import Link from "next/link";
@@ -18,7 +19,7 @@ const HeaderMenu = ({
   return (
     <div className="flex-coll fixed right-4 top-10 z-10 gap-2 rounded-md bg-base-light p-2 text-zinc-900">
       <SignedIn>
-        <PrivateMenu />
+        <PrivateMenu close={close} />
       </SignedIn>
       <SignedOut>
         <SignInButton mode="modal" />
@@ -35,7 +36,7 @@ const MenuLink = ({
   close,
 }: {
   href: string;
-  title: string;
+  title: string | React.ReactNode;
   close: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (
@@ -45,8 +46,13 @@ const MenuLink = ({
   );
 };
 
-const PrivateMenu = () => {
+const PrivateMenu = ({
+  close,
+}: {
+  close: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { data: user } = api.user.getUser.useQuery();
+  const clerkUser = useUser();
   return (
     <>
       {user && (
@@ -60,10 +66,19 @@ const PrivateMenu = () => {
           {user?.isBusiness && (
             <MenuLink close={close} href="/jobs" title="Jobs" />
           )}
-          <MenuLink close={close} href="/account" title="Account" />
-          <div className="place-self-center">
-            <UserButton afterSignOutUrl="https://localhost:3000" />
-          </div>
+          <MenuLink
+            close={close}
+            href="/account"
+            title={
+              <img
+                width={100}
+                height={100}
+                className="h-8 w-8 rounded-full"
+                src={clerkUser.user?.imageUrl}
+              />
+            }
+          />
+          <div className="place-self-center"></div>
         </>
       )}
     </>
