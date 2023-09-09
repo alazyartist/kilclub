@@ -35,11 +35,7 @@ const jobs = [
 
 const Logo = () => {
   return (
-    <div className="
-      max-w-[80vw] max-h-[20vh] 
-    bg-accent text-white
-    p-4 rounded-lg
-    flex-coll -center">
+    <div className=" max-w-[80vw] max-h-[20vh] bg-accent text-white p-4 rounded-lg flex-coll -center">
       <span className="font-bold text-4xl">My Logo</span>
       <span className="font-strong text-2xl">(555) 867-5309</span>
       <span className="font-strong text-xl">businessname.com</span>
@@ -49,7 +45,7 @@ const Logo = () => {
 
 const Profile = () => {
   return (
-    <div className="h-full space-y-2 py-2 flex-coll -center gap-8">
+    <div className="space-y-2 py-2 flex-coll -center gap-8">
       <Logo />
       <div className="flex-coll -center gap-8">
         {jobs.map((job) => (
