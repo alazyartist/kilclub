@@ -43,7 +43,7 @@ const Posting: React.FC<PostingProps> = ({
         <span>{star_rating}/5</span>
         <span>{date.toLocaleDateString()}</span>
       </div>
-      <div className="w-full flex-coll justify-start overflow-y-auto no-scrollbar gap-4 max-h-[256px]">
+      <div className="w-full flex-coll justify-start overflow-y-auto minimalistScroll gap-4 max-h-[256px]">
         <div className="grid grid-cols-3 grid-rows-2 gap-4">
           {photos.slice(0, 1).map((photo, index) => (
             <img

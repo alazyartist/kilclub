@@ -57,5 +57,5 @@
 }
 
 body {
-  @apply minimalistScroll;
+  @apply no-scrollbar;
 }
