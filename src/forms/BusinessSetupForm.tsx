@@ -22,19 +22,6 @@ const BusinessSetupForm = () => {
 
   const { mutate, data } = api.user.createBusiness.useMutation();
 
-  function formatPhoneNumber(input: string) {
-    // Remove all non-numeric characters
-    const numericInput = input.replace(/\D/g, "");
-
-    // Apply the phone number format
-    const formattedPhoneNumber = numericInput.replace(
-      /(\d{3})(\d{3})(\d{4})(.*)/,
-      "($1)-$2-$3",
-    );
-
-    return formattedPhoneNumber;
-  }
-
   return (
     <form
       onSubmit={handleSubmit(handleFinalSubmit)}
@@ -86,3 +73,16 @@ const ErrorText = ({ error }: { error: string | null | undefined }) => {
 };
 
 export default BusinessSetupForm;
+
+export function formatPhoneNumber(input: string) {
+  // Remove all non-numeric characters
+  const numericInput = input.replace(/\D/g, "");
+
+  // Apply the phone number format
+  const formattedPhoneNumber = numericInput.replace(
+    /(\d{3})(\d{3})(\d{4})(.*)/,
+    "($1)-$2-$3",
+  );
+
+  return formattedPhoneNumber;
+}

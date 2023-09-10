@@ -41,13 +41,15 @@ model BusinessInfo{
 
 model Jobs{
     job_id String @id @unique
-    business_id String @unique
-    User User @relation("Jobs",references: [business_id],fields: [business_id],map: "user")
-    reviewer_id String
-    Reviewer User @relation("Reviews",fields: [reviewer_id],references: [user_id],map:"reviewer")
-    Business BusinessInfo @relation(references: [business_id],fields: [business_id],map: "business")
+    business_id String 
     customer_phone_number String
-    review String @db.Text()
+    zip_code String
+    date DateTime @default(now())
+    reviewer_id String?
+    User User @relation("Jobs",references: [business_id],fields: [business_id],map: "user")
+    Reviewer User? @relation("Reviews",fields: [reviewer_id],references: [user_id],map:"reviewer")
+    Business BusinessInfo @relation(references: [business_id],fields: [business_id],map: "business")
+    review String? @db.Text()
     media Json?
      createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
