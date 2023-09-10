@@ -20,4 +20,37 @@ model User {
     isBusiness  Boolean?
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    business_id String? @unique
+    Business BusinessInfo[]
+    Jobs Jobs[] @relation("Jobs")
+    Reviews Jobs[] @relation("Reviews")
+}
+
+model BusinessInfo{
+    business_id String @id @unique @default(cuid())
+    User User? @relation(fields: [business_id],references: [business_id])
+    business_name String
+    website String?
+    phone_number String
+    zip_code String
+    Jobs Jobs[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+@@index([business_id])
+}
+
+model Jobs{
+    job_id String @id @unique
+    business_id String @unique
+    User User @relation("Jobs",references: [business_id],fields: [business_id],map: "user")
+    reviewer_id String
+    Reviewer User @relation("Reviews",fields: [reviewer_id],references: [user_id],map:"reviewer")
+    Business BusinessInfo @relation(references: [business_id],fields: [business_id],map: "business")
+    customer_phone_number String
+    review String @db.Text()
+    media Json?
+     createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+@@index([business_id])
+@@index([reviewer_id])
 }

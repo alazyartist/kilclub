@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@clerk/nextjs': ^4.23.3
+  '@paralleldrive/cuid2': ^2.2.2
   '@prisma/client': ^5.1.1
   '@stripe/react-stripe-js': ^2.1.2
   '@stripe/stripe-js': ^2.1.2
@@ -36,6 +37,7 @@ specifiers:
 
 dependencies:
   '@clerk/nextjs': 4.23.3_m2l4knchnqa6bzxbbtfxlzoxdy
+  '@paralleldrive/cuid2': 2.2.2
   '@prisma/client': 5.2.0_prisma@5.2.0
   '@stripe/react-stripe-js': 2.1.2_2fnx4kle57likdlirw5dak4opu
   '@stripe/stripe-js': 2.1.2
@@ -344,6 +346,11 @@ packages:
     dev: false
     optional: true
 
+  /@noble/hashes/1.3.2:
+    resolution: {integrity: sha512-MVC8EAQp7MvEcm30KWENFjgR+Mkmf+D189XJTkFIlwohU5hcBbn1ZkKq7KVTi2Hme3PMGF390DaL52beVrIihQ==}
+    engines: {node: '>= 16'}
+    dev: false
+
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -364,6 +371,12 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
     dev: true
+
+  /@paralleldrive/cuid2/2.2.2:
+    resolution: {integrity: sha512-ZOBkgDwEdoYVlSeRbYYXs0S9MejQofiVYoTbKzy/6GQa39/q5tQU2IX46+shYnUkpEl3wc+J6wRlar7r2EK2xA==}
+    dependencies:
+      '@noble/hashes': 1.3.2
+    dev: false
 
   /@peculiar/asn1-schema/2.3.6:
     resolution: {integrity: sha512-izNRxPoaeJeg/AyH8hER6s+H7p4itk+03QCa4sbxI3lNdseQYCuxzgsuNK8bTXChtLTjpJz6NmXKA73qLa3rCA==}
