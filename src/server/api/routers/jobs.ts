@@ -44,9 +44,23 @@ export const jobsRouter = createTRPCRouter({
       if (ctx.auth.userId) {
         const jobs = await ctx.prisma.jobs.findMany({
           where: { business_id: input.business_id },
+          orderBy: { date: "desc" },
         });
 
         return jobs;
+      }
+    }),
+  deleteJob: protectedProcedure
+    .input(z.object({ job_id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      try {
+        await ctx.prisma.jobs.delete({ where: { job_id: input.job_id } });
+        return;
+      } catch (err) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Job Not Deleted",
+        });
       }
     }),
 });

@@ -51,6 +51,14 @@ export const api = createTRPCNext<AppRouter>({
    * @see https://trpc.io/docs/nextjs#ssr-boolean-default-false
    */
   ssr: false,
+  overrides: {
+    useMutation: {
+      onSuccess: async (opts) => {
+        await opts.originalFn();
+        await opts.queryClient.invalidateQueries();
+      },
+    },
+  },
 });
 
 /**
