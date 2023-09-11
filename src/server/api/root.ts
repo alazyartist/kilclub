@@ -2,6 +2,7 @@ import { jobsRouter } from "~/server/api/routers/jobs";
 import { createTRPCRouter } from "~/server/api/trpc";
 import { userRouter } from "./routers/user";
 import { paymentRouter } from "./routers/payment";
+import { businessRouter } from "./routers/business";
 
 /**
  * This is the primary router for your server.
@@ -11,6 +12,7 @@ import { paymentRouter } from "./routers/payment";
 export const appRouter = createTRPCRouter({
   jobs: jobsRouter,
   user: userRouter,
+  business: businessRouter,
   payments: paymentRouter,
 });
 
