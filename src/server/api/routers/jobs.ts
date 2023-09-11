@@ -7,7 +7,12 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 import { TRPCError } from "@trpc/server";
-
+import { S3 } from "aws-sdk";
+import { env } from "~/env.mjs";
+import { JsonArray } from "@prisma/client/runtime/library";
+const s3: S3 = new S3({
+  region: env.AWS_REGION,
+});
 export const jobsRouter = createTRPCRouter({
   createJob: protectedProcedure
     .input(
@@ -60,6 +65,100 @@ export const jobsRouter = createTRPCRouter({
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Job Not Deleted",
+        });
+      }
+    }),
+  uploadMedia: protectedProcedure
+    .input(
+      z.object({
+        filename: z.string().transform((arg) => arg.replace(/\s|\,|\-/g, "")),
+        job_id: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      console.log(`${ctx.auth.userId}/${input.job_id}/${input.filename}`);
+      try {
+        const bucketName = "keep-it-local-club";
+        const objectKey = `${ctx.auth.userId}/${input.job_id}/${input.filename}`;
+
+        const s3ObjectUrl = `https://keep-it-local-club.s3.amazonaws.com/${objectKey}`;
+        const oldJobMedia = await ctx.prisma.jobs.findUnique({
+          where: { job_id: input.job_id },
+        });
+        if (oldJobMedia?.media) {
+          const mediaSet = new Set([
+            ...(oldJobMedia?.media as JsonArray),
+            s3ObjectUrl,
+          ]);
+          const mediaArray = Array.from(mediaSet);
+          const jobMedia = await ctx.prisma.jobs.update({
+            where: { job_id: input.job_id },
+            data: {
+              media: mediaArray,
+            },
+          });
+          console.log(jobMedia);
+        } else {
+          const jobMedia = await ctx.prisma.jobs.update({
+            where: { job_id: input.job_id },
+            data: { media: [s3ObjectUrl] },
+          });
+          console.log(jobMedia);
+        }
+        const uploadUrl = s3.getSignedUrl("putObject", {
+          Bucket: bucketName,
+          Key: objectKey,
+          Expires: 3600,
+        });
+        console.log(input.filename);
+        console.log(uploadUrl);
+        return uploadUrl;
+      } catch (err) {
+        console.log(err);
+      }
+    }),
+  deleteMedia: protectedProcedure
+    .input(
+      z.object({
+        job_id: z.string(),
+        objectKey: z
+          .string()
+          .transform((arg) =>
+            arg.replace("https://keep-it-local-club.s3.amazonaws.com/", ""),
+          ),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      console.log("deleting", input.objectKey);
+      const bucketName = "keep-it-local-club";
+      try {
+        const job = await ctx.prisma.jobs.findUnique({
+          where: { job_id: input.job_id },
+        });
+        if (!job)
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Job Not Found",
+          });
+        if (job.media && Array.isArray(job.media)) {
+          await ctx.prisma.jobs.update({
+            where: { job_id: input.job_id },
+            data: {
+              //@ts-ignore
+              media: job.media.filter((img) => !img.includes(input.objectKey)),
+            },
+          });
+        }
+
+        await s3
+          .deleteObject({ Bucket: bucketName, Key: input.objectKey })
+          .promise();
+        return;
+      } catch (err) {
+        console.log(err);
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "FAILED_TO_DELETE_MEDIA",
         });
       }
     }),

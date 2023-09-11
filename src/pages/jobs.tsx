@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BusinessSetupForm from "~/forms/BusinessSetupForm";
 import { api } from "~/utils/api";
 import JobCreationForm from "~/forms/JobCreationForm";
@@ -48,6 +48,7 @@ const TestJobDisplay = ({ business_id }: { business_id: string }) => {
   const { data: jobs } = api.jobs.getJobs.useQuery({
     business_id: business_id,
   });
+  const { mutate: deleteJob } = api.jobs.deleteMedia.useMutation();
   return (
     <div className="flex flex-col gap-2">
       {jobs?.map((job) => (
@@ -58,8 +59,33 @@ const TestJobDisplay = ({ business_id }: { business_id: string }) => {
           <h1 className="text-right text-lg">{job.zip_code}</h1>
           <div>{job.customer_phone_number}</div>
           <p className="text-right text-xs">{job.date.toDateString()}</p>
+          {Array.isArray(job.media) && (
+            <div className="grid h-full w-full grid-cols-3 grid-rows-2 gap-2">
+              {job.media.map((img) => (
+                <div className="h-full">
+                  <img
+                    key={img as string}
+                    className="aspect-auto h-full w-full rounded-md"
+                    src={img as string}
+                    width={100}
+                    height={100}
+                  />
+                  <button
+                    onClick={() =>
+                      deleteJob({
+                        job_id: job.job_id,
+                        objectKey: img as string,
+                      })
+                    }
+                  >
+                    delete
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
           <div className="flex justify-between">
-            <UploadMediaForm />
+            <UploadMediaForm job_id={job.job_id} />
             <DeleteJob job={job} />
           </div>
         </div>
@@ -100,12 +126,51 @@ const DeleteJob = ({ job }: { job: Jobs }) => {
   );
 };
 
-const UploadMediaForm = () => {
+const UploadMediaForm = ({ job_id }: { job_id: string }) => {
   const [mediaFormOpen, setMediaFormOpen] = useState(false);
+  const [file, setFile] = useState<File>();
+  const { mutate: createUrl, data: uploadUrl } =
+    api.jobs.uploadMedia.useMutation();
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+      console.log("setting file");
+      console.log(file);
+    }
+  };
+  useEffect(() => {
+    if (file) {
+      console.log("file Exists");
+      console.log(file);
+      createUrl({ filename: file.name, job_id: job_id });
+      console.log(uploadUrl);
+    }
+  }, [file]);
+  useEffect(() => {
+    if (uploadUrl && file) {
+      console.log("Ready To Upload");
+      try {
+        fetch(uploadUrl, {
+          body: file,
+          method: "PUT",
+          headers: { "Content-Type": file.type },
+        });
+        setMediaFormOpen(false);
+      } catch (err) {
+        setMediaFormOpen(true);
+        console.log("UPLOAD_FAILED");
+        console.log(err);
+      }
+      console.log(file);
+      console.log(uploadUrl);
+    }
+  }, [uploadUrl]);
   return (
     <form>
-      {mediaFormOpen && <input type="file" />}
+      {mediaFormOpen && <input onChange={handleUpload} type="file" />}
       <button
+        type="button"
         onClick={() => {
           setMediaFormOpen(true);
         }}
