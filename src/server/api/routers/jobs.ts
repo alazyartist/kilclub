@@ -71,24 +71,31 @@ export const jobsRouter = createTRPCRouter({
   uploadMedia: protectedProcedure
     .input(
       z.object({
-        filename: z.string().transform((arg) => arg.replace(/\s|\,|\-/g, "")),
+        filenames: z.array(
+          z.string().transform((arg) => arg.replace(/\s|\,|\-/g, "")),
+        ),
         job_id: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      console.log(`${ctx.auth.userId}/${input.job_id}/${input.filename}`);
+      console.log(input.filenames);
       try {
         const bucketName = "keep-it-local-club";
-        const objectKey = `${ctx.auth.userId}/${input.job_id}/${input.filename}`;
+        const objectKeys = input.filenames.map(
+          (filename) => `${ctx.auth.userId}/${input.job_id}/${filename}`,
+        );
 
-        const s3ObjectUrl = `https://keep-it-local-club.s3.amazonaws.com/${objectKey}`;
+        const s3ObjectUrls = objectKeys.map(
+          (objectKey) =>
+            `https://keep-it-local-club.s3.amazonaws.com/${objectKey}`,
+        );
         const oldJobMedia = await ctx.prisma.jobs.findUnique({
           where: { job_id: input.job_id },
         });
         if (oldJobMedia?.media) {
           const mediaSet = new Set([
             ...(oldJobMedia?.media as JsonArray),
-            s3ObjectUrl,
+            ...s3ObjectUrls,
           ]);
           const mediaArray = Array.from(mediaSet);
           const jobMedia = await ctx.prisma.jobs.update({
@@ -101,18 +108,19 @@ export const jobsRouter = createTRPCRouter({
         } else {
           const jobMedia = await ctx.prisma.jobs.update({
             where: { job_id: input.job_id },
-            data: { media: [s3ObjectUrl] },
+            data: { media: [...s3ObjectUrls] },
           });
           console.log(jobMedia);
         }
-        const uploadUrl = s3.getSignedUrl("putObject", {
-          Bucket: bucketName,
-          Key: objectKey,
-          Expires: 3600,
-        });
-        console.log(input.filename);
-        console.log(uploadUrl);
-        return uploadUrl;
+        const uploadUrls = objectKeys.map((objectKey) =>
+          s3.getSignedUrl("putObject", {
+            Bucket: bucketName,
+            Key: objectKey,
+            Expires: 3600,
+          }),
+        );
+        console.log(uploadUrls);
+        return uploadUrls;
       } catch (err) {
         console.log(err);
       }

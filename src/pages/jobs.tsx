@@ -128,47 +128,54 @@ const DeleteJob = ({ job }: { job: Jobs }) => {
 
 const UploadMediaForm = ({ job_id }: { job_id: string }) => {
   const [mediaFormOpen, setMediaFormOpen] = useState(false);
-  const [file, setFile] = useState<File>();
-  const { mutate: createUrl, data: uploadUrl } =
+  const [files, setFiles] = useState<File[]>();
+  const { mutate: createUrl, data: uploadUrls } =
     api.jobs.uploadMedia.useMutation();
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
+      const fileArray = Array.from(e.target.files);
+      setFiles(fileArray);
       console.log("setting file");
-      console.log(file);
+      console.log(files);
     }
   };
   useEffect(() => {
-    if (file) {
+    if (files) {
       console.log("file Exists");
-      console.log(file);
-      createUrl({ filename: file.name, job_id: job_id });
-      console.log(uploadUrl);
+      console.log(files);
+      createUrl({ filenames: files.map((file) => file.name), job_id: job_id });
+      console.log(uploadUrls);
     }
-  }, [file]);
+  }, [files]);
   useEffect(() => {
-    if (uploadUrl && file) {
+    if (uploadUrls && uploadUrls.length > 0 && files) {
       console.log("Ready To Upload");
-      try {
-        fetch(uploadUrl, {
-          body: file,
-          method: "PUT",
-          headers: { "Content-Type": file.type },
-        });
-        setMediaFormOpen(false);
-      } catch (err) {
-        setMediaFormOpen(true);
-        console.log("UPLOAD_FAILED");
-        console.log(err);
+      for (let i = 0; i < uploadUrls.length; i++) {
+        if (uploadUrls[i] && files[i]) {
+          try {
+            const upload_url = new URL(uploadUrls[i] as string);
+            fetch(upload_url, {
+              body: files[i],
+              method: "PUT",
+              //@ts-ignore
+              headers: { "Content-Type": files[i].type },
+            });
+            setMediaFormOpen(false);
+          } catch (err) {
+            setMediaFormOpen(true);
+            console.log("UPLOAD_FAILED");
+            console.log(err);
+          }
+          console.log(files[i]);
+          console.log(uploadUrls[i]);
+        }
       }
-      console.log(file);
-      console.log(uploadUrl);
     }
-  }, [uploadUrl]);
+  }, [uploadUrls]);
   return (
     <form>
-      {mediaFormOpen && <input onChange={handleUpload} type="file" />}
+      {mediaFormOpen && <input onChange={handleUpload} multiple type="file" />}
       <button
         type="button"
         onClick={() => {
