@@ -11,7 +11,7 @@ const photoFilenames = [
   "7.png",
   "8.png",
   "9.png",
-  "10.png"
+  "10.png",
 ];
 
 const jobs = [
@@ -21,7 +21,7 @@ const jobs = [
     zipcode: 12345,
     star_rating: 1.1,
     date: "09/06/2023",
-    photos: photoFilenames
+    photos: photoFilenames,
   },
   {
     jobid: 2222,
@@ -29,23 +29,23 @@ const jobs = [
     zipcode: 67890,
     star_rating: 2.2,
     date: "09/06/2023",
-    photos: photoFilenames
+    photos: photoFilenames,
   },
 ];
 
 const Logo = () => {
   return (
-    <div className=" max-w-[80vw] max-h-[20vh] bg-accent text-white p-4 rounded-lg flex-coll -center">
-      <span className="font-bold text-4xl">My Logo</span>
+    <div className=" flex-coll -center max-h-[20vh] max-w-[80vw] rounded-lg bg-accent p-4 text-white">
+      <span className="text-4xl font-bold">My Logo</span>
       <span className="font-strong text-2xl">(555) 867-5309</span>
       <span className="font-strong text-xl">businessname.com</span>
     </div>
-  )
-}
+  );
+};
 
 const Profile = () => {
   return (
-    <div className="space-y-2 py-2 flex-coll -center gap-8">
+    <div className="flex-coll -center gap-8 space-y-2 py-2">
       <Logo />
       <div className="flex-coll -center gap-8">
         {jobs.map((job) => (

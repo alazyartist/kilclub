@@ -1,4 +1,4 @@
-import { UserButton, UserProfile } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { api } from "~/utils/api";

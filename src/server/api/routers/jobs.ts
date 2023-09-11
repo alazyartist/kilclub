@@ -1,15 +1,11 @@
 import { z } from "zod";
 import { createId } from "@paralleldrive/cuid2";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import { S3 } from "aws-sdk";
 import { env } from "~/env.mjs";
-import { JsonArray } from "@prisma/client/runtime/library";
+import { type JsonArray } from "@prisma/client/runtime/library";
 const s3: S3 = new S3({
   region: env.AWS_REGION,
 });
