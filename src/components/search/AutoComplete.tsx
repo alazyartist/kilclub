@@ -5,14 +5,14 @@ import {
   autocomplete,
 } from "@algolia/autocomplete-js";
 import "@algolia/autocomplete-theme-classic";
+import { BusinessInfo } from "@prisma/client";
 
-type ItemType = {
-  label: string;
-};
+type ItemType = BusinessInfo;
 type AutoCompleteProps = {
   props?: Partial<AutocompleteOptions<ItemType>>;
+  businesses: BusinessInfo[];
 };
-const AutoComplete: React.FC<AutoCompleteProps> = ({ props }) => {
+const AutoComplete: React.FC<AutoCompleteProps> = ({ props, businesses }) => {
   const autocompleteRef = useRef(null);
   const panelRootRef = useRef(null);
   const rootRef = useRef(null);
@@ -41,18 +41,18 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ props }) => {
             sourceId: "businesses",
             templates: {
               item({ item }) {
-                return <div>{item?.label}</div>;
+                return (
+                  <div>
+                    <span>{item?.business_name}</span>
+                    <span>{item.zip_code}</span>
+                  </div>
+                );
               },
             },
             getItems() {
               const pattern = getQueryPattern(query);
-              return [
-                { label: "test" },
-                { label: "test2" },
-                { label: "test22" },
-                { label: "test23" },
-                { label: "test33" },
-              ].filter((t) => pattern.test(t.label));
+              if (!businesses) return [];
+              return businesses.filter((t) => pattern.test(t.zip_code));
             },
           },
         ];
