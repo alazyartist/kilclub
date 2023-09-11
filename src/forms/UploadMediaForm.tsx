@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 
@@ -7,7 +6,6 @@ const UploadMediaForm = ({ job_id }: { job_id: string }) => {
   const [files, setFiles] = useState<File[]>();
   const { mutate: createUrl, data: uploadUrls } =
     api.jobs.uploadMedia.useMutation();
-  const router = useRouter();
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const fileArray = Array.from(e.target.files);
@@ -37,8 +35,6 @@ const UploadMediaForm = ({ job_id }: { job_id: string }) => {
               //@ts-ignore
               headers: { "Content-Type": files[i].type },
             });
-            setMediaFormOpen(false);
-            router.reload();
           } catch (err) {
             setMediaFormOpen(true);
             console.log("UPLOAD_FAILED");
@@ -47,6 +43,7 @@ const UploadMediaForm = ({ job_id }: { job_id: string }) => {
           console.log(files[i]);
           console.log(uploadUrls[i]);
         }
+        setMediaFormOpen(false);
       }
     }
   }, [uploadUrls]);
