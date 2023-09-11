@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import HeaderMenu from "./HeaderMenu";
 import Link from "next/link";
-import { api } from "~/utils/api";
-import { useUser } from "@clerk/nextjs";
 
 const Header = () => {
   const [isOpen, openMenu] = useState(false);
@@ -30,7 +28,7 @@ const Header = () => {
 
 export default Header;
 
-const HamburgerSVG = ({ ...props }) => {
+const HamburgerSVG = () => {
   return (
     <svg viewBox="0 0 10 8" width="40">
       <path

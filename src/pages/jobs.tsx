@@ -51,7 +51,9 @@ const JobDisplay = ({ business_id }: { business_id: string }) => {
   });
   return (
     <div className="flex max-w-[95vw] flex-col gap-2">
-      {jobs?.map((job: Jobs) => <JobDetails job={job} />)}
+      {jobs?.map((job: Jobs) => (
+        <JobDetails key={`jobdetail${job.job_id}`} job={job} />
+      ))}
     </div>
   );
 };

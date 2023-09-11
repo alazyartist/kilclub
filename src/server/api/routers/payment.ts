@@ -1,23 +1,18 @@
-import { PrismaClient } from "@prisma/client";
-import { TRPCError } from "@trpc/server";
-import Stripe from "stripe";
+import { type PrismaClient } from "@prisma/client";
+import type Stripe from "stripe";
 import { z } from "zod";
 import { env } from "~/env.mjs";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 const stripe: Stripe = require("stripe")(env.STRIPE_SECRET_KEY);
 export const paymentRouter = createTRPCRouter({
-  getClientSecret: protectedProcedure.query(({ ctx }) => {
+  getClientSecret: protectedProcedure.query(({}) => {
     //return stripe PublicKey
     return env.STRIPE_PUBLIC_KEY;
   }),
   createBillingPortal: protectedProcedure
     .input(z.object({ stripe_customer_id: z.string() }))
-    .mutation(async ({ input, ctx }) => {
+    .mutation(async ({ input }) => {
       const session = await stripe.billingPortal.sessions.create({
         customer: input.stripe_customer_id,
         return_url: "http://localhost:3000/account",
@@ -58,9 +53,9 @@ export const paymentRouter = createTRPCRouter({
       }
     }),
 });
-
+const price_id = "founder" || ("local" as const);
 const findOrCreateCustomer = async (
-  input: { email: string; name: string },
+  input: { email?: string; name?: string; price_id?: typeof price_id },
   user_id: string,
   prisma: PrismaClient,
 ) => {
@@ -107,7 +102,7 @@ const findOrCreateSubscription = async (
       latestSubscription.latest_invoice,
       { expand: ["payment_intent"] },
     );
-    let client_secret;
+    let client_secret: string;
     if (latestInvoice) {
       //@ts-ignore
       client_secret = latestInvoice.payment_intent.client_secret;

@@ -1,4 +1,4 @@
-import { useClerk, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import React from "react";
 import { api } from "~/utils/api";
 import PaymentEmbed from "../payment/PaymentEmbed";
@@ -19,7 +19,7 @@ const UpgradeCard: React.FC<UpgradeProps> = ({
 }) => {
   const { mutate, data: subscription } =
     api.payments.createCustomerSubscription.useMutation();
-  const { user, isSignedIn } = useUser();
+  const { user } = useUser();
   const name = user?.firstName + " " + user?.lastName;
   const email = user?.primaryEmailAddress?.emailAddress;
   const createCustomer = () => {

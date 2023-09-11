@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { StripeError, loadStripe } from "@stripe/stripe-js";
+import { type StripeError, loadStripe } from "@stripe/stripe-js";
 import {
   Elements,
   PaymentElement,
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY as string);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
 const PaymentEmbed = ({ clientSecret }: { clientSecret: string }) => {
   const appearance = {
     theme: "stripe",

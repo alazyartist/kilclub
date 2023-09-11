@@ -1,12 +1,4 @@
-import {
-  SignIn,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-  useUser,
-} from "@clerk/nextjs";
-import { User } from "@prisma/client";
+import { SignInButton, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import React from "react";
 import { api } from "~/utils/api";
@@ -57,9 +49,10 @@ const PrivateMenu = ({
     <>
       {user && (
         <>
-          {!user?.subscription_id || user.subscription_status === "canceled" && (
-            <MenuLink close={close} href="/upgrade" title="Upgrade" />
-          )}
+          {!user?.subscription_id ||
+            (user.subscription_status === "canceled" && (
+              <MenuLink close={close} href="/upgrade" title="Upgrade" />
+            ))}
           {!user?.isBusiness && (
             <MenuLink close={close} href="/history" title="History" />
           )}
@@ -74,6 +67,7 @@ const PrivateMenu = ({
             href="/account"
             title={
               <img
+                alt="user_profile_picture"
                 width={100}
                 height={100}
                 className="h-8 w-8 rounded-full"

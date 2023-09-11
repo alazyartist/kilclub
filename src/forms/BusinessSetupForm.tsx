@@ -20,7 +20,7 @@ const BusinessSetupForm = () => {
     mutate(data);
   };
 
-  const { mutate, data } = api.user.createBusiness.useMutation();
+  const { mutate } = api.user.createBusiness.useMutation();
 
   return (
     <form

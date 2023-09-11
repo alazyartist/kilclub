@@ -1,4 +1,4 @@
-import { Jobs } from "@prisma/client";
+import { type Jobs } from "@prisma/client";
 import { useState } from "react";
 import UploadMediaForm from "~/forms/UploadMediaForm";
 import { api } from "~/utils/api";
@@ -30,6 +30,7 @@ const JobDetails = ({ job }: { job: Jobs }) => {
                   return (
                     <div key={img} className="flex flex-col items-center">
                       <img
+                        alt={`job_detail_${img}`}
                         className="aspect-square h-full w-full rounded-md object-cover"
                         src={img}
                         width={100}

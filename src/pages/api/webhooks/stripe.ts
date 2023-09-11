@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { buffer } from "stream/consumers";
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
-type ResponseData = {};
 const stripe = require("stripe")(env.STRIPE_SECRET_KEY);
 
 export const config = {
@@ -25,7 +24,10 @@ export default async function stripehandler(
       env.STRIPE_WEBHOOK_SECRET,
     );
     console.log(event.type);
-    let subscription_id, tier, customer_id, status;
+    let subscription_id: string;
+    let tier: string;
+    let customer_id: string;
+    let status: string;
 
     switch (event.type) {
       case "customer.created":
