@@ -42,9 +42,9 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ props, businesses }) => {
             templates: {
               item({ item }) {
                 return (
-                  <div>
-                    <span>{item?.business_name}</span>
-                    <span>{item.zip_code}</span>
+                  <div className="flex justify-between">
+                    <p>{item?.business_name}</p>
+                    <p>{item.zip_code}</p>
                   </div>
                 );
               },

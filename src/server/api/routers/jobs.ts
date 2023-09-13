@@ -1,7 +1,11 @@
 import { z } from "zod";
 import { createId } from "@paralleldrive/cuid2";
 
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import { S3 } from "aws-sdk";
 import { env } from "~/env.mjs";
@@ -165,5 +169,15 @@ export const jobsRouter = createTRPCRouter({
           message: "FAILED_TO_DELETE_MEDIA",
         });
       }
+    }),
+  findReviews: publicProcedure
+    .input(z.object({ phone_number: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const reviews = await ctx.prisma.jobs.findMany({
+        where: { customer_phone_number: input.phone_number },
+        include: { Business: true },
+      });
+
+      return reviews;
     }),
 });
