@@ -26,7 +26,10 @@ const ReviewList = ({ phone_number }) => {
     <div className="space-y-2 p-2">
       {reviews &&
         reviews.map((review) => (
-          <div className=" rounded-md bg-accent p-2 text-zinc-100">
+          <div
+            key={review.job_id}
+            className=" space-y-4 rounded-md bg-accent p-2 text-zinc-100"
+          >
             {!review.isCompleted && <div>Job Not Complete</div>}
             <div>{review.Business.business_name}</div>
             <div>{review.date.toDateString()}</div>
@@ -48,6 +51,11 @@ const ReviewList = ({ phone_number }) => {
                   }
                 })}
             </div>
+            {review.review && (
+              <p className={"rounded-md bg-base-light p-2 text-zinc-900"}>
+                {review.review}
+              </p>
+            )}
             {!review.isReviewed && !reviewFormOpen && (
               <button
                 onClick={() => setFormOpen(true)}
@@ -57,7 +65,13 @@ const ReviewList = ({ phone_number }) => {
                 Add Review
               </button>
             )}
-            {reviewFormOpen && <ReviewForm />}
+            {reviewFormOpen && (
+              <ReviewForm
+                phone_number={phone_number}
+                job_id={review.job_id}
+                business_name={review.Business.business_name}
+              />
+            )}
           </div>
         ))}
     </div>
@@ -67,25 +81,38 @@ type ReviewFormData = {
   problem_solved: boolean;
   review: string;
 };
-const ReviewForm = () => {
+const ReviewForm = ({
+  business_name,
+  job_id,
+  phone_number,
+}: {
+  business_name: string;
+  job_id: string;
+  phone_number: string;
+}) => {
   const { register, handleSubmit } = useForm<ReviewFormData>();
   const [isProblemSolved, setIsProblemSolved] = useState<boolean | null>(null);
+  const { mutate: makeReview, data } = api.jobs.makeReview.useMutation();
   const handleFinalSubmit = (data: ReviewFormData) => {
-    console.log({ ...data, isProblemSolved: isProblemSolved });
+    makeReview({
+      review: data.review,
+      job_id: job_id,
+      phone_number: phone_number,
+      problem_solved: isProblemSolved,
+    });
   };
   return (
     <form
       onSubmit={handleSubmit(handleFinalSubmit)}
       className="flex flex-col gap-4 p-2 text-zinc-900"
     >
-      <p>comments</p>
       <textarea
         className="rounded-md p-2"
-        placeholder="comments"
+        placeholder={`${business_name} was extremely helpful! Would reccomend them again!`}
         {...register("review")}
       />
       <label htmlFor="problem_solved">
-        <p>was your problem solved?</p>
+        <p className="text-zinc-100">Was your problem solved?</p>
         {/* <select
           id="problem_solved"
           defaultValue="Yes"
@@ -97,7 +124,6 @@ const ReviewForm = () => {
         <div className="flex gap-2">
           {isProblemSolved == null && (
             <div>
-              <p>pick one</p>
               <div className="flex gap-2">
                 <button
                   onClick={() => setIsProblemSolved(() => true)}
@@ -136,8 +162,7 @@ const ReviewForm = () => {
             ))}
         </div>
       </label>
-      <button>Submit</button>
-      <h1>provide feedback in the box above</h1>
+      <button disabled={isProblemSolved == null}>Submit</button>
     </form>
   );
 };

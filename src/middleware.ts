@@ -9,6 +9,7 @@ export default authMiddleware({
     "/api/webhooks/(.*)",
     "/api/trpc/business.getBusinesses",
     "/api/trpc/jobs.findReviews",
+    "/api/trpc/jobs.makeReview",
     "/testing",
     "/review",
   ],

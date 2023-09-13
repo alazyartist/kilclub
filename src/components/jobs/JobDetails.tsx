@@ -5,11 +5,11 @@ import { api } from "~/utils/api";
 
 const JobDetails = ({ job }: { job: Jobs }) => {
   const [showDetails, setShowDetails] = useState(false);
-
+  const { mutate: markComplete } = api.jobs.markComplete.useMutation();
   return (
     <div
       key={job.job_id}
-      className=" min-w-[320px] rounded-md bg-accent p-2 text-zinc-100"
+      className="relative min-w-[320px] rounded-md bg-accent p-2 text-zinc-100"
     >
       {showDetails ? (
         <>
@@ -45,6 +45,14 @@ const JobDetails = ({ job }: { job: Jobs }) => {
           )}
           <div className="flex justify-between p-2">
             <UploadMediaForm job_id={job.job_id} />
+            {!job.isCompleted && (
+              <button
+                onClick={() => markComplete({ job_id: job.job_id })}
+                className="rounded-md bg-zinc-100 bg-opacity-20 p-2"
+              >
+                Mark Complete
+              </button>
+            )}
             <DeleteJob job={job} />
           </div>
         </>

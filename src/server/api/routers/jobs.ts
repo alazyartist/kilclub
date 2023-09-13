@@ -180,4 +180,49 @@ export const jobsRouter = createTRPCRouter({
 
       return reviews;
     }),
+  makeReview: publicProcedure
+    .input(
+      z.object({
+        job_id: z.string(),
+        phone_number: z.string(),
+        review: z.string(),
+        problem_solved: z.boolean(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      //setup review verification later
+      try {
+        const review = await ctx.prisma.jobs.update({
+          where: { job_id: input.job_id },
+          data: {
+            review: input.review,
+            problem_solved: input.problem_solved,
+            isReviewed: true,
+          },
+        });
+        return review;
+      } catch (err) {
+        console.log(err);
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "FAILED_TO_MAKE_REVIEW",
+        });
+      }
+    }),
+  markComplete: protectedProcedure
+    .input(z.object({ job_id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      try {
+        await ctx.prisma.jobs.update({
+          where: { job_id: input.job_id },
+          data: { isCompleted: true },
+        });
+      } catch (err) {
+        console.log(err);
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "FAILE_TO_MARK_COMPLETE",
+        });
+      }
+    }),
 });

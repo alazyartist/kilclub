@@ -49,7 +49,20 @@ const UploadMediaForm = ({ job_id }: { job_id: string }) => {
   }, [uploadUrls]);
   return (
     <form>
-      {mediaFormOpen && <input onChange={handleUpload} multiple type="file" />}
+      {mediaFormOpen && (
+        <div className="absolute top-2 z-20 flex flex-col gap-2 rounded-md bg-accent-light p-4">
+          <input onChange={handleUpload} multiple type="file" />
+          <button
+            type="button"
+            onClick={() => {
+              setMediaFormOpen(false);
+            }}
+            className="rounded-md bg-red-500 p-2"
+          >
+            cancel
+          </button>
+        </div>
+      )}
       <button
         type="button"
         onClick={() => {

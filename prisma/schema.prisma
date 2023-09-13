@@ -53,6 +53,7 @@ model Jobs{
     Business BusinessInfo @relation(references: [business_id],fields: [business_id],map: "business")
     review String? @db.Text()
     media Json?
+    problem_solved Boolean?
      createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 @@index([business_id])
