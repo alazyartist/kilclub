@@ -46,6 +46,8 @@ model Jobs{
     zip_code String
     date DateTime @default(now())
     reviewer_id String?
+    isCompleted Boolean? @default(false)
+    isReviewed Boolean? @default(false)
     User User @relation("Jobs",references: [business_id],fields: [business_id],map: "user")
     Reviewer User? @relation("Reviews",fields: [reviewer_id],references: [user_id],map:"reviewer")
     Business BusinessInfo @relation(references: [business_id],fields: [business_id],map: "business")
