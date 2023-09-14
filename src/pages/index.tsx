@@ -39,6 +39,7 @@ export default function Home() {
               <div className="text-lg">----------</div>
             </Link> */}
             <div className="p-20 lg:hidden" />
+            <p className="text-center text-xs">have a business. see pricing</p>
             <div className="h-[900px] w-full rounded-3xl bg-accent p-2 lg:absolute lg:right-[-60%] lg:top-[90%] lg:w-[540px]">
               <p className="p-4 text-3xl text-zinc-100 lg:text-8xl">
                 Insert FEATURED here

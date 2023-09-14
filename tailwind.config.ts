@@ -12,9 +12,14 @@ export default {
           dark: "#0091ea",
         },
         accent: {
+          //pinks
           light: "#ff4081",
           DEFAULT: "#f50057",
           dark: "#c51162",
+          //oranges
+          // light: "#FD974E",
+          // DEFAULT: "#FD6A02",
+          // dark: "#c95502",
         },
         base: {
           light: "#f4f4f5",

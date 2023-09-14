@@ -3,7 +3,8 @@ import UpgradeCard from "~/components/upgrade/UpgradeCard";
 
 const Business = () => {
   return (
-    <div className="flex h-full min-h-[100vh] w-full flex-col items-center space-y-2 py-2">
+    <div className="flex h-full min-h-[100vh] w-full flex-col items-center space-y-2 py-4">
+      <p className="text-3xl font-bold">Pricing made painless</p>
       <UpgradeCard
         cost={150}
         discount={15}

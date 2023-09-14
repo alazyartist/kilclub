@@ -14,7 +14,7 @@ const Account = () => {
         />
       )}
 
-      <div className="flex w-[80vw] content-center items-center gap-8 place-self-center rounded-md bg-accent p-2 ">
+      <div className="flex w-full content-center items-center gap-8 place-self-center rounded-md bg-accent p-2 ">
         <p className="text-sm text-zinc-100">Manage User Info {"->"}</p>
         <UserButton />
       </div>
@@ -45,7 +45,7 @@ const SubscriptionDetails = ({
   const { subscription_tier: tier, subscription_status: status } = user;
 
   return (
-    <div className="flex min-w-[320px] max-w-[80vw] justify-between place-self-center rounded-md bg-accent p-2">
+    <div className="flex w-full min-w-[320px] justify-between place-self-center rounded-md bg-accent p-2">
       <div className="flex flex-col">
         <p className="text-xl font-bold text-zinc-100">{tier}</p>
         <p className="text-xs text-zinc-100">{status}</p>

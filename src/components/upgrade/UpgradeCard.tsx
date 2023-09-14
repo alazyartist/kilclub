@@ -27,27 +27,29 @@ const UpgradeCard: React.FC<UpgradeProps> = ({
     mutate({ email, name, price_id });
   };
   return (
-    <div className="max-w-[80vw] space-y-2 rounded-md bg-accent p-4 text-white ">
+    <div className="min-w-[320px] max-w-[80vw] space-y-2 rounded-md bg-accent p-4 text-white ">
       <div className="-center flex justify-between">
         <h1 className="p-2 text-xl font-bold">{upgrade}</h1>
         <div className="flex flex-col gap-1 p-2">
           <p
-            className={`text-sm text-zinc-200 ${
+            className={`text-right text-sm text-zinc-200 ${
               discount ? "text-xs text-zinc-300 line-through" : ""
             }`}
           >
-            {cost}$
+            {cost}$/<span className="text-[10px]">month</span>
           </p>
           {discount && (
-            <p className="text-sm font-bold text-zinc-200  ">{discount}$</p>
+            <p className=" text-5xl font-bold text-zinc-200  ">
+              {discount}$/<span className="text-[10px]">month</span>
+            </p>
           )}
         </div>
       </div>
       {!subscription && (
         <>
-          <div className="rounded-sm bg-zinc-200 p-2 text-sm text-accent-dark ">
+          {/* <div className="rounded-sm bg-zinc-200 p-2 text-sm text-accent-dark ">
             {description}
-          </div>
+          </div> */}
           <button
             onClick={() => createCustomer()}
             className="w-full rounded-md bg-accent-light px-2 py-1 text-center"

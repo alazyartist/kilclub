@@ -90,3 +90,17 @@ input[type="file"]::file-selector-button:hover {
 input[type="file"]::file-selector-button:active {
   background-color: #e5e7eb;
 }
+.cl-formButtonPrimary {
+  @apply bg-accent;
+}
+.cl-internal-1vi7rps {
+  @apply left-[12px];
+}
+/*hide powered by clerk*/
+.cl-internal-b3fm6y {
+  @apply hidden;
+}
+
+.cl-userButtonPopoverFooter {
+  @apply hidden;
+}
