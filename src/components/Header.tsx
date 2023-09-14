@@ -6,11 +6,11 @@ const Header = () => {
   const [isOpen, openMenu] = useState(false);
   return (
     <header>
-      <div className="sticky top-0 flex w-full justify-between border-b-2 border-accent bg-base-light p-2 pb-4 ">
+      <div className="sticky top-0 flex w-full justify-between border-b-2 border-accent bg-base-light p-2 py-4 pb-4 lg:border-b-4 lg:py-4">
         <Link
           onClick={() => openMenu(false)}
           href={"/"}
-          className="text-4xl font-extrabold tracking-tighter text-accent-light sm:text-[5rem]"
+          className="text-4xl font-extrabold tracking-tighter text-accent-light sm:text-[5rem] lg:text-4xl"
         >
           keep<span className="text-accent-dark">it</span>local.club
         </Link>
