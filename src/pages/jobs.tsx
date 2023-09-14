@@ -20,7 +20,6 @@ const Jobs = () => {
       )}
       {user.business_id && (
         <>
-          <h1>Jobs</h1>
           <BusinessDetail business_id={user.business_id} />
           {formOpen && (
             <JobCreationForm
@@ -28,15 +27,20 @@ const Jobs = () => {
               business_id={user.business_id}
             />
           )}
+          {/* <div className="flex"> */}
           {!formOpen && (
-            <button
-              onClick={() => setFormOpen(true)}
-              className="rounded-md bg-accent p-2 text-zinc-100"
-            >
-              Create Job
-            </button>
+            <>
+              <button
+                onClick={() => setFormOpen(true)}
+                className="rounded-md bg-accent p-2 text-zinc-100"
+              >
+                Create Job
+              </button>
+              <JobDisplay business_id={user.business_id} />
+              <FinishedJobDisplay business_id={user.business_id} />
+            </>
           )}
-          {!formOpen && <JobDisplay business_id={user.business_id} />}
+          {/* </div> */}
         </>
       )}
     </div>
@@ -50,10 +54,32 @@ const JobDisplay = ({ business_id }: { business_id: string }) => {
     business_id: business_id,
   });
   return (
-    <div className="flex max-w-[95vw] flex-col gap-2">
-      {jobs?.map((job: Jobs) => (
-        <JobDetails key={`jobdetail${job.job_id}`} job={job} />
-      ))}
+    <div className="flex w-[95vw] flex-col gap-2 rounded-xl bg-zinc-200">
+      <p className="p-2 text-3xl font-bold">Jobs</p>
+      {jobs?.map(
+        (job: Jobs) =>
+          !job.isCompleted && (
+            <JobDetails key={`jobdetail${job.job_id}`} job={job} />
+          ),
+      )}
+      <p className="text-center text-xs">no more jobs to show</p>
+    </div>
+  );
+};
+const FinishedJobDisplay = ({ business_id }: { business_id: string }) => {
+  const { data: jobs } = api.jobs.getJobs.useQuery({
+    business_id: business_id,
+  });
+  return (
+    <div className="flex w-[95vw] flex-col gap-2 rounded-xl bg-zinc-200">
+      <p className="p-2 text-3xl font-bold">Finished Jobs</p>
+      {jobs?.map(
+        (job: Jobs) =>
+          job.isCompleted && (
+            <JobDetails key={`jobdetail${job.job_id}`} job={job} />
+          ),
+      )}
+      <p className="text-center text-xs">no more jobs to show</p>
     </div>
   );
 };

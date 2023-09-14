@@ -3,8 +3,8 @@ import { useState } from "react";
 import UploadMediaForm from "~/forms/UploadMediaForm";
 import { api } from "~/utils/api";
 
-const JobDetails = ({ job }: { job: Jobs }) => {
-  const [showDetails, setShowDetails] = useState(false);
+const JobDetails = ({ job, visible }: { job: Jobs; visible?: boolean }) => {
+  const [showDetails, setShowDetails] = useState(visible);
   const { mutate: markComplete } = api.jobs.markComplete.useMutation();
   return (
     <div
@@ -14,10 +14,26 @@ const JobDetails = ({ job }: { job: Jobs }) => {
       {showDetails ? (
         <>
           <div
-            onClick={() => setShowDetails(false)}
+            // onClick={() => setShowDetails(false)}
             className="flex justify-between"
           >
-            <div>{job.customer_phone_number}</div>
+            <div>
+              {job.customer_phone_number}{" "}
+              <button
+                onClick={() => {
+                  navigator.share({
+                    url: `http://keep-it-local-club.vercel.app/review?pnid=%2B${job.customer_phone_number.slice(
+                      1,
+                    )}`,
+                    title: `Review ${job.job_id}`,
+                  });
+
+                  console.log("gonna share");
+                }}
+              >
+                share
+              </button>
+            </div>
             <div>
               <h1 className="text-right text-lg">{job.zip_code}</h1>
               <p className="text-right text-xs">{job.date.toDateString()}</p>
