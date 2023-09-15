@@ -59,7 +59,11 @@ const JobDisplay = ({ business_id }: { business_id: string }) => {
       {jobs?.map(
         (job: Jobs) =>
           !job.isCompleted && (
-            <JobDetails key={`jobdetail${job.job_id}`} job={job} />
+            <JobDetails
+              visible={true}
+              key={`jobdetail${job.job_id}`}
+              job={job}
+            />
           ),
       )}
       <p className="text-center text-xs">no more jobs to show</p>

@@ -6,6 +6,7 @@ import {
 } from "@algolia/autocomplete-js";
 import "@algolia/autocomplete-theme-classic";
 import { BusinessInfo } from "@prisma/client";
+import { useRouter } from "next/router";
 
 type ItemType = BusinessInfo;
 type AutoCompleteProps = {
@@ -16,6 +17,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ props, businesses }) => {
   const autocompleteRef = useRef(null);
   const panelRootRef = useRef(null);
   const rootRef = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (!autocompleteRef.current) {
@@ -24,6 +26,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ props, businesses }) => {
 
     const search = autocomplete({
       detachedMediaQuery: "none",
+      onSubmit: ({ state: { query } }) => router.push(`/search?sq=${query}`),
       container: autocompleteRef.current,
       renderer: { createElement, Fragment, render: () => {} },
       render({ children }, root) {
@@ -48,6 +51,11 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ props, businesses }) => {
                   </div>
                 );
               },
+            },
+            onSelect(params) {
+              const { item, setQuery } = params;
+              //handle select from search here
+              router.push(`/business?bid=${item.business_id}`);
             },
             getItems() {
               const pattern = getQueryPattern(query);

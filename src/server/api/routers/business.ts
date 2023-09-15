@@ -20,4 +20,12 @@ export const businessRouter = createTRPCRouter({
       });
     }
   }),
+  findBusinessSearch: publicProcedure
+    .input(z.object({ query: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const results = await ctx.prisma.businessInfo.findMany({
+        where: { zip_code: { contains: input.query } },
+      });
+      return results;
+    }),
 });
