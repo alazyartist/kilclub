@@ -15,7 +15,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ imageUrl, onClose }) => {
         X
       </button>
       <div className="relative p-6">
-        <img src={imageUrl} alt="Modal" />
+        <img className="object-contain max-w-[95vw] max-h-[95vh]" src={imageUrl} alt="Modal" />
       </div>
     </div>
   );

@@ -27,7 +27,9 @@ const SearchResults = ({ query }: { query: string }) => {
   return (
     <div>
       {data.map((business) => (
-        <div key={business.business_id}>{business.business_name}</div>
+        <a href={`/business/${business.business_id}`} className="flex flex-col w-full">
+          <div key={business.business_id}>{business.business_name}</div>
+        </a>
       ))}
     </div>
   );

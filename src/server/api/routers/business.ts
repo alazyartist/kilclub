@@ -7,6 +7,20 @@ import {
 import { TRPCError } from "@trpc/server";
 
 export const businessRouter = createTRPCRouter({
+  getBusinessWithJobs: publicProcedure.input(z.object({ business_id: z.string() })).query(async ({ ctx, input }) => {
+    try {
+      const businesses = await ctx.prisma.businessInfo.findUnique({
+        where: { business_id: input.business_id }, include: { Jobs: true }
+      });
+      return businesses;
+    } catch (err) {
+      console.log(err);
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "FAILED_TO_FIND_BUSINESSES",
+      });
+    }
+  }),
   getBusinesses: publicProcedure.query(async ({ ctx }) => {
     try {
       const businesses = await ctx.prisma.businessInfo.findMany();
