@@ -1,6 +1,7 @@
 import { UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
+import ManageCategories from "~/components/account/ManageCategories";
 import { api } from "~/utils/api";
 
 const Account = () => {
@@ -18,6 +19,7 @@ const Account = () => {
         <p className="text-sm text-zinc-100">Manage User Info {"->"}</p>
         <UserButton />
       </div>
+      <ManageCategories />
     </div>
   );
 };
