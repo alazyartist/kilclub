@@ -32,30 +32,29 @@ const Posting: React.FC<PostingProps> = ({
   };
 
   return (
-    <div className="flex-coll -center w-[80vw] pl-4 pr-4 text-black">
-      <span
-        className="font-strong w-full border-2 border-accent p-1 text-right text-2xl"
-        onClick={toggleLocation}
-      >
-        {showLocation ? zipcode : location}
-      </span>
-      <div className="w-full flex-row justify-around">
-        <span>{star_rating}/5</span>
-        <span>{date && date.toDateString()}</span>
+    <div className="border-2 border-accent rounded-lg flex-coll -center w-[95vw] text-white">
+      <div className="flex-coll bg-accent font-strong w-full border-b-2 border-accent p-1" >
+        <span className="w-full font-bold text-2xl text-center">Lawncare</span>
+        <div className="w-full flex-row justify-around text-lg">
+          <span>{star_rating}/5</span>
+          <span>{date && date.toDateString()}</span>
+        </div>
       </div>
-      <div className="flex-coll minimalistScroll max-h-[256px] w-full justify-start gap-4 overflow-y-auto">
+
+      <div className="flex-coll minimalistScroll max-h-[460px] p-2 w-full justify-start gap-4 overflow-y-auto">
         <div className="grid grid-cols-3 grid-rows-2 gap-4">
           {Array.isArray(photos) &&
             photos
               .slice(0, 1)
               .map((photo, index) => (
                 <img
-                  key={index}
+                  className="object-cover aspect-square"
+                  key={photo}
                   height={200}
-                  src={`./temp_photos/${photo}`}
+                  src={photo}
                   alt={`Photo ${index + 1}`}
                   style={{ gridColumn: "span 2", gridRow: "span 2" }}
-                  onClick={() => openImageModal(`./temp_photos/${photo}`)}
+                  onClick={() => openImageModal(photo)}
                 />
               ))}
           {Array.isArray(photos) &&
@@ -63,12 +62,13 @@ const Posting: React.FC<PostingProps> = ({
               .slice(1, 3)
               .map((photo, index) => (
                 <img
-                  key={index}
+                  className="object-cover aspect-square"
+                  key={photo}
                   width={200}
                   height={200}
-                  src={`./temp_photos/${photo}`}
+                  src={photo}
                   alt={`Photo ${index + 1}`}
-                  onClick={() => openImageModal(`./temp_photos/${photo}`)}
+                  onClick={() => openImageModal(photo)}
                 />
               ))}
         </div>
@@ -78,18 +78,18 @@ const Posting: React.FC<PostingProps> = ({
               .slice(3)
               .map((photo, index) => (
                 <img
-                  key={index}
+                  className="object-cover aspect-square"
+                  key={photo}
                   width={100}
                   height={100}
-                  src={`./temp_photos/${photo}`}
+                  src={photo}
                   alt={`Photo ${index + 1}`}
-                  onClick={() => openImageModal(`./temp_photos/${photo}`)}
+                  onClick={() => openImageModal(photo)}
                 />
               ))}
         </div>
       </div>
 
-      {/* Render the image modal if an image is selected */}
       {selectedImage && (
         <ImageModal imageUrl={selectedImage} onClose={closeImageModal} />
       )}
