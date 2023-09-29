@@ -52,38 +52,16 @@ const Profile = () => {
       <Logo />
       <div className="flex-coll -center gap-8">
         {jobs.map((job) => (
-          <>
-            <FinishedJob key={job.jobid} business_id={"c5nnpmm10qb6pvrspy8sa3ks"} />
-            <JobPosting
-              key={job.jobid}
-              location={job.location}
-              zipcode={job.zipcode}
-              star_rating={job.star_rating}
-              date={new Date(job.date)}
-              photos={job.photos}
-            />
-          </>
+          <JobPosting
+            key={job.jobid}
+            location={job.location}
+            zipcode={job.zipcode}
+            star_rating={job.star_rating}
+            date={new Date(job.date)}
+            photos={job.media}
+          />
         ))}
       </div>
-    </div>
-  );
-};
-
-const FinishedJob = ({ business_id }: { business_id: string }) => {
-  const { data } = api.business.getBusinessWithJobs.useQuery({
-    business_id: business_id,
-  });
-  console.log("data: ", data);
-  return (
-    <div className="flex w-[95vw] flex-col gap-2 rounded-xl bg-zinc-200">
-      <p className="p-2 text-3xl font-bold">Finished Jobs</p>
-      {jobs?.map(
-        (job: Jobs) =>
-          job.isCompleted && (
-            <JobDetails key={`jobdetail${job.job_id}`} job={job} />
-          ),
-      )}
-      <p className="text-center text-xs">no more jobs to show</p>
     </div>
   );
 };
