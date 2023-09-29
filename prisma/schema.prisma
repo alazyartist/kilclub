@@ -34,6 +34,8 @@ model BusinessInfo{
     phone_number String
     zip_code String
     Jobs Jobs[]
+    Categories BusinessCategories[]
+    Category Category[]
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 @@index([business_id])
@@ -54,8 +56,54 @@ model Jobs{
     review String? @db.Text()
     media Json?
     problem_solved Boolean?
-     createdAt DateTime @default(now())
+    createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    Categories JobCategories[]
+    Category Category[]
 @@index([business_id])
 @@index([reviewer_id])
 }
+
+model JobCategories {
+    id Int @id @default(autoincrement())
+    job_id String
+    Job Jobs @relation(fields: [job_id],references: [job_id])
+    category_id String
+    Category Category @relation(fields: [category_id],references: [category_id])
+@@index([job_id])
+@@index([category_id])
+@@unique([job_id,category_id])
+}
+model BusinessCategories {
+    id Int @id @default(autoincrement())
+    business_id String
+    Business BusinessInfo @relation(fields: [business_id],references: [business_id])
+    category_id String
+    Category Category @relation(fields: [category_id],references: [category_id])
+@@index([business_id])
+@@index([category_id])
+@@unique([business_id,category_id])
+}
+
+model Category {
+    category_id String @id @unique @default(cuid())
+    name    String @unique
+    type    String
+    Parents    ChildCategories[] @relation("Children")
+    Children    ChildCategories[] @relation("Parents")
+    JobsCategories JobCategories[]
+    BusinessesCategories BusinessCategories[]
+    Jobs Jobs[]
+    Businesses BusinessInfo[]
+
+}
+model ChildCategories {
+    id Int @id @default(autoincrement())
+    parent_id String
+    child_id String
+    Parent Category? @relation("Parents",fields: [parent_id],references: [category_id])
+    Child Category? @relation("Children",fields: [child_id],references: [category_id])
+@@index([parent_id])
+@@index([child_id])
+@@unique([parent_id,child_id])
+} 
