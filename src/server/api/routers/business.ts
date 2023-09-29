@@ -21,6 +21,21 @@ export const businessRouter = createTRPCRouter({
       });
     }
   }),
+  getMyBusiness: publicProcedure.query(async ({ ctx }) => {
+    try {
+      const user = await ctx.prisma.user.findUnique({ where: { user_id: ctx.auth.userId }})
+      const businesses = await ctx.prisma.businessInfo.findUnique({
+        where: { business_id: user.business_id }, include: { Jobs: true }
+      });
+      return businesses;
+    } catch (err) {
+      console.log(err);
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "FAILED_TO_FIND_BUSINESSES",
+      });
+    }
+  }),
   getBusinesses: publicProcedure.query(async ({ ctx }) => {
     try {
       const businesses = await ctx.prisma.businessInfo.findMany();

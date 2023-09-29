@@ -4,6 +4,7 @@ import { api } from "~/utils/api";
 import JobPosting from "~/components/JobPosting";
 import JobDetails from "~/components/jobs/JobDetails";
 import { BusinessInfo, Jobs } from "@prisma/client";
+import { v4 as uuidv4 } from 'uuid';
 
 // TEMP CATEGORIES
 const categories = ["Plumbing", "Roofing", "Lawn Care", "Tree Trimming", "Painting", "Electrical", "Carpentry", "Cleaning", "Moving", "Handyman", "Other"];
@@ -35,7 +36,7 @@ const Business = () => {
       <div className="flex-row -center gap-2 flex-wrap">
         {categories.map((category) => (
           <div
-            key={category}
+            key={uuidv4()}
             className="bg-accent rounded-lg p-2 text-white text-center"
             onClick={() =>
               console.log({ category })
@@ -49,7 +50,7 @@ const Business = () => {
       <div className="flex-coll -center gap-8">
         {jobs.map((job) => (
           <JobPosting
-            key={job.jobid}
+            key={uuidv4()}
             zipcode={job.zip_code}
             date={new Date(job.date)}
             photos={job.media}

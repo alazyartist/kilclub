@@ -39,7 +39,6 @@ const Posting: React.FC<PostingProps> = ({
           <span>{star_rating}/5</span>
           <span>{date && date.toDateString()}</span>
         </div>
-        {/*{showLocation ? zipcode : location}*/}
       </div>
 
       <div className="flex-coll minimalistScroll max-h-[460px] p-2 w-full justify-start gap-4 overflow-y-auto">
@@ -91,7 +90,6 @@ const Posting: React.FC<PostingProps> = ({
         </div>
       </div>
 
-      {/* Render the image modal if an image is selected */}
       {selectedImage && (
         <ImageModal imageUrl={selectedImage} onClose={closeImageModal} />
       )}
