@@ -31,7 +31,7 @@ const Business = () => {
     <div className="flex-coll -center gap-8 space-y-2 py-2">
       <Logo business={business} />
 
-      <JobCategories />
+      <JobCategories business={business}/>
 
       <div className="flex-coll -center gap-8">
         {jobs.map((job) => (
