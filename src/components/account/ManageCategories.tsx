@@ -106,10 +106,12 @@ const ManageCategories = () => {
   };
   return (
     <div>
+    {/*
       <div className="w-full rounded-md bg-accent p-2 text-zinc-100">
         Manage Categories
       </div>
       <AddCategoryForm />
+      */}
       {categories && <CategoryPopup categories={categories} />}
     </div>
   );
