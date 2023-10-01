@@ -30,7 +30,7 @@ const JobCategories: React.FC<BusinessType> = ({ business }) => {
           business.Categories.map((c) => (
             <div
               key={c.Category.category_id}
-              className="strong flex-grow cursor-pointer rounded-md border-b-4 border-b-base-dark bg-base-light px-2 py-1 text-center font-serif text-lg text-black"
+              className="strong flex-grow cursor-pointer rounded-md bg-base-light px-2 py-1 text-center font-serif text-lg text-black shadow-md shadow-zinc-500"
               onClick={() => console.log({ c })}
             >
               {c.Category.name}
@@ -41,7 +41,7 @@ const JobCategories: React.FC<BusinessType> = ({ business }) => {
       <div className="absolute w-full min-w-[80vw] flex-row justify-end">
         {isProfile && (
           <div
-            className="relative -left-8 -top-5 h-10 w-10 cursor-pointer rounded-full border-b-4 border-b-base-dark bg-base-light px-2 py-1 text-4xl leading-5 text-black"
+            className="relative -left-8 -top-5 h-10 w-10 cursor-pointer rounded-full bg-base-light px-2 py-1 text-4xl leading-5 text-black shadow-md shadow-zinc-500"
             onClick={() => setOpenCategoryForm(!openCategoryForm)}
           >
             {" "}
