@@ -7,25 +7,31 @@ import {
 import { TRPCError } from "@trpc/server";
 
 export const businessRouter = createTRPCRouter({
-  getBusinessWithJobs: publicProcedure.input(z.object({ business_id: z.string() })).query(async ({ ctx, input }) => {
-    try {
-      const businesses = await ctx.prisma.businessInfo.findUnique({
-        where: { business_id: input.business_id }, include: { Jobs: true }
-      });
-      return businesses;
-    } catch (err) {
-      console.log(err);
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "FAILED_TO_FIND_BUSINESSES",
-      });
-    }
-  }),
+  getBusinessWithJobs: publicProcedure
+    .input(z.object({ business_id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      try {
+        const businesses = await ctx.prisma.businessInfo.findUnique({
+          where: { business_id: input.business_id },
+          include: { Jobs: true, Categories: { include: { Category: true } } },
+        });
+        return businesses;
+      } catch (err) {
+        console.log(err);
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "FAILED_TO_FIND_BUSINESSES",
+        });
+      }
+    }),
   getMyBusiness: publicProcedure.query(async ({ ctx }) => {
     try {
-      const user = await ctx.prisma.user.findUnique({ where: { user_id: ctx.auth.userId }})
+      const user = await ctx.prisma.user.findUnique({
+        where: { user_id: ctx.auth.userId },
+      });
       const businesses = await ctx.prisma.businessInfo.findUnique({
-        where: { business_id: user.business_id }, include: { Jobs: true }
+        where: { business_id: user.business_id },
+        include: { Jobs: true, Categories: { include: { Category: true } } },
       });
       return businesses;
     } catch (err) {
@@ -56,5 +62,47 @@ export const businessRouter = createTRPCRouter({
         where: { zip_code: { contains: input.query } },
       });
       return results;
+    }),
+  saveBusinessCategories: protectedProcedure
+    .input(
+      z.object({
+        business_id: z.string(),
+        categories: z.array(
+          z.object({
+            category_id: z.string(),
+            name: z.string(),
+            type: z.string(),
+          }),
+        ),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      console.log(input);
+
+      try {
+        await ctx.prisma.businessCategories.deleteMany({
+          where: { business_id: input.business_id },
+        });
+
+        const savedCats = Promise.all(
+          input.categories.map(async (category) => {
+            const savedCat = ctx.prisma.businessCategories.create({
+              data: {
+                business_id: input.business_id,
+                category_id: category.category_id,
+              },
+            });
+            return savedCat;
+          }),
+        );
+
+        return savedCats;
+      } catch (err) {
+        console.log(err);
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "FAILED_TO_SAVE_CATEGORIES",
+        });
+      }
     }),
 });
