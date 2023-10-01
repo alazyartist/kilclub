@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import ImageModal from "./ImageModal";
 
 interface PostingProps {
-  location: string;
-  zipcode: number;
+  location?: string;
+  zipcode: string;
   star_rating: number;
   date: Date;
   photos: string[];
@@ -32,23 +32,23 @@ const Posting: React.FC<PostingProps> = ({
   };
 
   return (
-    <div className="border-2 border-accent rounded-lg flex-coll -center w-[95vw] text-white">
-      <div className="flex-coll bg-accent font-strong w-full border-b-2 border-accent p-1" >
-        <span className="w-full font-bold text-2xl text-center">Lawncare</span>
+    <div className="flex-coll -center w-[95vw] rounded-lg border-2 border-accent text-white">
+      <div className="flex-coll font-strong w-full border-b-2 border-accent bg-accent p-1">
+        <span className="w-full text-center text-2xl font-bold">Lawncare</span>
         <div className="w-full flex-row justify-around text-lg">
           <span>{star_rating}/5</span>
           <span>{date && date.toDateString()}</span>
         </div>
       </div>
 
-      <div className="flex-coll minimalistScroll max-h-[460px] p-2 w-full justify-start gap-4 overflow-y-auto">
+      <div className="flex-coll minimalistScroll max-h-[460px] w-full justify-start gap-4 overflow-y-auto p-2">
         <div className="grid grid-cols-3 grid-rows-2 gap-4">
           {Array.isArray(photos) &&
             photos
               .slice(0, 1)
               .map((photo, index) => (
                 <img
-                  className="object-cover aspect-square"
+                  className="aspect-square object-cover"
                   key={photo}
                   height={200}
                   src={photo}
@@ -62,7 +62,7 @@ const Posting: React.FC<PostingProps> = ({
               .slice(1, 3)
               .map((photo, index) => (
                 <img
-                  className="object-cover aspect-square"
+                  className="aspect-square object-cover"
                   key={photo}
                   width={200}
                   height={200}
@@ -78,7 +78,7 @@ const Posting: React.FC<PostingProps> = ({
               .slice(3)
               .map((photo, index) => (
                 <img
-                  className="object-cover aspect-square"
+                  className="aspect-square object-cover"
                   key={photo}
                   width={100}
                   height={100}
