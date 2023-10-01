@@ -1,44 +1,62 @@
 import React from "react";
 import { useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
-import ManageCategories from "../account/ManageCategories";
+import { BusinessInfo, Category, Jobs } from "@prisma/client";
+import CategoryPopup from "../account/CategoryPopup";
+import { api } from "~/utils/api";
+import { GetBusinessWithJobs, GetMyBusiness } from "~/utils/RouterTypes";
 
 // TEMP CATEGORIES
-type BusinessType = {
-  business: BusinessInfo & { Jobs: Jobs[], Categories?: Categories[] } 
-};
+type BusinessType = { business: GetMyBusiness | GetBusinessWithJobs };
 
-const categories = ["Plumbing", "Roofing", "Lawn Care", "Tree Trimming", "Painting", "Electrical"]
+const categories = [
+  "Plumbing",
+  "Roofing",
+  "Lawn Care",
+  "Tree Trimming",
+  "Painting",
+  "Electrical",
+];
 //"Roofing", "Lawn Care", "Tree Trimming", "Painting", "Electrical", "Carpentry", "Cleaning", "Moving", "Handyman"];
 
 const JobCategories: React.FC<BusinessType> = ({ business }) => {
   const isProfile = window.location.href.includes("/profile");
+  const { data: allCategories } = api.category.getCategories.useQuery();
   const [openCategoryForm, setOpenCategoryForm] = useState(false);
 
   return (
     <div className="">
-      <div className="overflow-auto min-w-[100vw] min-h-[10vh] max-h-[25vh] flex-row -center gap-2 flex-wrap bg-zinc-200 pt-6 pb-10 px-2 border-b-2 border-t-2 border-base-dark shadow-inner-top-bottom">
-        {categories.map((category) => (
-          <div
-            key={uuidv4()}
-            className="font-serif text-lg strong bg-base-light rounded-md px-2 py-1 text-black text-center cursor-pointer flex-grow border-b-4 border-b-base-dark"
-            onClick={() => console.log({ category })}
-          > {category}
-          </div>
-        ))}
+      <div className="-center shadow-inner-top-bottom max-h-[25vh] min-h-[10vh] min-w-[100vw] flex-row flex-wrap gap-2 overflow-auto border-b-2 border-t-2 border-base-dark bg-zinc-200 px-2 pb-10 pt-6">
+        {Array.isArray(business?.Categories) &&
+          business.Categories.map((c) => (
+            <div
+              key={c.Category.category_id}
+              className="strong flex-grow cursor-pointer rounded-md border-b-4 border-b-base-dark bg-base-light px-2 py-1 text-center font-serif text-lg text-black"
+              onClick={() => console.log({ c })}
+            >
+              {c.Category.name}
+            </div>
+          ))}
       </div>
 
-      <div className="absolute min-w-[80vw] w-full flex-row justify-end">
+      <div className="absolute w-full min-w-[80vw] flex-row justify-end">
         {isProfile && (
           <div
-            className="relative -left-8 -top-5 w-10 h-10 bg-base-light rounded-full px-2 py-1 text-black text-4xl leading-5 cursor-pointer border-b-4 border-b-base-dark"
+            className="relative -left-8 -top-5 h-10 w-10 cursor-pointer rounded-full border-b-4 border-b-base-dark bg-base-light px-2 py-1 text-4xl leading-5 text-black"
             onClick={() => setOpenCategoryForm(!openCategoryForm)}
-          > +
+          >
+            {" "}
+            +
           </div>
         )}
       </div>
       {openCategoryForm && (
-        <ManageCategories />
+        <CategoryPopup
+          startCategories={business.Categories.map((c) => c.Category.name)}
+          business_id={business.business_id}
+          type="business"
+          close={setOpenCategoryForm}
+          categories={allCategories}
+        />
       )}
     </div>
   );
