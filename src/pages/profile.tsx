@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import JobPosting from "~/components/JobPosting";
@@ -21,30 +21,41 @@ const Logo = ({ business }: { business: BusinessInfo & { Jobs: Jobs[] } }) => {
 const Profile = () => {
   const router = useRouter();
   const { business_id } = router.query;
+  const [filter, setFilter] = useState("");
   const { data: business } = api.business.getMyBusiness.useQuery();
   if (!business) return null;
   const { Jobs: jobs } = business;
   if (!jobs) return null;
+
   return (
     <div className="flex-coll -center gap-8 space-y-2 py-2">
       <Logo business={business} />
 
-      <JobCategories business={business} />
+      <JobCategories
+        filter={filter}
+        setFilter={setFilter}
+        business={business}
+      />
 
       <div className="flex-coll -center gap-8">
-        {jobs.map((job) => (
-          <JobPosting
-            key={job.job_id}
-            zipcode={job.zip_code}
-            date={new Date(job.date)}
-            photos={job.media as string[]}
-            star_rating={Math.trunc(Math.random() * 6)}
-            /*
+        {jobs
+          .filter((job) =>
+            job.Categories.some((c) => c.Category.name.includes(filter)),
+          )
+          .map((job) => (
+            <JobPosting
+              jobCategories={job.Categories.map((c) => c.Category)}
+              key={job.job_id}
+              zipcode={job.zip_code}
+              date={new Date(job.date)}
+              photos={job.media as string[]}
+              star_rating={Math.trunc(Math.random() * 6)}
+              /*
           location={job.location}
           star_rating={job.star_rating}
           */
-          />
-        ))}
+            />
+          ))}
       </div>
     </div>
   );

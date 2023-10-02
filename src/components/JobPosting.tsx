@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ImageModal from "./ImageModal";
+import { Category } from "@prisma/client";
 
 interface PostingProps {
   location?: string;
@@ -7,6 +8,7 @@ interface PostingProps {
   star_rating: number;
   date: Date;
   photos: string[];
+  jobCategories: Category[];
 }
 
 const Posting: React.FC<PostingProps> = ({
@@ -15,6 +17,7 @@ const Posting: React.FC<PostingProps> = ({
   star_rating,
   date,
   photos,
+  jobCategories,
 }) => {
   const [showLocation, setShowLocation] = useState(true);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -34,7 +37,9 @@ const Posting: React.FC<PostingProps> = ({
   return (
     <div className="flex-coll -center w-[95vw] rounded-lg border-2 border-accent text-white">
       <div className="flex-coll font-strong w-full border-b-2 border-accent bg-accent p-1">
-        <span className="w-full text-center text-2xl font-bold">Lawncare</span>
+        <span className="w-full text-center text-2xl font-bold">
+          {jobCategories.map((j) => j.name)}
+        </span>
         <div className="w-full flex-row justify-around text-lg">
           <span>{star_rating}/5</span>
           <span>{date && date.toDateString()}</span>

@@ -6,19 +6,17 @@ import { api } from "~/utils/api";
 import { GetBusinessWithJobs, GetMyBusiness } from "~/utils/RouterTypes";
 
 // TEMP CATEGORIES
-type BusinessType = { business: GetMyBusiness | GetBusinessWithJobs };
+type BusinessType = {
+  business: GetMyBusiness | GetBusinessWithJobs;
+  setFilter: React.Dispatch<React.SetStateAction<string>>;
+  filter: string;
+};
 
-const categories = [
-  "Plumbing",
-  "Roofing",
-  "Lawn Care",
-  "Tree Trimming",
-  "Painting",
-  "Electrical",
-];
-//"Roofing", "Lawn Care", "Tree Trimming", "Painting", "Electrical", "Carpentry", "Cleaning", "Moving", "Handyman"];
-
-const JobCategories: React.FC<BusinessType> = ({ business }) => {
+const JobCategories: React.FC<BusinessType> = ({
+  business,
+  setFilter,
+  filter,
+}) => {
   const isProfile = window.location.href.includes("/profile");
   const { data: allCategories } = api.category.getCategories.useQuery();
   const [openCategoryForm, setOpenCategoryForm] = useState(false);
@@ -30,8 +28,15 @@ const JobCategories: React.FC<BusinessType> = ({ business }) => {
           business.Categories.map((c) => (
             <div
               key={c.Category.category_id}
-              className="strong flex-grow cursor-pointer rounded-md bg-base-light px-2 py-1 text-center font-sans text-lg text-black shadow-md shadow-zinc-500"
-              onClick={() => console.log({ c })}
+              className={`${
+                filter === c.Category.name ? "shadow-accent-light" : ""
+              } strong flex-grow cursor-pointer rounded-md bg-base-light px-2 py-1 text-center font-sans text-lg text-black shadow-md shadow-zinc-500`}
+              onClick={() => {
+                setFilter((prev) =>
+                  prev !== c.Category.name ? c.Category.name : "",
+                );
+                console.log({ c });
+              }}
             >
               {c.Category.name}
             </div>
