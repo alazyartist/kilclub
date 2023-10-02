@@ -19,12 +19,11 @@ const JobDetails = ({ job, visible }: { job: Jobs; visible?: boolean }) => {
         >
           {showDetails ? (
             <>
-              <div
-                // onClick={() => setShowDetails(false)}
-                className="flex justify-between"
-              >
+              <div className="flex justify-between">
                 <div>
-                  {job.customer_phone_number}{" "}
+                  <span onClick={() => setShowDetails(false)}>
+                    {job.customer_phone_number}{" "}
+                  </span>
                   <button
                     onClick={() => {
                       navigator.share({
@@ -47,7 +46,7 @@ const JobDetails = ({ job, visible }: { job: Jobs; visible?: boolean }) => {
                   </p>
                 </div>
               </div>
-              {Array.isArray(job.media) && (
+              {Array.isArray(job.media) ? (
                 <div className="grid h-full w-full grid-cols-3 gap-2">
                   {job.media.map((img) => {
                     if (typeof img === "string") {
@@ -59,7 +58,7 @@ const JobDetails = ({ job, visible }: { job: Jobs; visible?: boolean }) => {
                           <img
                             onClick={() => router.push(`?image=${img}`)}
                             alt={`job_detail_${img}`}
-                            className="aspect-square h-full w-full rounded-md object-cover"
+                            className="aspect-square h-full w-full rounded-md object-cover drop-shadow-md"
                             src={img}
                             width={100}
                             height={100}
@@ -69,6 +68,11 @@ const JobDetails = ({ job, visible }: { job: Jobs; visible?: boolean }) => {
                       );
                     }
                   })}
+                  <UploadMediaForm job_id={job.job_id} />
+                </div>
+              ) : (
+                <div className="grid h-full w-full grid-cols-3 gap-2">
+                  <UploadMediaForm job_id={job.job_id} />
                 </div>
               )}
             </>
@@ -86,7 +90,7 @@ const JobDetails = ({ job, visible }: { job: Jobs; visible?: boolean }) => {
         </div>
         {showDetails && (
           <div className=" flex justify-between rounded-md bg-base-light p-2">
-            <UploadMediaForm job_id={job.job_id} />
+            {/* <UploadMediaForm job_id={job.job_id} /> */}
             {!job.isCompleted ? (
               <button
                 onClick={() => markComplete({ job_id: job.job_id })}
@@ -135,27 +139,29 @@ const DeleteJob = ({ job }: { job: Jobs }) => {
   return (
     <>
       {deleteCheck ? (
-        <div>
+        <div className="space-x-3">
           <button
             onClick={() => deleteJob({ job_id: job.job_id })}
-            className="rounded-md bg-red-500 p-2"
+            className="min-w-[69px] rounded-md bg-red-500 p-2"
           >
             yes
           </button>
           <button
             onClick={() => setDeleteCheck(false)}
-            className="rounded-md bg-red-500 p-2"
+            className="min-w-[69px] rounded-md bg-red-500 p-2"
           >
             no
           </button>
         </div>
       ) : (
-        <button
-          onClick={() => setDeleteCheck(true)}
-          className="rounded-md bg-red-500 p-2"
-        >
-          delete job
-        </button>
+        <div className="rounded-md bg-accent">
+          <button
+            onClick={() => setDeleteCheck(true)}
+            className="rounded-md bg-zinc-900 bg-opacity-20 p-2 text-zinc-100"
+          >
+            delete job
+          </button>
+        </div>
       )}
     </>
   );
@@ -178,7 +184,7 @@ const DeleteMedia = ({ job, objectKey }: { job: Jobs; objectKey: string }) => {
           </button>
           <button
             onClick={() => setDeleteCheck(false)}
-            className="rounded-md bg-red-500 p-2"
+            className="rounded-md bg-emerald-500 p-2"
           >
             no
           </button>
