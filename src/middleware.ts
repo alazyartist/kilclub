@@ -7,12 +7,15 @@ export default authMiddleware({
   publicRoutes: [
     "/",
     "/api/webhooks/(.*)",
-    "/api/trpc/business.getBusinesses",
+    "/api/trpc/business.getBusinesses(.*)",
     "/api/trpc/business.getBusinesWithJobs",
     "/api/trpc/business.findBusinessSearch",
+    "/api/trpc/category.getCategories(.*)",
     "/api/trpc/jobs.findReviews",
     "/api/trpc/jobs.makeReview",
+    "/search(.*)",
     "/testing",
+    "/pricing",
     "/review",
   ],
 });
