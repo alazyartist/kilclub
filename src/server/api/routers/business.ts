@@ -67,7 +67,13 @@ export const businessRouter = createTRPCRouter({
       const results = await ctx.prisma.businessInfo.findMany({
         where: { zip_code: { contains: input.query } },
       });
-      return results;
+      const catresults = await ctx.prisma.category.findMany({
+        include: { BusinessesCategories: { include: { Business: true } } },
+      });
+      const busResults = catresults
+        .filter((c) => c.name.toLowerCase().includes(input.query))
+        .flatMap((c) => c.BusinessesCategories.map((bc) => bc.Business));
+      return [...results, ...busResults];
     }),
   saveBusinessCategories: protectedProcedure
     .input(

@@ -5,15 +5,21 @@ import {
   autocomplete,
 } from "@algolia/autocomplete-js";
 import "@algolia/autocomplete-theme-classic";
-import { BusinessInfo } from "@prisma/client";
+import { BusinessInfo, Category } from "@prisma/client";
 import { useRouter } from "next/router";
+import { api } from "~/utils/api";
 
-type ItemType = BusinessInfo;
+type ItemType = Category | BusinessInfo;
 type AutoCompleteProps = {
   props?: Partial<AutocompleteOptions<ItemType>>;
   businesses: BusinessInfo[];
+  categories: Category[];
 };
-const AutoComplete: React.FC<AutoCompleteProps> = ({ props, businesses }) => {
+const AutoComplete: React.FC<AutoCompleteProps> = ({
+  props,
+  businesses,
+  categories,
+}) => {
   const autocompleteRef = useRef(null);
   const panelRootRef = useRef(null);
   const rootRef = useRef(null);
@@ -25,7 +31,10 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ props, businesses }) => {
     }
 
     const search = autocomplete({
+      openOnFocus: true,
+      debug: true,
       detachedMediaQuery: "none",
+      classNames: { panel: " h-[50vh] " },
       onSubmit: ({ state: { query } }) => router.push(`/search?sq=${query}`),
       container: autocompleteRef.current,
       renderer: { createElement, Fragment, render: () => {} },
@@ -38,31 +47,61 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ props, businesses }) => {
         }
         panelRootRef.current.render(children);
       },
+
       getSources: ({ query }) => {
         return [
           {
-            sourceId: "businesses",
+            sourceId: "categories",
             templates: {
               item({ item }) {
-                return (
-                  <div className="flex justify-between">
-                    <p>{item?.business_name}</p>
-                    <p>{item.zip_code}</p>
-                  </div>
-                );
+                if ("category_id" in item) {
+                  return (
+                    <div className="flex justify-between">
+                      <p>{item?.name}</p>
+                    </div>
+                  );
+                }
               },
             },
             onSelect(params) {
               const { item, setQuery } = params;
               //handle select from search here
-              router.push(`/business?bid=${item.business_id}`);
             },
             getItems() {
               const pattern = getQueryPattern(query);
-              if (!businesses) return [];
-              return businesses.filter((t) => pattern.test(t.zip_code));
+              if (!categories) return [];
+              if (query.length > 0) {
+                return categories.filter((t) => pattern.test(t.name));
+              } else return categories;
             },
           },
+          // {
+          //   sourceId: "businesses",
+          //   templates: {
+          //     item({ item }) {
+          //       if ("business_name" in item) {
+          //         return (
+          //           <div className="flex justify-between">
+          //             <p>{item?.business_name}</p>
+          //             <p>{item.zip_code}</p>
+          //           </div>
+          //         );
+          //       }
+          //     },
+          //   },
+          //   onSelect(params) {
+          //     const { item, setQuery } = params;
+          //     //handle select from search here
+          //     if ("business_id" in item) {
+          //       router.push(`/business?bid=${item.business_id}`);
+          //     }
+          //   },
+          //   getItems() {
+          //     const pattern = getQueryPattern(query);
+          //     if (!businesses) return [];
+          //     return businesses.filter((t) => pattern.test(t.zip_code));
+          //   },
+          // },
         ];
       },
       ...props,

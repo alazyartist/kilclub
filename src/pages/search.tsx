@@ -1,3 +1,5 @@
+import { BusinessInfo } from "@prisma/client";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { api } from "~/utils/api";
@@ -27,10 +29,22 @@ const SearchResults = ({ query }: { query: string }) => {
   return (
     <div>
       {data.map((business) => (
-        <a href={`/business/${business.business_id}`} className="flex flex-col w-full">
-          <div key={business.business_id}>{business.business_name}</div>
-        </a>
+        <Link
+          href={`/business/${business.business_id}`}
+          className="flex w-full flex-col"
+        >
+          <BusinessSearchDisplay business={business} />
+        </Link>
       ))}
+    </div>
+  );
+};
+
+const BusinessSearchDisplay = ({ business }: { business: BusinessInfo }) => {
+  return (
+    <div className="rounded-md bg-zinc-200 p-2" key={business.business_id}>
+      <p>{business.business_name}</p>
+      <p className="text-xs">{business.phone_number}</p>
     </div>
   );
 };

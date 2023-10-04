@@ -4,6 +4,7 @@ import { api } from "~/utils/api";
 
 const SearchBar = () => {
   const { data: businesses } = api.business.getBusinesses.useQuery();
+  const { data: categories } = api.category.getCategories.useQuery();
 
   return (
     <div className="lg:pl-36">
@@ -21,6 +22,7 @@ const SearchBar = () => {
       /> */}
         <AutoComplete
           businesses={businesses}
+          categories={categories}
           props={{
             autoFocus: true,
             placeholder: "zip-code",
