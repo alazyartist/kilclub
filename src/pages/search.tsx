@@ -31,7 +31,7 @@ const SearchResults = ({ query }: { query: string }) => {
       {data.map((business) => (
         <Link
           href={`/business/${business.business_id}`}
-          className="flex w-full flex-col"
+          className="flex w-full flex-col p-2"
         >
           <BusinessSearchDisplay business={business} />
         </Link>
@@ -45,6 +45,9 @@ const BusinessSearchDisplay = ({ business }: { business: BusinessInfo }) => {
     <div className="rounded-md bg-zinc-200 p-2" key={business.business_id}>
       <p>{business.business_name}</p>
       <p className="text-xs">{business.phone_number}</p>
+      <p className="text-xs">
+        {1 + Math.floor(Math.random() * 6)} jobs completed
+      </p>
     </div>
   );
 };

@@ -76,7 +76,7 @@ const UploadMediaForm = ({ job_id }: { job_id: string }) => {
         }}
         className="aspect-square h-full w-full rounded-md bg-accent-light p-2 text-5xl font-black drop-shadow-md"
       >
-        +
+        +<p className="text-xs font-normal">add media</p>
       </button>
     </form>
   );
