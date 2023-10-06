@@ -54,6 +54,7 @@ const Posting: React.FC<PostingProps> = ({
               .slice(0, 1)
               .map((photo, index) => (
                 <Image
+                  width={200}
                   className="aspect-square object-cover"
                   key={photo}
                   height={200}

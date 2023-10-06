@@ -17,6 +17,7 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: { domains: ["img.clerk.com", "keep-it-local-club.s3.amazonaws.com"] },
 };
 
 export default config;

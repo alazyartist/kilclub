@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { api } from "~/utils/api";
 import JobPosting from "~/components/JobPosting";
-import JobCategories from "~/components/jobs/JobCategories";
+import BusinessCategories from "~/components/jobs/BusinessCategories";
 import { type GetMyBusiness } from "~/utils/RouterTypes";
 const Logo = ({ business }: { business: GetMyBusiness }) => {
   return (
@@ -26,7 +26,7 @@ const Profile = () => {
     <div className="flex-coll -center gap-8 space-y-2 py-2">
       <Logo business={business} />
 
-      <JobCategories
+      <BusinessCategories
         filter={filter}
         setFilter={setFilter}
         business={business}

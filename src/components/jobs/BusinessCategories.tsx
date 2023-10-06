@@ -11,7 +11,7 @@ type BusinessType = {
   filter: string;
 };
 
-const JobCategories: React.FC<BusinessType> = ({
+const BusinessCategories: React.FC<BusinessType> = ({
   business,
   setFilter,
   filter,
@@ -68,4 +68,4 @@ const JobCategories: React.FC<BusinessType> = ({
   );
 };
 
-export default JobCategories;
+export default BusinessCategories;
