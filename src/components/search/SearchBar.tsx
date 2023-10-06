@@ -25,7 +25,7 @@ const SearchBar = () => {
           categories={categories}
           props={{
             autoFocus: true,
-            placeholder: "zip-code",
+            placeholder: "how can we help?",
           }}
         />
         <button className="text-m rounded-md bg-accent px-5 py-3 font-bold text-white">

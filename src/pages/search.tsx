@@ -9,8 +9,9 @@ const Search = () => {
   const { sq: query } = router.query;
   return (
     <div className="flex w-full flex-col">
-      <p className="w-full bg-accent p-4 text-center text-lg text-zinc-100">
-        Here's what we found
+      <p className="w-ful p-4 text-center text-lg text-zinc-800">
+        Here's what we found for:{" "}
+        <span className="font-bold underline">{query}</span>
       </p>
       <SearchResults query={Array.isArray(query) ? query[0] : query} />
     </div>
@@ -23,7 +24,7 @@ const SearchResults = ({ query }: { query: string }) => {
   const { data } = api.business.findBusinessSearch.useQuery({ query: query });
   if (!data) return <div>Loading Search</div>;
   if (data.length < 1) {
-    return <div>No results for {query}</div>;
+    return <div className="w-full text-center">No results for {query}</div>;
   }
 
   return (

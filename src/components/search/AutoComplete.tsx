@@ -32,7 +32,6 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
 
     const search = autocomplete({
       openOnFocus: true,
-      debug: true,
       detachedMediaQuery: "none",
       classNames: { panel: " h-[50vh] " },
       onSubmit: ({ state: { query } }) => router.push(`/search?sq=${query}`),
