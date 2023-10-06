@@ -29,8 +29,10 @@ const JobCategories: React.FC<BusinessType> = ({
             <div
               key={c.Category.category_id}
               className={`${
-                filter === c.Category.name ? "shadow-accent-light" : ""
-              } strong flex-grow cursor-pointer rounded-md bg-base-light px-2 py-1 text-center font-sans text-lg text-black shadow-md shadow-zinc-500`}
+                filter === c.Category.name
+                  ? "-light shadow-accent-light "
+                  : "shadow-zinc-500"
+              } strong flex-grow cursor-pointer rounded-md bg-base-light px-2 py-1 text-center font-sans text-lg text-black shadow-md `}
               onClick={() => {
                 setFilter((prev) =>
                   prev !== c.Category.name ? c.Category.name : "",

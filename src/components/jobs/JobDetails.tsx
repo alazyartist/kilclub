@@ -34,6 +34,11 @@ const JobDetails = ({
             <>
               <div className="flex justify-between">
                 <div>
+                  <div>
+                    {job.Categories.map((c) => (
+                      <p>{c.Category.name}</p>
+                    ))}
+                  </div>
                   <span onClick={() => setShowDetails(false)}>
                     {job.customer_phone_number}{" "}
                   </span>
@@ -102,7 +107,7 @@ const JobDetails = ({
           )}
         </div>
         {showDetails && (
-          <div className=" flex justify-between rounded-md bg-base-light p-2">
+          <div className=" flex justify-between gap-2 rounded-md bg-base-light py-2">
             {/* <UploadMediaForm job_id={job.job_id} /> */}
             {!job.isCompleted ? (
               <button
