@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { GetCategories } from "~/utils/RouterTypes";
+import { type GetCategories } from "~/utils/RouterTypes";
 import { api } from "~/utils/api";
 
 const CategoryPopup = ({
@@ -64,6 +64,7 @@ const CategoryPopup = ({
               {selected.length > 0 &&
                 selected.map((name) => (
                   <p
+                    key={name}
                     onClick={() =>
                       setSelected((prev) => prev.filter((p) => p !== name))
                     }
@@ -100,6 +101,7 @@ const CategoryPopup = ({
                             child.Child?.name &&
                             openCats.includes(c.name) && (
                               <p
+                                key={c.name}
                                 onClick={() => {
                                   setSelected((prev) =>
                                     selected.some((e) =>

@@ -1,4 +1,4 @@
-import { BusinessInfo } from "@prisma/client";
+import { type BusinessInfo } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -10,7 +10,7 @@ const Search = () => {
   return (
     <div className="flex w-full flex-col">
       <p className="w-ful p-4 text-center text-lg text-zinc-800">
-        Here's what we found for:{" "}
+        Here&apos;s what we found for:{" "}
         <span className="font-bold underline">{query}</span>
       </p>
       <SearchResults query={Array.isArray(query) ? query[0] : query} />
@@ -31,6 +31,7 @@ const SearchResults = ({ query }: { query: string }) => {
     <div>
       {data.map((business) => (
         <Link
+          key={business.business_id}
           href={`/business/${business.business_id}`}
           className="flex w-full flex-col p-2"
         >

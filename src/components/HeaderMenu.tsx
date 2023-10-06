@@ -5,6 +5,7 @@ import {
   SignedOut,
   useUser,
 } from "@clerk/nextjs";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { api } from "~/utils/api";
@@ -76,7 +77,7 @@ const PrivateMenu = ({
               href="/account"
               title={
                 <div className="-center flex gap-2">
-                  <img
+                  <Image
                     alt="user_profile_picture"
                     width={100}
                     height={100}

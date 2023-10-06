@@ -4,7 +4,7 @@ import { api } from "~/utils/api";
 import JobCreationForm from "~/forms/JobCreationForm";
 import BusinessDetail from "~/components/jobs/BusinessDetail";
 import JobDetails from "~/components/jobs/JobDetails";
-import { GetCategories } from "~/utils/RouterTypes";
+import { type GetCategories } from "~/utils/RouterTypes";
 
 const Jobs = () => {
   const { data: user } = api.user.getUser.useQuery();

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ImageModal from "./ImageModal";
-import { Category } from "@prisma/client";
+import type { Category } from "@prisma/client";
+import Image from "next/image";
 
 interface PostingProps {
   location?: string;
@@ -12,19 +13,19 @@ interface PostingProps {
 }
 
 const Posting: React.FC<PostingProps> = ({
-  location,
-  zipcode,
+  // location,
+  // zipcode,
   star_rating,
   date,
   photos,
   jobCategories,
 }) => {
-  const [showLocation, setShowLocation] = useState(true);
+  // const [showLocation, setShowLocation] = useState(true);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const toggleLocation = () => {
-    setShowLocation((prevShowLocation) => !prevShowLocation);
-  };
+  // const toggleLocation = () => {
+  //   setShowLocation((prevShowLocation) => !prevShowLocation);
+  // };
 
   const openImageModal = (imageUrl: string) => {
     setSelectedImage(imageUrl);
@@ -52,7 +53,7 @@ const Posting: React.FC<PostingProps> = ({
             photos
               .slice(0, 1)
               .map((photo, index) => (
-                <img
+                <Image
                   className="aspect-square object-cover"
                   key={photo}
                   height={200}
@@ -66,7 +67,7 @@ const Posting: React.FC<PostingProps> = ({
             photos
               .slice(1, 3)
               .map((photo, index) => (
-                <img
+                <Image
                   className="aspect-square object-cover"
                   key={photo}
                   width={200}
@@ -82,7 +83,7 @@ const Posting: React.FC<PostingProps> = ({
             photos
               .slice(3)
               .map((photo, index) => (
-                <img
+                <Image
                   className="aspect-square object-cover"
                   key={photo}
                   width={100}

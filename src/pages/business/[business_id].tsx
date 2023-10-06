@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import JobPosting from "~/components/JobPosting";
-import JobDetails from "~/components/jobs/JobDetails";
-import { BusinessInfo, Jobs } from "@prisma/client";
 import JobCategories from "~/components/jobs/JobCategories";
+import { type GetMyBusiness } from "~/utils/RouterTypes";
 
-const Logo = ({ business }: { business: BusinessInfo & { Jobs: Jobs[] } }) => {
+const Logo = ({ business }: { business: GetMyBusiness }) => {
   return (
     <div className=" flex-coll -center max-h-[20vh] max-w-[80vw] rounded-lg bg-accent p-4 text-white">
       <span className="text-center text-4xl font-bold">

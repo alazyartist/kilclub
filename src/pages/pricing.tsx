@@ -29,7 +29,10 @@ const PriceBreakdown = () => {
       >
         <p className="border-b-2 border-zinc-800 font-bold">features</p>
         {pricingItems.map((a) => (
-          <p className="h-[70px]  rounded-md p-2 text-sm odd:bg-zinc-300">
+          <p
+            key={a.feature}
+            className="h-[70px]  rounded-md p-2 text-sm odd:bg-zinc-300"
+          >
             {a.feature}
           </p>
         ))}
@@ -39,7 +42,10 @@ const PriceBreakdown = () => {
       >
         <p className="text-center">Basic</p>
         {pricingItems.map((a) => (
-          <div className="flex h-[70px] w-full place-content-center place-items-center rounded-md p-2 text-center odd:bg-zinc-300">
+          <div
+            key={`tier1${a.feature}`}
+            className="flex h-[70px] w-full place-content-center place-items-center rounded-md p-2 text-center odd:bg-zinc-300"
+          >
             <p>
               {a.tier1 === "yes" ? (
                 <MdCheckCircle className={"text-3xl text-emerald-500"} />
@@ -55,7 +61,10 @@ const PriceBreakdown = () => {
       >
         <p className="text-center">Premium</p>
         {pricingItems.map((a) => (
-          <div className="flex  h-[70px] w-full place-content-center place-items-center rounded-md p-2 odd:bg-zinc-300">
+          <div
+            key={`tier2${a.feature}`}
+            className="flex  h-[70px] w-full place-content-center place-items-center rounded-md p-2 odd:bg-zinc-300"
+          >
             <p>
               {a.tier2 === "yes" ? (
                 <MdCheckCircle className={"text-3xl text-emerald-500"} />

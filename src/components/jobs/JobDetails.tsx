@@ -4,7 +4,8 @@ import { useState } from "react";
 import UploadMediaForm from "~/forms/UploadMediaForm";
 import { api } from "~/utils/api";
 import CategoryPopup from "../account/CategoryPopup";
-import { GetCategories, GetJobs } from "~/utils/RouterTypes";
+import type { GetCategories, GetJobs } from "~/utils/RouterTypes";
+import Image from "next/image";
 type JobType = GetJobs[0];
 const JobDetails = ({
   job,
@@ -36,7 +37,7 @@ const JobDetails = ({
                 <div>
                   <div>
                     {job.Categories.map((c) => (
-                      <p>{c.Category.name}</p>
+                      <p key={c.id}>{c.Category.name}</p>
                     ))}
                   </div>
                   <span onClick={() => setShowDetails(false)}>
@@ -73,7 +74,7 @@ const JobDetails = ({
                           key={img}
                           className="relative flex flex-col items-center"
                         >
-                          <img
+                          <Image
                             onClick={() => router.push(`?image=${img}`)}
                             alt={`job_detail_${img}`}
                             className="aspect-square h-full w-full rounded-md object-cover drop-shadow-md"
@@ -150,7 +151,7 @@ const ImagePopover = ({ image }) => {
   return (
     <div className="flex-coll -center absolute left-0 top-0 h-screen w-screen ">
       <div className="z-10 max-h-[95vh] max-w-[95vw]">
-        <img
+        <Image
           alt={`popover_${image}`}
           className="obj h-full w-full rounded-md object-contain"
           src={image}

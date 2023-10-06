@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 interface ImageModalProps {
@@ -7,19 +8,22 @@ interface ImageModalProps {
 
 const ImageModal: React.FC<ImageModalProps> = ({ imageUrl, onClose }) => {
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-md bg-black bg-opacity-60 z-50">
+    <div className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black bg-opacity-60 backdrop-blur-md">
       <button
-        className="absolute top-2 right-4 text-white text-2xl"
+        className="absolute right-4 top-2 text-2xl text-white"
         onClick={onClose}
       >
         X
       </button>
       <div className="relative p-6">
-        <img className="object-contain max-w-[95vw] max-h-[95vh]" src={imageUrl} alt="Modal" />
+        <Image
+          className="max-h-[95vh] max-w-[95vw] object-contain"
+          src={imageUrl}
+          alt="Modal"
+        />
       </div>
     </div>
   );
 };
 
 export default ImageModal;
-

@@ -1,9 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import { BusinessInfo, Category, Jobs } from "@prisma/client";
 import CategoryPopup from "../account/CategoryPopup";
 import { api } from "~/utils/api";
-import { GetBusinessWithJobs, GetMyBusiness } from "~/utils/RouterTypes";
+import type { GetBusinessWithJobs, GetMyBusiness } from "~/utils/RouterTypes";
 
 // TEMP CATEGORIES
 type BusinessType = {

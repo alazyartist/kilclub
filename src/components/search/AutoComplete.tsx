@@ -5,9 +5,8 @@ import {
   autocomplete,
 } from "@algolia/autocomplete-js";
 import "@algolia/autocomplete-theme-classic";
-import { BusinessInfo, Category } from "@prisma/client";
+import type { BusinessInfo, Category } from "@prisma/client";
 import { useRouter } from "next/router";
-import { api } from "~/utils/api";
 
 type ItemType = Category | BusinessInfo;
 type AutoCompleteProps = {
@@ -15,11 +14,7 @@ type AutoCompleteProps = {
   businesses: BusinessInfo[];
   categories: Category[];
 };
-const AutoComplete: React.FC<AutoCompleteProps> = ({
-  props,
-  businesses,
-  categories,
-}) => {
+const AutoComplete: React.FC<AutoCompleteProps> = ({ props, categories }) => {
   const autocompleteRef = useRef(null);
   const panelRootRef = useRef(null);
   const rootRef = useRef(null);
@@ -63,7 +58,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
               },
             },
             onSelect(params) {
-              const { item, setQuery } = params;
+              const { item } = params;
               if ("category_id" in item) {
                 return router.push(`/search?sq=${item.category_id}`);
               }
