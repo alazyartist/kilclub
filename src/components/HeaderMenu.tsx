@@ -75,13 +75,16 @@ const PrivateMenu = ({
               close={close}
               href="/account"
               title={
-                <img
-                  alt="user_profile_picture"
-                  width={100}
-                  height={100}
-                  className="h-8 w-8 rounded-full"
-                  src={clerkUser.user?.imageUrl}
-                />
+                <div className="-center flex gap-2">
+                  <img
+                    alt="user_profile_picture"
+                    width={100}
+                    height={100}
+                    className="h-8 w-8 rounded-full"
+                    src={clerkUser.user?.imageUrl}
+                  />
+                  <p>Manage Account</p>
+                </div>
               }
             />
           </div>

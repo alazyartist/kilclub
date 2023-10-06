@@ -65,6 +65,9 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
             },
             onSelect(params) {
               const { item, setQuery } = params;
+              if ("category_id" in item) {
+                return router.push(`/search?sq=${item.category_id}`);
+              }
               //handle select from search here
             },
             getItems() {
