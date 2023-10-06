@@ -8,10 +8,12 @@ const CategoryPopup = ({
   type,
   startCategories,
   business_id,
+  job_id,
 }: {
   type: "business" | "job";
   categories: GetCategories;
   business_id: string;
+  job_id?: string;
   startCategories: string[];
   close: React.Dispatch<React.SetStateAction<Boolean>>;
 }) => {
@@ -19,26 +21,36 @@ const CategoryPopup = ({
   const [openCats, setOpenCats] = useState<Array<string>>([]);
   const { mutate: saveBusinessCateories } =
     api.business.saveBusinessCategories.useMutation();
+  const { mutate: saveJobCateories } = api.jobs.saveJobCategories.useMutation();
 
   const handleSave = async () => {
+    const activeCategories = categories.filter((c) =>
+      selected.includes(c.name),
+    );
     if (type === "business") {
-      console.log(categories.filter((c) => selected.includes(c.name)));
+      console.log(activeCategories);
       saveBusinessCateories({
         business_id: business_id,
-        categories: categories.filter((c) => selected.includes(c.name)),
+        categories: activeCategories,
       });
       close(false);
       //businessCategory save logic
     } else if (type === "job") {
       //jobCategory save logic
+      saveJobCateories({
+        business_id: business_id,
+        job_id: job_id,
+        categories: activeCategories,
+      });
+      close(false);
     }
   };
 
   return (
     <>
       {categories && (
-        <div className="absolute left-[0] top-[0vh] h-[100vh] w-[100vw] space-y-3 overflow-y-scroll rounded-md p-2 backdrop-blur-md">
-          <div className="sticky top-1 z-10 h-[20vh] w-full space-y-2 overflow-y-scroll rounded-md bg-zinc-800 p-2">
+        <div className="minimalistScroll absolute left-[0] top-[0vh] z-10 h-[100vh] w-[100vw] space-y-3 overflow-y-scroll rounded-md p-2 backdrop-blur-md">
+          <div className="minimalistScroll sticky top-1 z-20 h-[20vh] w-full space-y-2 overflow-y-scroll rounded-md bg-zinc-800 p-2">
             <div
               className="top-2s absolute right-4 z-20 text-xl font-black text-zinc-200"
               onClick={() => close(false)}
@@ -62,7 +74,7 @@ const CategoryPopup = ({
                 ))}
             </div>
           </div>
-          <div className="h-[75vh] overflow-scroll rounded-md bg-zinc-200">
+          <div className="minimalistScroll h-[75vh] overflow-y-scroll rounded-md bg-zinc-200">
             {categories.map(
               (c) =>
                 c.type === "base" && (

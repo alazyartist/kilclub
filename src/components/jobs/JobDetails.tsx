@@ -3,9 +3,22 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import UploadMediaForm from "~/forms/UploadMediaForm";
 import { api } from "~/utils/api";
-
-const JobDetails = ({ job, visible }: { job: Jobs; visible?: boolean }) => {
+import CategoryPopup from "../account/CategoryPopup";
+import { GetCategories, GetJobs } from "~/utils/RouterTypes";
+type JobType = GetJobs[0];
+const JobDetails = ({
+  job,
+  visible,
+  allCategories,
+  business_id,
+}: {
+  job: JobType;
+  visible?: boolean;
+  allCategories: GetCategories;
+  business_id: string;
+}) => {
   const [showDetails, setShowDetails] = useState(visible);
+  const [categoryFormOpen, setCategoryFormOpen] = useState(false);
   const { mutate: markComplete } = api.jobs.markComplete.useMutation();
   const router = useRouter();
   const image = router.query.image;
@@ -47,7 +60,7 @@ const JobDetails = ({ job, visible }: { job: Jobs; visible?: boolean }) => {
                 </div>
               </div>
               {Array.isArray(job.media) ? (
-                <div className="grid h-full w-full grid-cols-3 gap-2">
+                <div className="grid h-full w-full grid-cols-3 gap-2 lg:grid-cols-8">
                   {job.media.map((img) => {
                     if (typeof img === "string") {
                       return (
@@ -71,7 +84,7 @@ const JobDetails = ({ job, visible }: { job: Jobs; visible?: boolean }) => {
                   <UploadMediaForm job_id={job.job_id} />
                 </div>
               ) : (
-                <div className="grid h-full w-full grid-cols-3 gap-2">
+                <div className="grid h-full w-full grid-cols-3 gap-2 lg:grid-cols-8">
                   <UploadMediaForm job_id={job.job_id} />
                 </div>
               )}
@@ -101,10 +114,26 @@ const JobDetails = ({ job, visible }: { job: Jobs; visible?: boolean }) => {
             ) : (
               <p className="p-2">Completed</p>
             )}
+            <button
+              onClick={() => setCategoryFormOpen(true)}
+              className="rounded-md bg-zinc-900 bg-opacity-30 p-2"
+            >
+              Manage Categories
+            </button>
             <DeleteJob job={job} />
           </div>
         )}
       </div>
+      {categoryFormOpen && (
+        <CategoryPopup
+          type="job"
+          job_id={job.job_id}
+          close={setCategoryFormOpen}
+          categories={allCategories}
+          startCategories={job.Categories.map((c) => c.Category.name)}
+          business_id={business_id}
+        />
+      )}
     </>
   );
 };
