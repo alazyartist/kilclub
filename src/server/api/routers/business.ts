@@ -14,7 +14,10 @@ export const businessRouter = createTRPCRouter({
         const businesses = await ctx.prisma.businessInfo.findUnique({
           where: { business_id: input.business_id },
           include: {
-            Jobs: { include: { Categories: { include: { Category: true } } } },
+            Jobs: {
+              orderBy: { date: "desc" },
+              include: { Categories: { include: { Category: true } } },
+            },
             Categories: { include: { Category: true } },
           },
         });
@@ -35,7 +38,11 @@ export const businessRouter = createTRPCRouter({
       const businesses = await ctx.prisma.businessInfo.findUnique({
         where: { business_id: user.business_id },
         include: {
-          Jobs: { include: { Categories: { include: { Category: true } } } },
+          Jobs: {
+            orderBy: { date: "desc" },
+
+            include: { Categories: { include: { Category: true } } },
+          },
           Categories: { include: { Category: true } },
         },
       });

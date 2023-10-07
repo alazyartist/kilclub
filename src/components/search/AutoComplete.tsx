@@ -5,28 +5,24 @@ import {
   autocomplete,
 } from "@algolia/autocomplete-js";
 import "@algolia/autocomplete-theme-classic";
-import { BusinessInfo, Category } from "@prisma/client";
+import type { BusinessInfo, Category } from "@prisma/client";
 import { useRouter } from "next/router";
-import { api } from "~/utils/api";
+import type { GetCategories } from "~/utils/RouterTypes";
 
 type ItemType = Category | BusinessInfo;
 type AutoCompleteProps = {
   props?: Partial<AutocompleteOptions<ItemType>>;
   businesses: BusinessInfo[];
-  categories: Category[];
+  categories: GetCategories;
 };
-const AutoComplete: React.FC<AutoCompleteProps> = ({
-  props,
-  businesses,
-  categories,
-}) => {
+const AutoComplete: React.FC<AutoCompleteProps> = ({ props, categories }) => {
   const autocompleteRef = useRef(null);
   const panelRootRef = useRef(null);
   const rootRef = useRef(null);
   const router = useRouter();
 
   useEffect(() => {
-    if (!autocompleteRef.current) {
+    if (!autocompleteRef.current || !categories) {
       return undefined;
     }
 
@@ -48,10 +44,15 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
       },
 
       getSources: ({ query }) => {
-        return [
-          {
-            sourceId: "categories",
+        let groupCats = categories.filter((c) => c.type === "base");
+        console.log("gcat", groupCats);
+        const srces = groupCats.map((g) => {
+          return {
+            sourceId: g.name,
             templates: {
+              header({ items }) {
+                return <div className="font-bold underline">{g.name}</div>;
+              },
               item({ item }) {
                 if ("category_id" in item) {
                   return (
@@ -63,7 +64,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
               },
             },
             onSelect(params) {
-              const { item, setQuery } = params;
+              const { item } = params;
               if ("category_id" in item) {
                 return router.push(`/search?sq=${item.category_id}`);
               }
@@ -73,38 +74,79 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
               const pattern = getQueryPattern(query);
               if (!categories) return [];
               if (query.length > 0) {
-                return categories.filter((t) => pattern.test(t.name));
-              } else return categories;
+                return g.Children.map((c) => c.Child).filter((t) =>
+                  pattern.test(t.name),
+                );
+              } else return g.Children.map((c) => c.Child);
             },
-          },
-          // {
-          //   sourceId: "businesses",
-          //   templates: {
-          //     item({ item }) {
-          //       if ("business_name" in item) {
-          //         return (
-          //           <div className="flex justify-between">
-          //             <p>{item?.business_name}</p>
-          //             <p>{item.zip_code}</p>
-          //           </div>
-          //         );
-          //       }
-          //     },
-          //   },
-          //   onSelect(params) {
-          //     const { item, setQuery } = params;
-          //     //handle select from search here
-          //     if ("business_id" in item) {
-          //       router.push(`/business?bid=${item.business_id}`);
-          //     }
-          //   },
-          //   getItems() {
-          //     const pattern = getQueryPattern(query);
-          //     if (!businesses) return [];
-          //     return businesses.filter((t) => pattern.test(t.zip_code));
-          //   },
-          // },
-        ];
+          };
+        });
+        console.log("srces", srces);
+
+        return srces;
+        // [
+        // {
+        //   sourceId: "categories",
+        //   templates: {
+        //     header({ items }) {
+        //       console.log(items);
+        //       return (
+        //         <div className="font-bold underline">{items.length}</div>
+        //       );
+        //     },
+        //     item({ item }) {
+        //       if ("category_id" in item) {
+        //         return (
+        //           <div className="flex justify-between">
+        //             <p>{item?.name}</p>
+        //           </div>
+        //         );
+        //       }
+        //     },
+        //   },
+        //   onSelect(params) {
+        //     const { item } = params;
+        //     if ("category_id" in item) {
+        //       return router.push(`/search?sq=${item.category_id}`);
+        //     }
+        //     //handle select from search here
+        //   },
+        //   getItems() {
+        //     const pattern = getQueryPattern(query);
+        //     if (!categories) return [];
+        //     if (query.length > 0) {
+        //       return categories.filter((t) => pattern.test(t.name));
+        //     } else return categories;
+        //   },
+        // },
+        // {
+        //   sourceId: "businesses",
+        //   templates: {
+        //     item({ item }) {
+        //       if ("business_name" in item) {
+        //         return (
+        //           <div className="flex justify-between">
+        //             <p>{item?.business_name}</p>
+        //             <p>{item.zip_code}</p>
+        //           </div>
+        //         );
+        //       }
+        //     },
+        //   },
+        //   onSelect(params) {
+        //     const { item, setQuery } = params;
+        //     //handle select from search here
+        //     if ("business_id" in item) {
+        //       router.push(`/business?bid=${item.business_id}`);
+        //     }
+        //   },
+        //   getItems() {
+        //     const pattern = getQueryPattern(query);
+        //     if (!businesses) return [];
+        //     return businesses.filter((t) => pattern.test(t.zip_code));
+        //   },
+        // },
+        // ];
       },
       ...props,
     });

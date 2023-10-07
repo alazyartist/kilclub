@@ -1,9 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import { BusinessInfo, Category, Jobs } from "@prisma/client";
 import CategoryPopup from "../account/CategoryPopup";
 import { api } from "~/utils/api";
-import { GetBusinessWithJobs, GetMyBusiness } from "~/utils/RouterTypes";
+import type { GetBusinessWithJobs, GetMyBusiness } from "~/utils/RouterTypes";
 
 // TEMP CATEGORIES
 type BusinessType = {
@@ -12,7 +11,7 @@ type BusinessType = {
   filter: string;
 };
 
-const JobCategories: React.FC<BusinessType> = ({
+const BusinessCategories: React.FC<BusinessType> = ({
   business,
   setFilter,
   filter,
@@ -69,4 +68,4 @@ const JobCategories: React.FC<BusinessType> = ({
   );
 };
 
-export default JobCategories;
+export default BusinessCategories;

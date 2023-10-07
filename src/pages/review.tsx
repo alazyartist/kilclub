@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -6,7 +7,6 @@ import { api } from "~/utils/api";
 const Review = () => {
   const router = useRouter();
   const { pnid: phone_number } = router.query;
-  console.log(router.query);
   return (
     <div>
       <h1>{phone_number}</h1>
@@ -39,7 +39,7 @@ const ReviewList = ({ phone_number }) => {
                   if (typeof img === "string") {
                     return (
                       <div key={img} className="flex flex-col items-center">
-                        <img
+                        <Image
                           alt={`job_detail_${img}`}
                           className="aspect-square h-full w-full rounded-md object-cover"
                           src={img}
@@ -92,7 +92,7 @@ const ReviewForm = ({
 }) => {
   const { register, handleSubmit } = useForm<ReviewFormData>();
   const [isProblemSolved, setIsProblemSolved] = useState<boolean | null>(null);
-  const { mutate: makeReview, data } = api.jobs.makeReview.useMutation();
+  const { mutate: makeReview } = api.jobs.makeReview.useMutation();
   const handleFinalSubmit = (data: ReviewFormData) => {
     makeReview({
       review: data.review,

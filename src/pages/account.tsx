@@ -39,7 +39,7 @@ const SubscriptionDetails = ({
     if (billingPortalUrl) {
       router.push(billingPortalUrl);
     }
-  }, [billingPortalUrl]);
+  }, [billingPortalUrl, router]);
   if (!user)
     return (
       <div className="w-full text-center">User Information Loading...</div>

@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import JobPosting from "~/components/JobPosting";
-import JobDetails from "~/components/jobs/JobDetails";
-import { BusinessInfo, Jobs } from "@prisma/client";
-import JobCategories from "~/components/jobs/JobCategories";
-
-const Logo = ({ business }: { business: BusinessInfo & { Jobs: Jobs[] } }) => {
+import BusinessCategories from "~/components/jobs/BusinessCategories";
+import { type GetMyBusiness } from "~/utils/RouterTypes";
+const Logo = ({ business }: { business: GetMyBusiness }) => {
   return (
     <div className=" flex-coll -center max-h-[20vh] max-w-[80vw] rounded-lg bg-accent p-4 text-white">
       <span className="text-center text-4xl font-bold">
@@ -19,8 +16,6 @@ const Logo = ({ business }: { business: BusinessInfo & { Jobs: Jobs[] } }) => {
 };
 
 const Profile = () => {
-  const router = useRouter();
-  const { business_id } = router.query;
   const [filter, setFilter] = useState("");
   const { data: business } = api.business.getMyBusiness.useQuery();
   if (!business) return null;
@@ -31,7 +26,7 @@ const Profile = () => {
     <div className="flex-coll -center gap-8 space-y-2 py-2">
       <Logo business={business} />
 
-      <JobCategories
+      <BusinessCategories
         filter={filter}
         setFilter={setFilter}
         business={business}

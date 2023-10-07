@@ -14,7 +14,6 @@ const UpgradeCard: React.FC<UpgradeProps> = ({
   upgrade,
   cost,
   discount,
-  description,
   price_id,
 }) => {
   const { mutate, data: subscription } =

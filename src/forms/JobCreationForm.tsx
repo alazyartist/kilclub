@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { api } from "~/utils/api";
 import { formatPhoneNumber } from "./BusinessSetupForm";
 
@@ -29,7 +29,7 @@ const JobCreationForm = ({
   useEffect(() => {
     if (!data) return;
     if (data.status === "Job Created") setFormOpen(false);
-  }, [data]);
+  }, [data, setFormOpen]);
 
   return (
     <form

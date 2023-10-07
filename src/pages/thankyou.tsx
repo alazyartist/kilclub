@@ -13,7 +13,7 @@ const ThankYou = () => {
     } else {
       router.push("/");
     }
-  }, [user]);
+  }, [user, router]);
   return (
     <div className="flex-coll -center">
       <h1 className="text-center text-3xl font-bold">Welcome to the club</h1>

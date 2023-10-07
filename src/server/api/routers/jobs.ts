@@ -256,7 +256,7 @@ export const jobsRouter = createTRPCRouter({
                 category_id: category.category_id,
               },
             });
-            const savedBCat = await ctx.prisma.businessCategories.create({
+            await ctx.prisma.businessCategories.create({
               data: {
                 business_id: input.business_id,
                 category_id: category.category_id,
