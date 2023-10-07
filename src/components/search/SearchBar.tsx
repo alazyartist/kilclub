@@ -4,11 +4,15 @@ import { api } from "~/utils/api";
 
 const SearchBar = () => {
   const { data: businesses } = api.business.getBusinesses.useQuery();
+  const { data: categories } = api.category.getCategories.useQuery();
 
   return (
-    <div className="-center flex-row gap-4">
-      <label className="font-bold text-primary-dark">Zip Code: </label>
-      {/* <input
+    <div className="lg:pl-36">
+      <div className="-center w-fit flex-row gap-4 lg:place-content-start ">
+        {/* <label className="whitespace-nowrap font-bold text-primary-dark">
+        Zip Code:{" "}
+      </label> */}
+        {/* <input
         className="border-2 border-primary-dark"
         onKeyPress={(event) => {
           if (!/[0-9]/.test(event.key)) {
@@ -16,10 +20,19 @@ const SearchBar = () => {
           }
         }}
       /> */}
-      <AutoComplete businesses={businesses} props={{ autoFocus: true }} />
-      <button className="text-m rounded-full bg-primary-dark px-2 py-1 font-bold text-white">
-        Search
-      </button>
+        <AutoComplete
+          businesses={businesses}
+          categories={categories}
+          props={{
+            autoFocus: true,
+            placeholder: "how can we help?",
+          }}
+        />
+        <button className="text-m rounded-md bg-accent px-5 py-3 font-bold text-white">
+          Search
+        </button>
+      </div>
+      <p className="pl-8 text-xs tracking-wider">find a solution now</p>
     </div>
   );
 };

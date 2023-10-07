@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import ImageModal from "./ImageModal";
+import { Category } from "@prisma/client";
 
 interface PostingProps {
-  location: string;
-  zipcode: number;
+  location?: string;
+  zipcode: string;
   star_rating: number;
   date: Date;
   photos: string[];
+  jobCategories: Category[];
 }
 
 const Posting: React.FC<PostingProps> = ({
@@ -15,6 +17,7 @@ const Posting: React.FC<PostingProps> = ({
   star_rating,
   date,
   photos,
+  jobCategories,
 }) => {
   const [showLocation, setShowLocation] = useState(true);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -32,30 +35,31 @@ const Posting: React.FC<PostingProps> = ({
   };
 
   return (
-    <div className="flex-coll -center w-[80vw] pl-4 pr-4 text-black">
-      <span
-        className="font-strong w-full border-2 border-accent p-1 text-right text-2xl"
-        onClick={toggleLocation}
-      >
-        {showLocation ? zipcode : location}
-      </span>
-      <div className="w-full flex-row justify-around">
-        <span>{star_rating}/5</span>
-        <span>{date && date.toDateString()}</span>
+    <div className="flex-coll -center w-[95vw] rounded-lg border-2 border-accent text-white">
+      <div className="flex-coll font-strong w-full border-b-2 border-accent bg-accent p-1">
+        <span className="w-full text-center text-2xl font-bold">
+          {jobCategories.map((j) => j.name)}
+        </span>
+        <div className="w-full flex-row justify-around text-lg">
+          <span>{star_rating}/5</span>
+          <span>{date && date.toDateString()}</span>
+        </div>
       </div>
-      <div className="flex-coll minimalistScroll max-h-[256px] w-full justify-start gap-4 overflow-y-auto">
+
+      <div className="flex-coll minimalistScroll max-h-[460px] w-full justify-start gap-4 overflow-y-auto p-2">
         <div className="grid grid-cols-3 grid-rows-2 gap-4">
           {Array.isArray(photos) &&
             photos
               .slice(0, 1)
               .map((photo, index) => (
                 <img
-                  key={index}
+                  className="aspect-square object-cover"
+                  key={photo}
                   height={200}
-                  src={`./temp_photos/${photo}`}
+                  src={photo}
                   alt={`Photo ${index + 1}`}
                   style={{ gridColumn: "span 2", gridRow: "span 2" }}
-                  onClick={() => openImageModal(`./temp_photos/${photo}`)}
+                  onClick={() => openImageModal(photo)}
                 />
               ))}
           {Array.isArray(photos) &&
@@ -63,12 +67,13 @@ const Posting: React.FC<PostingProps> = ({
               .slice(1, 3)
               .map((photo, index) => (
                 <img
-                  key={index}
+                  className="aspect-square object-cover"
+                  key={photo}
                   width={200}
                   height={200}
-                  src={`./temp_photos/${photo}`}
+                  src={photo}
                   alt={`Photo ${index + 1}`}
-                  onClick={() => openImageModal(`./temp_photos/${photo}`)}
+                  onClick={() => openImageModal(photo)}
                 />
               ))}
         </div>
@@ -78,18 +83,18 @@ const Posting: React.FC<PostingProps> = ({
               .slice(3)
               .map((photo, index) => (
                 <img
-                  key={index}
+                  className="aspect-square object-cover"
+                  key={photo}
                   width={100}
                   height={100}
-                  src={`./temp_photos/${photo}`}
+                  src={photo}
                   alt={`Photo ${index + 1}`}
-                  onClick={() => openImageModal(`./temp_photos/${photo}`)}
+                  onClick={() => openImageModal(photo)}
                 />
               ))}
         </div>
       </div>
 
-      {/* Render the image modal if an image is selected */}
       {selectedImage && (
         <ImageModal imageUrl={selectedImage} onClose={closeImageModal} />
       )}

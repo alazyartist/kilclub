@@ -50,17 +50,23 @@ const UploadMediaForm = ({ job_id }: { job_id: string }) => {
   return (
     <form>
       {mediaFormOpen && (
-        <div className="absolute top-2 z-20 flex flex-col gap-2 rounded-md bg-accent-light p-4">
-          <input onChange={handleUpload} multiple type="file" />
-          <button
-            type="button"
-            onClick={() => {
-              setMediaFormOpen(false);
-            }}
-            className="rounded-md bg-red-500 p-2"
-          >
-            cancel
-          </button>
+        <div className="flex-coll -center absolute left-0 top-0 h-screen w-screen ">
+          <div className="absolute top-2 z-20 flex flex-col gap-2 rounded-md bg-accent-light p-4 drop-shadow-md ">
+            <input onChange={handleUpload} multiple type="file" />
+            <button
+              type="button"
+              onClick={() => {
+                setMediaFormOpen(false);
+              }}
+              className="rounded-md bg-zinc-900 bg-opacity-20 p-2 text-zinc-100"
+            >
+              cancel
+            </button>
+          </div>
+          <div
+            onClick={() => setMediaFormOpen(false)}
+            className="fixed left-0 top-0 z-[2] h-full w-full bg-zinc-900 bg-opacity-30 backdrop-blur-md"
+          />
         </div>
       )}
       <button
@@ -68,9 +74,9 @@ const UploadMediaForm = ({ job_id }: { job_id: string }) => {
         onClick={() => {
           setMediaFormOpen(true);
         }}
-        className="rounded-md bg-accent-light p-2"
+        className="aspect-square h-full w-full rounded-md bg-accent-light p-2 text-5xl font-black drop-shadow-md"
       >
-        Add Media
+        +<p className="text-xs font-normal">add media</p>
       </button>
     </form>
   );

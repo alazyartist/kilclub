@@ -50,6 +50,7 @@ export const jobsRouter = createTRPCRouter({
         const jobs = await ctx.prisma.jobs.findMany({
           where: { business_id: input.business_id },
           orderBy: { date: "desc" },
+          include: { Categories: { include: { Category: true } } },
         });
 
         return jobs;
@@ -222,6 +223,55 @@ export const jobsRouter = createTRPCRouter({
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "FAILE_TO_MARK_COMPLETE",
+        });
+      }
+    }),
+  saveJobCategories: protectedProcedure
+    .input(
+      z.object({
+        business_id: z.string(),
+        job_id: z.string(),
+        categories: z.array(
+          z.object({
+            category_id: z.string(),
+            name: z.string(),
+            type: z.string(),
+          }),
+        ),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      console.log(input);
+
+      try {
+        await ctx.prisma.jobCategories.deleteMany({
+          where: { job_id: input.job_id },
+        });
+
+        const savedCats = Promise.all(
+          input.categories.map(async (category) => {
+            const savedCat = await ctx.prisma.jobCategories.create({
+              data: {
+                job_id: input.job_id,
+                category_id: category.category_id,
+              },
+            });
+            const savedBCat = await ctx.prisma.businessCategories.create({
+              data: {
+                business_id: input.business_id,
+                category_id: category.category_id,
+              },
+            });
+            return savedCat;
+          }),
+        );
+
+        return savedCats;
+      } catch (err) {
+        console.log(err);
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "FAILED_TO_SAVE_CATEGORIES",
         });
       }
     }),
