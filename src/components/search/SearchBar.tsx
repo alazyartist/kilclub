@@ -24,7 +24,6 @@ const SearchBar = () => {
           businesses={businesses}
           categories={categories}
           props={{
-            autoFocus: true,
             placeholder: "how can we help?",
           }}
         />

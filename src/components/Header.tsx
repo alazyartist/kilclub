@@ -16,10 +16,13 @@ const Header = () => {
         </Link>
         <p
           onClick={() => openMenu((prev) => !prev)}
-          className="w-12 p-2 text-3xl font-bold lg:w-16"
+          className="w-12 p-2 text-3xl font-bold lg:hidden lg:w-16"
         >
           <HamburgerSVG />
         </p>
+        <div className="hidden lg:block">
+          <HeaderMenu close={openMenu} />
+        </div>
       </div>
       {isOpen && <HeaderMenu close={openMenu} />}
     </header>
