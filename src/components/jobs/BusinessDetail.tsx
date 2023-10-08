@@ -6,7 +6,7 @@ const BusinessDetail = ({ business_id }: { business_id: string }) => {
 
   return (
     businessInfo && (
-      <div className="flex w-full flex-col gap-1 rounded-b-md bg-accent p-2 text-zinc-100 ">
+      <div className="flex w-full flex-col gap-1 rounded-b-md bg-zinc-200 p-2 text-zinc-900 ">
         <div className="flex items-center justify-between lg:px-2">
           <p className="text-left text-lg font-bold">
             {businessInfo?.business_name}

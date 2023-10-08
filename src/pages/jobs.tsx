@@ -33,9 +33,11 @@ const Jobs = () => {
             <>
               <button
                 onClick={() => setFormOpen(true)}
-                className="rounded-md bg-accent p-2 text-zinc-100"
+                className="mr-4 place-self-end rounded-full bg-accent px-4 py-2 text-4xl font-bold text-zinc-100 lg:mr-8"
               >
-                Create Job
+                <div className="p-1">
+                  +<p className="hidden text-xs lg:block">add job</p>
+                </div>
               </button>
               <JobDisplay
                 allCategories={allCategories}

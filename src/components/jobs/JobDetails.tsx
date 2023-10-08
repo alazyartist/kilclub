@@ -20,7 +20,6 @@ const JobDetails = ({
 }) => {
   const [showDetails, setShowDetails] = useState(visible);
   const [categoryFormOpen, setCategoryFormOpen] = useState(false);
-  const { mutate: markComplete } = api.jobs.markComplete.useMutation();
   const router = useRouter();
   const image = router.query.image;
   return (
@@ -29,7 +28,7 @@ const JobDetails = ({
       <div>
         <div
           key={job.job_id}
-          className="relative min-w-[320px] rounded-md bg-accent p-2 text-zinc-100"
+          className="relative min-w-[320px] rounded-md border-4 border-zinc-200 bg-zinc-100 p-2 text-zinc-900"
         >
           {showDetails ? (
             <>
@@ -43,22 +42,12 @@ const JobDetails = ({
                   <span onClick={() => setShowDetails(false)}>
                     {job.customer_phone_number}{" "}
                   </span>
-                  <button
-                    onClick={() => {
-                      navigator.share({
-                        url: `http://keep-it-local-club.vercel.app/review?pnid=%2B${job.customer_phone_number.slice(
-                          1,
-                        )}`,
-                        title: `Review ${job.job_id}`,
-                      });
-
-                      console.log("gonna share");
-                    }}
-                  >
-                    share
-                  </button>
                 </div>
                 <div>
+                  <ActionsDropdown
+                    job={job}
+                    setCategoryFormOpen={setCategoryFormOpen}
+                  />
                   <h1 className="text-right text-lg">{job.zip_code}</h1>
                   <p className="text-right text-xs">
                     {job.date.toDateString()}
@@ -107,9 +96,8 @@ const JobDetails = ({
             </div>
           )}
         </div>
-        {showDetails && (
-          <div className=" flex justify-between gap-2 rounded-md bg-base-light py-2">
-            {/* <UploadMediaForm job_id={job.job_id} /> */}
+        {/* {showDetails && (
+          <div className=" flex justify-between gap-2 rounded-md border-4 border-zinc-200 bg-base-light px-1 py-2">
             {!job.isCompleted ? (
               <button
                 onClick={() => markComplete({ job_id: job.job_id })}
@@ -128,7 +116,7 @@ const JobDetails = ({
             </button>
             <DeleteJob job={job} />
           </div>
-        )}
+        )} */}
       </div>
       {categoryFormOpen && (
         <CategoryPopup
@@ -145,6 +133,64 @@ const JobDetails = ({
 };
 
 export default JobDetails;
+
+const ActionsDropdown = ({
+  job,
+  setCategoryFormOpen,
+}: {
+  job: Jobs;
+  setCategoryFormOpen: React.Dispatch<React.SetStateAction<Boolean>>;
+}) => {
+  const { mutate: markComplete } = api.jobs.markComplete.useMutation();
+  const [isOpen, setOpen] = useState(false);
+  return (
+    <div className="relative w-[129px] text-xs lg:w-[169px] lg:text-base lg:text-zinc-900">
+      {isOpen && (
+        <div className="absolute left-0 top-10 z-20 flex w-[129px] flex-col justify-between gap-2 rounded-md border-4 border-zinc-200 bg-base-light px-1 py-2 lg:w-[169px]">
+          {!job.isCompleted ? (
+            <button
+              onClick={() => markComplete({ job_id: job.job_id })}
+              className="whitespace-nowrap rounded-md bg-zinc-900 bg-opacity-20 p-2 "
+            >
+              Mark Complete
+            </button>
+          ) : (
+            <p className="p-2">Completed</p>
+          )}
+          <button
+            onClick={() => setCategoryFormOpen(true)}
+            className="whitespace-nowrap rounded-md bg-zinc-900 bg-opacity-30 p-2 "
+          >
+            Manage Categories
+          </button>
+          <button
+            onClick={() => {
+              navigator.share({
+                url: `http://keep-it-local-club.vercel.app/review?pnid=%2B${job.customer_phone_number.slice(
+                  1,
+                )}`,
+                title: `Review ${job.job_id}`,
+              });
+
+              console.log("gonna share");
+            }}
+          >
+            Request Review
+          </button>
+          <DeleteJob job={job} />
+        </div>
+      )}
+      <div>
+        <p
+          className="min-w-[69px] rounded-md bg-zinc-200 p-2"
+          onClick={() => setOpen((prev) => !prev)}
+        >
+          actions <span>v</span>
+        </p>
+      </div>
+    </div>
+  );
+};
 
 const ImagePopover = ({ image }) => {
   const router = useRouter();
@@ -192,7 +238,7 @@ const DeleteJob = ({ job }: { job: Jobs }) => {
         <div className="rounded-md bg-accent">
           <button
             onClick={() => setDeleteCheck(true)}
-            className="rounded-md bg-zinc-900 bg-opacity-20 p-2 text-zinc-100"
+            className="lg: w-full rounded-md bg-zinc-900 bg-opacity-20 p-2  text-zinc-100"
           >
             delete job
           </button>

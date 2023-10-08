@@ -34,10 +34,10 @@ const JobCreationForm = ({
   return (
     <form
       onSubmit={handleSubmit(handleFinalSubmit)}
-      className="flex-coll min-w-[320px] gap-2 rounded-md bg-accent p-2"
+      className="flex-coll min-w-[320px] gap-2 rounded-md bg-zinc-200 p-2"
     >
       <div className="flex justify-between">
-        <p className="pl-1 text-zinc-100">create new job</p>
+        <p className="pl-1 text-zinc-900">create new job</p>
         <button
           onClick={() => setFormOpen(false)}
           className="rounded-md bg-red-500 p-2 font-bold text-zinc-100"

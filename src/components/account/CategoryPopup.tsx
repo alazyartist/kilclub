@@ -49,8 +49,8 @@ const CategoryPopup = ({
   return (
     <>
       {categories && (
-        <div className="minimalistScroll absolute left-[0] top-[0vh] z-10 h-[100vh] w-[100vw] space-y-3 overflow-y-scroll rounded-md p-2 backdrop-blur-md">
-          <div className="minimalistScroll sticky top-1 z-20 h-[20vh] w-full space-y-2 overflow-y-scroll rounded-md bg-zinc-800 p-2">
+        <div className="minimalistScroll fixed left-[0] top-[0vh] z-30 h-[100vh] w-[100vw] space-y-3 overflow-y-scroll rounded-md p-2 backdrop-blur-md">
+          <div className="minimalistScroll sticky top-1 z-40 h-[20vh] w-full space-y-2 overflow-y-scroll rounded-md bg-zinc-800 p-2">
             <div
               className="top-2s absolute right-4 z-20 text-xl font-black text-zinc-200"
               onClick={() => close(false)}
