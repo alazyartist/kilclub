@@ -65,10 +65,10 @@ const PrivateMenu = ({
     <>
       {user && (
         <>
-          {!user?.subscription_id ||
-            (user.subscription_status === "canceled" && (
-              <MenuLink close={close} href="/upgrade" title="Upgrade" />
-            ))}
+          {(!user?.subscription_id ||
+            user.subscription_status !== "active") && (
+            <MenuLink close={close} href="/upgrade" title="Upgrade" />
+          )}
           {!user?.isBusiness && (
             <MenuLink close={close} href="/history" title="History" />
           )}

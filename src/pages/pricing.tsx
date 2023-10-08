@@ -4,7 +4,7 @@ import { MdCheckCircle, MdClose } from "~/components/icons/MdIcons";
 const Pricing = () => {
   return (
     <div className="p-2">
-      <div className="w-full bg-zinc-300 p-2">
+      <div className="w-full bg-zinc-200 p-2">
         <p className="text-center text-xl font-bold">Pricing</p>
       </div>
       <PriceBreakdown />
@@ -23,7 +23,7 @@ const PriceBreakdown = () => {
     { feature: "featured section", tier1: "no", tier2: "yes" },
   ];
   return (
-    <div className="grid grid-cols-3 gap-2 bg-zinc-200 p-4">
+    <div className="rouded-sm grid grid-cols-3 gap-2 border-[3px] border-zinc-200 bg-zinc-100 p-4">
       <div
         className={`space-y-2 grid-rows-[${pricingItems.length}] grid content-center items-center`}
       >
@@ -47,10 +47,8 @@ const PriceBreakdown = () => {
             className="flex h-[70px] w-full place-content-center place-items-center rounded-md p-2 text-center odd:bg-zinc-300"
           >
             <p>
-              {a.tier1 === "yes" ? (
+              {a.tier1 === "yes" && (
                 <MdCheckCircle className={"text-3xl text-emerald-500"} />
-              ) : (
-                <MdClose className={"text-3xl text-red-500"} />
               )}
             </p>
           </div>
@@ -66,10 +64,8 @@ const PriceBreakdown = () => {
             className="flex  h-[70px] w-full place-content-center place-items-center rounded-md p-2 odd:bg-zinc-300"
           >
             <p>
-              {a.tier2 === "yes" ? (
+              {a.tier2 === "yes" && (
                 <MdCheckCircle className={"text-3xl text-emerald-500"} />
-              ) : (
-                <MdClose className={"text-3xl text-red-500"} />
               )}
             </p>
           </div>

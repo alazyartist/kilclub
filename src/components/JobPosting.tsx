@@ -36,7 +36,7 @@ const Posting: React.FC<PostingProps> = ({
   };
 
   return (
-    <div className="flex-coll -center w-[95vw] rounded-lg border-2 border-accent text-white">
+    <div className="flex-coll -center w-[95vw] max-w-[800px] rounded-lg border-2 border-accent text-white">
       <div className="flex-coll font-strong w-full border-b-2 border-accent bg-accent p-1">
         <span className="w-full text-center text-2xl font-bold">
           {jobCategories.map((j) => j.name)}
@@ -47,7 +47,7 @@ const Posting: React.FC<PostingProps> = ({
         </div>
       </div>
 
-      <div className="flex-coll minimalistScroll max-h-[460px] w-full justify-start gap-4 overflow-y-auto p-2">
+      <div className="flex-coll minimalistScroll max-h-[460px] w-full  justify-start gap-4 overflow-y-auto p-2">
         <div className="grid grid-cols-3 grid-rows-2 gap-4">
           {Array.isArray(photos) &&
             photos
