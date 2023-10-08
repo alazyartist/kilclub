@@ -137,7 +137,7 @@ const CategoryPopup = ({
       )}
       <button
         onClick={() => handleSave()}
-        className="fixed bottom-2 left-[40vw] z-20 rounded-3xl bg-accent px-6 py-2 text-xl text-zinc-100"
+        className="fixed bottom-2 left-[40vw] z-50 rounded-3xl bg-accent px-6 py-2 text-xl text-zinc-100"
       >
         save
       </button>

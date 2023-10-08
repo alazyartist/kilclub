@@ -3,9 +3,9 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import JobPosting from "~/components/JobPosting";
 import BusinessCategories from "~/components/jobs/BusinessCategories";
-import { type GetMyBusiness } from "~/utils/RouterTypes";
+import { type GetBusinessWithJobs } from "~/utils/RouterTypes";
 
-const Logo = ({ business }: { business: GetMyBusiness }) => {
+const Logo = ({ business }: { business: GetBusinessWithJobs }) => {
   return (
     <div className=" flex-coll -center max-h-[20vh] max-w-[80vw] rounded-lg bg-accent p-4 text-white">
       <span className="text-center text-4xl font-bold">
