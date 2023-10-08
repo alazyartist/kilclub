@@ -14,7 +14,7 @@ const Pricing = () => {
 
 export default Pricing;
 
-const PriceBreakdown = () => {
+export const PriceBreakdown = () => {
   const pricingItems = [
     { feature: "showcase your previous work", tier1: "yes", tier2: "yes" },
     { feature: "collect social proof", tier1: "yes", tier2: "yes" },

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import { PriceBreakdown } from "../pricing";
 
 const UpgradeFlow = () => {
   return (
@@ -19,6 +20,7 @@ const UpgradeFlow = () => {
           <h3 className="text-2xl font-bold">Business</h3>
         </Link>
       </div>
+      <PriceBreakdown />
     </div>
   );
 };
