@@ -33,15 +33,18 @@ const JobDetails = ({
           {showDetails ? (
             <>
               <div className="flex justify-between">
-                <div>
+                <div onClick={() => setShowDetails(false)}>
                   <div>
                     {job.Categories.map((c) => (
-                      <p key={c.id}>{c.Category.name}</p>
+                      <p
+                        className="rounded-md bg-zinc-200 p-2 text-center font-bold"
+                        key={c.id}
+                      >
+                        {c.Category.name}
+                      </p>
                     ))}
                   </div>
-                  <span onClick={() => setShowDetails(false)}>
-                    {job.customer_phone_number}{" "}
-                  </span>
+                  <span>{job.customer_phone_number} </span>
                 </div>
                 <div>
                   <ActionsDropdown
@@ -89,9 +92,21 @@ const JobDetails = ({
               onClick={() => setShowDetails(true)}
               className="flex justify-between"
             >
-              <p className="place-self-end text-right text-xs">
-                {job.date.toDateString()}
-              </p>
+              <div>
+                <div>
+                  {job.Categories.map((c) => (
+                    <p
+                      className="rounded-md bg-zinc-200 p-2 text-center font-bold"
+                      key={c.id}
+                    >
+                      {c.Category.name}
+                    </p>
+                  ))}
+                </div>
+                <p className="place-self-end text-right text-xs">
+                  {job.date.toDateString()}
+                </p>
+              </div>
               <h1 className="text-right text-lg">{job.zip_code}</h1>
             </div>
           )}
