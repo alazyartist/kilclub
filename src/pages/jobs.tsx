@@ -29,6 +29,13 @@ const Jobs = () => {
             />
           )}
           {/* <div className="flex"> */}
+          {/* <div className="flex gap-2  ">
+            {["Manage", "Job", "See Profile"].map((a) => (
+              <p className="whitespace-nowrap rounded-md bg-zinc-200 p-2">
+                {a}
+              </p>
+            ))}
+          </div> */}
           {!formOpen && (
             <>
               <button

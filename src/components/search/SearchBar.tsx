@@ -2,7 +2,7 @@ import React from "react";
 import AutoComplete from "./AutoComplete";
 import { api } from "~/utils/api";
 
-const SearchBar = () => {
+const SearchBar = ({ zip_code }: { zip_code: string }) => {
   const { data: businesses } = api.business.getBusinesses.useQuery();
   const { data: categories } = api.category.getCategories.useQuery();
 
@@ -27,9 +27,12 @@ const SearchBar = () => {
             placeholder: "how can we help?",
           }}
         />
-        <button className="text-m rounded-md bg-accent px-5 py-3 font-bold text-white">
-          Search
-        </button>
+        <input
+          defaultValue={zip_code}
+          type="text"
+          placeholder="zip"
+          className="text-m w-[30vw] rounded-md px-5 py-3 font-bold text-zinc-900"
+        />
       </div>
       <p className="pl-8 text-xs tracking-wider">find a solution now</p>
     </div>
