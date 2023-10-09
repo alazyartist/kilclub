@@ -85,7 +85,7 @@ const CategoryPopup = ({
                       className="border-b-2 border-zinc-800 p-1 pb-0 text-xl"
                       onClick={() => {
                         setOpenCats((prev) => {
-                          return openCats.some((cat) => cat.includes(c.name))
+                          return prev.some((cat) => cat.includes(c.name))
                             ? prev.filter((pc) => pc !== c.name)
                             : Array.from(new Set([...prev, c.name]));
                         });
@@ -96,12 +96,12 @@ const CategoryPopup = ({
                     </p>
                     <div className="space-y-2">
                       {Array.isArray(c.Children) &&
+                        openCats.includes(c.name) &&
                         c.Children.map(
                           (child) =>
-                            child.Child?.name &&
-                            openCats.includes(c.name) && (
+                            child.Child?.name && (
                               <p
-                                key={c.name}
+                                key={child.Child.name}
                                 onClick={() => {
                                   setSelected((prev) =>
                                     selected.some((e) =>
