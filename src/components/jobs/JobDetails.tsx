@@ -21,11 +21,19 @@ const JobDetails = ({
 }) => {
   const [showDetails, setShowDetails] = useState(visible);
   const [categoryFormOpen, setCategoryFormOpen] = useState(false);
-  const router = useRouter();
-  const image = router.query.image;
+  const [image, setImage] = useState<number | string>("");
+  const images = job.media as string[];
+  // const router = useRouter();
+  // const image = router.query.image;
   return (
     <>
-      {image && <ImagePopover image={image} />}
+      {image !== "" && (
+        <ImagePopover
+          length={images.length}
+          setImage={setImage}
+          image={images[image]}
+        />
+      )}
       <div>
         <div
           key={job.job_id}
@@ -67,7 +75,7 @@ const JobDetails = ({
               </div>
               {Array.isArray(job.media) ? (
                 <div className="grid h-full w-full grid-cols-3 gap-2 space-y-2 lg:grid-cols-8">
-                  {job.media.map((img) => {
+                  {job.media.map((img, index) => {
                     if (typeof img === "string") {
                       return (
                         <div
@@ -75,7 +83,7 @@ const JobDetails = ({
                           className="relative flex flex-col items-center"
                         >
                           <Image
-                            onClick={() => router.push(`?image=${img}`)}
+                            onClick={() => setImage(index)}
                             alt={`job_detail_${img}`}
                             className="aspect-square h-full w-full rounded-md object-cover drop-shadow-md"
                             src={img}
@@ -227,22 +235,34 @@ const ActionsDropdown = ({
   );
 };
 
-const ImagePopover = ({ image }) => {
+const ImagePopover = ({ image, setImage, length }) => {
   const router = useRouter();
   return (
     <div className="flex-coll -center absolute left-0 top-0 h-screen w-screen ">
-      <div className="z-10 max-h-[95vh] max-w-[95vw]">
+      <div className="z-10 flex max-h-[95vh] max-w-[95vw] place-items-center gap-2">
+        <p
+          onClick={() => setImage((prev) => (prev < 1 ? length - 1 : prev - 1))}
+          className="rounded-full bg-zinc-200 bg-opacity-20 px-4 py-2 text-3xl font-black text-zinc-100"
+        >
+          &lt;
+        </p>
         <Image
           alt={`popover_${image}`}
+          width={1000}
+          height={1000}
           className="obj h-full w-full rounded-md object-contain"
           src={image}
-          width={100}
-          height={100}
         />
+        <p
+          onClick={() => setImage((prev) => (prev + 1) % length)}
+          className="rounded-full bg-zinc-200 bg-opacity-20 px-4 py-2 text-3xl font-black text-zinc-100"
+        >
+          &gt;
+        </p>
       </div>
       <div
-        onClick={() => router.push("/jobs")}
-        className="fixed left-0 top-0 z-[2] h-full w-full bg-zinc-900 bg-opacity-30 backdrop-blur-md"
+        onClick={() => setImage("")}
+        className="fixed left-0 top-0 z-[2] h-screen w-screen bg-zinc-900 bg-opacity-30 backdrop-blur-md"
       />
     </div>
   );
