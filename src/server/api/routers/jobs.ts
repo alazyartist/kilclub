@@ -247,6 +247,9 @@ export const jobsRouter = createTRPCRouter({
         await ctx.prisma.jobCategories.deleteMany({
           where: { job_id: input.job_id },
         });
+        const businessCats = await ctx.prisma.businessCategories.findMany({
+          where: { business_id: input.business_id },
+        });
 
         const savedCats = Promise.all(
           input.categories.map(async (category) => {
@@ -256,12 +259,17 @@ export const jobsRouter = createTRPCRouter({
                 category_id: category.category_id,
               },
             });
-            await ctx.prisma.businessCategories.create({
-              data: {
-                business_id: input.business_id,
-                category_id: category.category_id,
-              },
-            });
+
+            if (
+              !businessCats.some((c) => c.category_id === category.category_id)
+            ) {
+              await ctx.prisma.businessCategories.create({
+                data: {
+                  business_id: input.business_id,
+                  category_id: category.category_id,
+                },
+              });
+            }
             return savedCat;
           }),
         );

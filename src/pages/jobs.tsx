@@ -27,7 +27,7 @@ const Jobs = () => {
       {user.business_id && (
         <>
           <BusinessDetail business_id={user.business_id} />
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             <CategoryFilter filter={filter} setFilter={setFilter} />
             <FinishedFilter
               checkisreviewed={checkisreviewed}
@@ -91,7 +91,7 @@ const FinishedFilter = ({
   checkisnotreviewed,
 }) => {
   return (
-    <div className="flex place-items-center gap-2 text-3xl">
+    <div className="flex place-items-center gap-3 text-5xl">
       <p onClick={() => setCheckisreviewed((prev) => !prev)}>
         <MdCheckCircle
           className={`${
@@ -170,9 +170,13 @@ const JobDisplay = ({
             return job;
           }
         })
-        .filter((job) =>
-          job.Categories.some((c) => c.Category.name.includes(filter)),
-        )
+        .filter((job) => {
+          if (filter) {
+            return job.Categories.some((c) => c.Category.name.includes(filter));
+          } else {
+            return job;
+          }
+        })
         .map(
           (job) =>
             !job.isCompleted && (
