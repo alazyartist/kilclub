@@ -6,6 +6,7 @@ import { api } from "~/utils/api";
 import CategoryPopup from "../account/CategoryPopup";
 import type { GetCategories, GetJobs } from "~/utils/RouterTypes";
 import Image from "next/image";
+import { MdCheckCircle, MdClose } from "../icons/MdIcons";
 type JobType = GetJobs[0];
 const JobDetails = ({
   job,
@@ -46,7 +47,7 @@ const JobDetails = ({
                   </div>
                   <span>{job.customer_phone_number} </span>
                 </div>
-                <div>
+                <div className="flex flex-col">
                   <ActionsDropdown
                     job={job}
                     setCategoryFormOpen={setCategoryFormOpen}
@@ -55,10 +56,17 @@ const JobDetails = ({
                   <p className="text-right text-xs">
                     {job.date.toDateString()}
                   </p>
+                  <p className="place-self-end pt-2 text-xl">
+                    {job.isReviewed ? (
+                      <MdCheckCircle className="text-emerald-500" />
+                    ) : (
+                      <MdClose className="text-red-500" />
+                    )}
+                  </p>
                 </div>
               </div>
               {Array.isArray(job.media) ? (
-                <div className="grid h-full w-full grid-cols-3 gap-2 lg:grid-cols-8">
+                <div className="grid h-full w-full grid-cols-3 gap-2 space-y-2 lg:grid-cols-8">
                   {job.media.map((img) => {
                     if (typeof img === "string") {
                       return (
@@ -82,10 +90,13 @@ const JobDetails = ({
                   <UploadMediaForm job_id={job.job_id} />
                 </div>
               ) : (
-                <div className="grid h-full w-full grid-cols-3 gap-2 lg:grid-cols-8">
+                <div className="grid h-full w-full grid-cols-3 gap-2 space-y-2 lg:grid-cols-8">
                   <UploadMediaForm job_id={job.job_id} />
                 </div>
               )}
+              <div className="mt-4 rounded-md bg-zinc-200 p-1">
+                {job.review && <p className="text-sm">{job.review}</p>}
+              </div>
             </>
           ) : (
             <div
@@ -103,9 +114,18 @@ const JobDetails = ({
                     </p>
                   ))}
                 </div>
-                <p className="place-self-end text-right text-xs">
-                  {job.date.toDateString()}
-                </p>
+                <div className="flex place-content-center gap-2 place-self-end pt-1">
+                  <p className="place-self-center text-right text-xs">
+                    {job.date.toDateString()}
+                  </p>
+                  <p className="place-self-end text-xl">
+                    {job.isReviewed ? (
+                      <MdCheckCircle className="text-emerald-500" />
+                    ) : (
+                      <MdClose className="text-red-500" />
+                    )}
+                  </p>
+                </div>
               </div>
               <h1 className="text-right text-lg">{job.zip_code}</h1>
             </div>
@@ -235,18 +255,18 @@ const DeleteJob = ({ job }: { job: Jobs }) => {
   return (
     <>
       {deleteCheck ? (
-        <div className="space-x-3">
+        <div className="flex flex-col gap-2">
+          <button
+            onClick={() => setDeleteCheck(false)}
+            className="min-w-[69px] rounded-md bg-emerald-500 p-2"
+          >
+            no
+          </button>
           <button
             onClick={() => deleteJob({ job_id: job.job_id })}
             className="min-w-[69px] rounded-md bg-red-500 p-2"
           >
             yes
-          </button>
-          <button
-            onClick={() => setDeleteCheck(false)}
-            className="min-w-[69px] rounded-md bg-red-500 p-2"
-          >
-            no
           </button>
         </div>
       ) : (

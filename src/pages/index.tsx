@@ -5,10 +5,13 @@ import SearchBar from "~/components/search/SearchBar";
 
 export default function Home() {
   const [zipCode, setZipCode] = useState();
+
   const getLocation = async () => {
     fetch("https://ipapi.co/json")
       .then((data) => data.json())
-      .then((data) => setZipCode(data.postal));
+      .then((data) => {
+        setZipCode(data.postal);
+      });
   };
   getLocation();
   return (
@@ -29,7 +32,7 @@ export default function Home() {
               Community <span className="text-accent">tested</span>
             </div>
             {/* <input type={"text"} placeholder="zip-code" /> */}
-            <SearchBar zip_code={zipCode} />
+            <SearchBar setZipCode={setZipCode} zip_code={zipCode} />
             {/* <Link
               className="flex-coll w-full max-w-xs rounded-xl bg-accent p-4 text-white hover:bg-accent-dark"
               href="/testing"

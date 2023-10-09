@@ -2,7 +2,13 @@ import React from "react";
 import AutoComplete from "./AutoComplete";
 import { api } from "~/utils/api";
 
-const SearchBar = ({ zip_code }: { zip_code: string }) => {
+const SearchBar = ({
+  zip_code,
+  setZipCode,
+}: {
+  zip_code: string;
+  setZipCode: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const { data: businesses } = api.business.getBusinesses.useQuery();
   const { data: categories } = api.category.getCategories.useQuery();
 
@@ -29,6 +35,7 @@ const SearchBar = ({ zip_code }: { zip_code: string }) => {
         />
         <input
           defaultValue={zip_code}
+          onChange={(e) => setZipCode(e.target.value)}
           type="text"
           placeholder="zip"
           className="text-m w-[30vw] rounded-md px-5 py-3 font-bold text-zinc-900"
