@@ -52,6 +52,14 @@ const JobDetails = ({
                         {c.Category.name}
                       </p>
                     ))}
+                    {job.Categories.length === 0 && (
+                      <button
+                        onClick={() => setCategoryFormOpen(true)}
+                        className="rounded-md bg-emerald-200 p-2 text-center font-bold"
+                      >
+                        Add Category
+                      </button>
+                    )}
                   </div>
                   <span>{job.customer_phone_number} </span>
                 </div>
@@ -121,6 +129,14 @@ const JobDetails = ({
                       {c.Category.name}
                     </p>
                   ))}
+                  {job.Categories.length === 0 && (
+                    <button
+                      onClick={() => setCategoryFormOpen(true)}
+                      className="rounded-md bg-emerald-200 p-2 text-center font-bold"
+                    >
+                      Add Category
+                    </button>
+                  )}
                 </div>
                 <div className="flex place-content-center gap-2 place-self-end pt-1">
                   <p className="place-self-center text-right text-xs">
