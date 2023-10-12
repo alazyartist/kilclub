@@ -116,7 +116,7 @@ const CategoryFilter = ({
 }) => {
   const { data: categories } = api.category.getBusinessCategories.useQuery();
   return (
-    <div className="flex gap-2 py-2">
+    <div className="flex max-w-[70vw] flex-wrap gap-2 py-2 text-xs md:text-lg">
       {Array.isArray(categories) &&
         categories.map((c) => (
           <p

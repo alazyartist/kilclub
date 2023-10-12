@@ -28,7 +28,7 @@ const ReviewList = ({ phone_number }) => {
         reviews.map((review) => (
           <div
             key={review.job_id}
-            className=" space-y-4 rounded-md bg-accent p-2 text-zinc-100"
+            className=" space-y-4 rounded-md bg-zinc-200 p-2 text-zinc-900"
           >
             {!review.isCompleted && <div>Job Not Complete</div>}
             <div>{review.Business.business_name}</div>
@@ -43,8 +43,8 @@ const ReviewList = ({ phone_number }) => {
                           alt={`job_detail_${img}`}
                           className="aspect-square h-full w-full rounded-md object-cover"
                           src={img}
-                          width={100}
-                          height={100}
+                          width={1000}
+                          height={1000}
                         />
                       </div>
                     );
@@ -112,7 +112,7 @@ const ReviewForm = ({
         {...register("review")}
       />
       <label htmlFor="problem_solved">
-        <p className="text-zinc-100">Was your problem solved?</p>
+        <p className="text-zinc-900">Was your problem solved?</p>
         {/* <select
           id="problem_solved"
           defaultValue="Yes"
@@ -162,7 +162,12 @@ const ReviewForm = ({
             ))}
         </div>
       </label>
-      <button disabled={isProblemSolved == null}>Submit</button>
+      <button
+        className="rounded-md bg-accent-light p-2 text-zinc-100"
+        disabled={isProblemSolved == null}
+      >
+        Submit
+      </button>
     </form>
   );
 };

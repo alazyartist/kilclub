@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import HeaderMenu from "./HeaderMenu";
+import HeaderMenu from "../HeaderMenu";
 import Link from "next/link";
+import Smiley from "./Smiley";
+import Logotype from "./Logotype";
 
 const Header = () => {
   const [isOpen, openMenu] = useState(false);
@@ -10,9 +12,10 @@ const Header = () => {
         <Link
           onClick={() => openMenu(false)}
           href={"/"}
-          className="text-4xl font-extrabold tracking-tighter text-accent-light sm:text-[5rem] lg:text-6xl"
+          className="flex place-items-center text-4xl font-extrabold tracking-tighter text-accent-light sm:text-[5rem] lg:text-6xl"
         >
-          keep<span className="text-accent-dark">it</span>local.club
+          <Logotype className={"h-8 w-fit"} />
+          {/* keep<span className="text-accent-dark">it</span>local.club */}
         </Link>
         <p
           onClick={() => openMenu((prev) => !prev)}

@@ -36,7 +36,7 @@ const Posting: React.FC<PostingProps> = ({
   };
 
   return (
-    <div className="flex-coll -center w-[95vw] max-w-[800px] rounded-lg border-2 border-accent text-white">
+    <div className="flex-coll -center w-[95vw] max-w-[800px] rounded-lg border-2 border-accent bg-base-light text-white">
       <div className="flex-coll font-strong w-full border-b-2 border-accent bg-accent p-1">
         <span className="w-full text-center text-2xl font-bold">
           {jobCategories.map((j) => j.name)}

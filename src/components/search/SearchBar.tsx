@@ -13,7 +13,7 @@ const SearchBar = ({
   const { data: categories } = api.category.getCategories.useQuery();
 
   return (
-    <div className="lg:pl-36">
+    <div className="">
       <div className="-center w-fit flex-row gap-4 lg:place-content-start ">
         {/* <label className="whitespace-nowrap font-bold text-primary-dark">
         Zip Code:{" "}
