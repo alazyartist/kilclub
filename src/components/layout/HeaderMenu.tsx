@@ -17,7 +17,7 @@ const HeaderMenu = ({
   close: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (
-    <div className="flex-coll fixed right-[5vw] top-10 z-10 w-[90vw] gap-2 rounded-md bg-base-light p-2 text-center text-zinc-900 lg:flex lg:w-fit lg:flex-row lg:gap-8 lg:text-2xl">
+    <div className="flex-coll fixed right-[5vw] top-10 z-10 w-[90vw] gap-2 rounded-md bg-base-light p-2 text-center text-zinc-900 lg:relative lg:top-0 lg:flex lg:w-fit lg:flex-row lg:gap-8 lg:text-2xl">
       <SignedIn>
         <PrivateMenu close={close} />
       </SignedIn>

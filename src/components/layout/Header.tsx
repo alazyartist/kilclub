@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import HeaderMenu from "../HeaderMenu";
+import HeaderMenu from "./HeaderMenu";
 import Link from "next/link";
 import Smiley from "./Smiley";
 import Logotype from "./Logotype";
@@ -23,11 +23,15 @@ const Header = () => {
         >
           <HamburgerSVG />
         </p>
-        <div className="hidden lg:block">
+        <div className="hidden lg:inline">
           <HeaderMenu close={openMenu} />
         </div>
       </div>
-      {isOpen && <HeaderMenu close={openMenu} />}
+      {isOpen && (
+        <div className="lg:hidden ">
+          <HeaderMenu close={openMenu} />
+        </div>
+      )}
     </header>
   );
 };
