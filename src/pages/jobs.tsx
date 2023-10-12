@@ -52,22 +52,23 @@ const Jobs = () => {
           </div> */}
           {!formOpen && (
             <>
-              <button className="absolute right-4 top-[22vh] z-10 mr-4">
-                <div className="p-1">
-                  <Circle
-                    onClick={() => setFormOpen(true)}
-                    className={" h-[50px] w-[50px] place-self-end"}
-                  />
-                  <p className="text-xs">add job</p>
-                </div>
-              </button>
               <JobDisplay
                 filter={filter}
                 checkisreviewed={checkisreviewed}
                 checkisnotreviewed={checkisnotreviewed}
                 allCategories={allCategories}
                 business_id={user.business_id}
-              />
+              >
+                <button className="absolute right-4 top-[-25px] z-10 mr-4">
+                  <div className="p-1">
+                    <Circle
+                      onClick={() => setFormOpen(true)}
+                      className={" h-[50px] w-[50px] place-self-end"}
+                    />
+                    <p className="text-xs">add job</p>
+                  </div>
+                </button>
+              </JobDisplay>
               <FinishedJobDisplay
                 filter={filter}
                 checkisreviewed={checkisreviewed}
@@ -145,20 +146,23 @@ const JobDisplay = ({
   checkisreviewed,
   checkisnotreviewed,
   filter,
+  children,
 }: {
   filter: string;
   business_id: string;
   allCategories: GetCategories;
   checkisreviewed: boolean;
   checkisnotreviewed: boolean;
+  children?: React.ReactNode;
 }) => {
   const { data: jobs } = api.jobs.getJobs.useQuery({
     business_id: business_id,
   });
 
   return (
-    <div className="flex w-[95vw] flex-col gap-2 rounded-xl bg-zinc-200">
+    <div className="relative flex w-[95vw] flex-col gap-2 rounded-xl bg-zinc-200">
       <p className="p-2 text-3xl font-bold">Jobs</p>
+      {children}
       {jobs
         ?.filter((job) => {
           if (!!checkisreviewed && !checkisnotreviewed) {
