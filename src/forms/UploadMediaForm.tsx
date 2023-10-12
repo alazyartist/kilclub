@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Circle } from "~/components/layout/Icons";
 import { api } from "~/utils/api";
 
 const UploadMediaForm = ({ job_id }: { job_id: string }) => {
@@ -74,9 +75,10 @@ const UploadMediaForm = ({ job_id }: { job_id: string }) => {
         onClick={() => {
           setMediaFormOpen(true);
         }}
-        className="aspect-square h-full w-full rounded-md bg-zinc-200 p-2 text-5xl font-black drop-shadow-md"
+        className="flex aspect-square h-full w-full flex-col place-content-center place-items-center rounded-md bg-zinc-200 p-2 text-5xl font-black drop-shadow-md"
       >
-        +<p className="text-xs font-normal">add media</p>
+        <Circle className={"h-[50px] w-[50px] "} />
+        <p className="text-xs font-normal">add media</p>
       </button>
     </form>
   );

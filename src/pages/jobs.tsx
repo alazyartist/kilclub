@@ -6,7 +6,7 @@ import BusinessDetail from "~/components/jobs/BusinessDetail";
 import JobDetails from "~/components/jobs/JobDetails";
 import { type GetCategories } from "~/utils/RouterTypes";
 import { MdCheckCircle, MdClose } from "~/components/icons/MdIcons";
-
+import Smiley, { Circle } from "~/components/layout/Icons";
 const Jobs = () => {
   const { data: user } = api.user.getUser.useQuery();
   const [formOpen, setFormOpen] = useState(false);
@@ -52,12 +52,13 @@ const Jobs = () => {
           </div> */}
           {!formOpen && (
             <>
-              <button
-                onClick={() => setFormOpen(true)}
-                className="mr-4 place-self-end rounded-full bg-accent px-4 py-2 text-4xl font-bold text-zinc-100 lg:mr-8"
-              >
+              <button className="absolute right-4 top-[22vh] z-10 mr-4">
                 <div className="p-1">
-                  +<p className="hidden text-xs lg:block">add job</p>
+                  <Circle
+                    onClick={() => setFormOpen(true)}
+                    className={" h-[50px] w-[50px] place-self-end"}
+                  />
+                  <p className="text-xs">add job</p>
                 </div>
               </button>
               <JobDisplay

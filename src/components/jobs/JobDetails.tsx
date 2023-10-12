@@ -7,6 +7,7 @@ import CategoryPopup from "../account/CategoryPopup";
 import type { GetCategories, GetJobs } from "~/utils/RouterTypes";
 import Image from "next/image";
 import { MdCheckCircle, MdClose } from "../icons/MdIcons";
+import { CaretDown } from "../layout/Icons";
 type JobType = GetJobs[0];
 const JobDetails = ({
   job,
@@ -74,9 +75,14 @@ const JobDetails = ({
                   </p>
                   <p className="place-self-end pt-2 text-xl">
                     {job.isReviewed ? (
-                      <MdCheckCircle className="text-emerald-500" />
+                      <div className="flex items-center gap-1 text-xs">
+                        <MdCheckCircle className="inline text-emerald-500" />{" "}
+                        Review
+                      </div>
                     ) : (
-                      <MdClose className="text-red-500" />
+                      <div className="flex items-center gap-1 text-xs">
+                        <MdClose className="inline text-red-500" /> Review
+                      </div>
                     )}
                   </p>
                 </div>
@@ -144,9 +150,14 @@ const JobDetails = ({
                   </p>
                   <p className="place-self-end text-xl">
                     {job.isReviewed ? (
-                      <MdCheckCircle className="text-emerald-500" />
+                      <div className="flex items-center gap-1 text-xs">
+                        <MdCheckCircle className="inline text-emerald-500" />{" "}
+                        Review
+                      </div>
                     ) : (
-                      <MdClose className="text-red-500" />
+                      <div className="flex items-center gap-1 text-xs">
+                        <MdClose className="inline text-red-500" /> Review
+                      </div>
                     )}
                   </p>
                 </div>
@@ -240,12 +251,17 @@ const ActionsDropdown = ({
         </div>
       )}
       <div>
-        <p
-          className="min-w-[69px] rounded-md bg-zinc-200 p-2"
+        <div
+          className="flex min-w-[69px] justify-around rounded-md bg-zinc-200 p-2"
           onClick={() => setOpen((prev) => !prev)}
         >
-          actions <span>v</span>
-        </p>
+          <p className="flex gap-1">
+            actions{" "}
+            <span>
+              <CaretDown className={"inline w-[12px]"} />{" "}
+            </span>
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -306,7 +322,7 @@ const DeleteJob = ({ job }: { job: Jobs }) => {
           </button>
         </div>
       ) : (
-        <div className="rounded-md bg-accent">
+        <div className="rounded-md bg-red-500">
           <button
             onClick={() => setDeleteCheck(true)}
             className="lg: w-full rounded-md bg-zinc-900 bg-opacity-20 p-2  text-zinc-100"

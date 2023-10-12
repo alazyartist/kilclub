@@ -1,9 +1,28 @@
+import Link from "next/link";
 import React from "react";
 import { MdCheckCircle, MdClose } from "~/components/icons/MdIcons";
+import Logo from "~/components/layout/KilLogo";
 
 const Pricing = () => {
   return (
-    <div className="p-2">
+    <div className="max-w-[90vw] place-self-center p-2">
+      <div className="flex w-full place-content-center">
+        <Logo className={"w-full p-2 lg:w-[50%]"} />
+      </div>
+      <div className="-center flex flex-col gap-8 pt-14">
+        <p className="text-center text-3xl font-bold">
+          Showcase your work
+          <br /> in seconds
+        </p>
+        <Link
+          href={"/register"}
+          className="rounded-md bg-zinc-800 p-2 font-bold text-zinc-100"
+        >
+          Get Started
+        </Link>
+      </div>
+      <SetupSteps />
+
       <div className="w-full bg-zinc-200 p-2">
         <p className="text-center text-xl font-bold">Pricing</p>
       </div>
@@ -13,6 +32,59 @@ const Pricing = () => {
 };
 
 export default Pricing;
+
+const SetupSteps = () => {
+  return (
+    <ol className="my-8 space-y-4 pt-8 md:flex md:space-x-12 md:space-y-0">
+      <li className="md:flex-1">
+        <div className="flex flex-col space-y-2 border-l-4 border-zinc-300 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
+          <span className="text-sm font-medium text-accent-dark">Step 1</span>
+          <span className="text-xl font-semibold">Sign up for an account</span>
+          <span className="mt-2 text-zinc-700">
+            Choose a plan that fits your business needs.
+          </span>
+        </div>
+      </li>
+      <li className="md:flex-1">
+        <div className="flex flex-col space-y-2 border-l-4 border-zinc-300 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
+          <span className="text-sm font-medium text-accent-dark">Step 2</span>
+          <span className="text-xl font-semibold">Create A Job</span>
+          <span className="mt-2 text-zinc-700">
+            All you need is the customers phone number and zip code
+          </span>
+        </div>
+      </li>
+      <li className="md:flex-1">
+        <div className="flex flex-col space-y-2 border-l-4 border-zinc-300 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
+          <span className="text-sm font-medium text-accent-dark">Step 3</span>
+          <span className="text-xl font-semibold">
+            Upload Photos of Your Work
+          </span>
+          <span className="mt-2 text-zinc-700">
+            from your phone or any device that has internet connection
+          </span>
+        </div>
+      </li>
+      <li className="md:flex-1">
+        <div className="flex flex-col space-y-2 border-l-4 border-zinc-300 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
+          <span className="text-sm font-medium text-accent-dark">Step 4</span>
+          <span className="text-xl font-semibold">Request A Review</span>
+          <span className="mt-2 text-zinc-700">It&apos;s that simple.</span>
+        </div>
+      </li>
+      <li className="md:flex-1">
+        <div className="flex flex-col space-y-2 border-l-4 border-zinc-300 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
+          <span className="text-sm font-medium text-accent-dark">Step 5</span>
+          <span className="text-xl font-semibold">Get New Leads</span>
+          <span className="mt-2 text-zinc-700">
+            We&apos;ll do the hard part of getting you in front of customers.
+            Now your old jobs are advertising for you.
+          </span>
+        </div>
+      </li>
+    </ol>
+  );
+};
 
 export const PriceBreakdown = () => {
   const pricingItems = [
@@ -31,7 +103,7 @@ export const PriceBreakdown = () => {
         {pricingItems.map((a) => (
           <p
             key={a.feature}
-            className="h-[70px]  rounded-md p-2 text-sm odd:bg-zinc-300"
+            className="h-[70px]  rounded-md p-2 text-xs odd:bg-zinc-300 md:text-sm"
           >
             {a.feature}
           </p>
