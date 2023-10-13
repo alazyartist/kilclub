@@ -41,7 +41,7 @@ const HamburgerSVG = () => {
   return (
     <svg viewBox="0 0 10 8" width="100%">
       <path
-        className="stroke-accent hover:stroke-accent-dark"
+        className="stroke-accent   hover:stroke-accent-dark"
         d="M1 1h8M1 4h 8M1 7h8"
         strokeWidth="1.4"
         strokeLinecap="round"

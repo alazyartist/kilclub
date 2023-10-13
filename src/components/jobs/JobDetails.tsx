@@ -6,7 +6,7 @@ import CategoryPopup from "../account/CategoryPopup";
 import type { GetCategories, GetJobs } from "~/utils/RouterTypes";
 import Image from "next/image";
 import { MdCheckCircle, MdClose } from "../icons/MdIcons";
-import { CaretDown } from "../layout/Icons";
+import Smiley, { CaretDown } from "../layout/Icons";
 type JobType = GetJobs[0];
 const JobDetails = ({
   job,
@@ -23,13 +23,12 @@ const JobDetails = ({
   const [categoryFormOpen, setCategoryFormOpen] = useState(false);
   const [image, setImage] = useState<number | string>("");
   const images = job.media as string[];
-  // const router = useRouter();
-  // const image = router.query.image;
+
   return (
     <>
       {image !== "" && (
         <ImagePopover
-          length={images.length}
+          images={images}
           setImage={setImage}
           image={images[image]}
         />
@@ -72,7 +71,8 @@ const JobDetails = ({
                 <p className="place-self-end pt-2 text-xl">
                   {job.isReviewed ? (
                     <div className="flex items-center gap-1 text-xs">
-                      <MdCheckCircle className="inline text-emerald-500" />{" "}
+                      {/* <MdCheckCircle className="inline text-emerald-500" />{" "} */}
+                      <Smiley className={"h-6 w-6"} />
                       Review
                     </div>
                   ) : (
@@ -149,7 +149,8 @@ const JobDetails = ({
                 <p className="place-self-end text-xl">
                   {job.isReviewed ? (
                     <div className="flex items-center gap-1 text-xs">
-                      <MdCheckCircle className="inline text-emerald-500" />{" "}
+                      {/* <MdCheckCircle className="inline text-emerald-500" />{" "} */}
+                      <Smiley className={"h-6 w-6"} />
                       Review
                     </div>
                   ) : (
@@ -164,27 +165,6 @@ const JobDetails = ({
           </div>
         )}
       </div>
-      {/* {showDetails && (
-          <div className=" flex justify-between gap-2 rounded-md border-4 border-zinc-200 bg-base-light px-1 py-2">
-            {!job.isCompleted ? (
-              <button
-                onClick={() => markComplete({ job_id: job.job_id })}
-                className="rounded-md bg-zinc-900 bg-opacity-20 p-2"
-              >
-                Mark Complete
-              </button>
-            ) : (
-              <p className="p-2">Completed</p>
-            )}
-            <button
-              onClick={() => setCategoryFormOpen(true)}
-              className="rounded-md bg-zinc-900 bg-opacity-30 p-2"
-            >
-              Manage Categories
-            </button>
-            <DeleteJob job={job} />
-          </div>
-        )} */}
       {categoryFormOpen && (
         <CategoryPopup
           type="job"
@@ -264,16 +244,20 @@ const ActionsDropdown = ({
   );
 };
 
-const ImagePopover = ({ image, setImage, length }) => {
+const ImagePopover = ({ image, setImage, images }) => {
   return (
-    <div className="flex-coll -center absolute left-0 top-0 h-screen w-screen ">
-      <div className="z-10 flex max-h-[95vh] max-w-[95vw] place-items-center gap-2">
-        <p
-          onClick={() => setImage((prev) => (prev < 1 ? length - 1 : prev - 1))}
-          className="rounded-full bg-zinc-200 bg-opacity-20 px-4 py-2 text-3xl font-black text-zinc-100"
-        >
-          &lt;
-        </p>
+    <div className="flex-coll -center fixed left-0 top-0 z-10 h-screen w-screen ">
+      <div className="z-30 flex max-h-[95vh] max-w-[90vw] place-items-center gap-2">
+        {images.length > 1 && (
+          <p
+            onClick={() =>
+              setImage((prev) => (prev < 1 ? images.length - 1 : prev - 1))
+            }
+            className="absolute -left-1 rounded-full bg-zinc-200 bg-opacity-20 px-4 py-2 text-3xl font-black text-zinc-100 backdrop-blur-md"
+          >
+            &lt;
+          </p>
+        )}
         <Image
           alt={`popover_${image}`}
           width={1000}
@@ -281,17 +265,32 @@ const ImagePopover = ({ image, setImage, length }) => {
           className="obj h-full w-full rounded-md object-contain"
           src={image}
         />
-        <p
-          onClick={() => setImage((prev) => (prev + 1) % length)}
-          className="rounded-full bg-zinc-200 bg-opacity-20 px-4 py-2 text-3xl font-black text-zinc-100"
-        >
-          &gt;
-        </p>
+        {images.length > 1 && (
+          <p
+            onClick={() => setImage((prev) => (prev + 1) % images.length)}
+            className="absolute -right-1 rounded-full bg-zinc-200 bg-opacity-20 px-4 py-2 text-3xl font-black text-zinc-100 backdrop-blur-md"
+          >
+            &gt;
+          </p>
+        )}
       </div>
       <div
         onClick={() => setImage("")}
-        className="fixed left-0 top-0 z-[2] h-screen w-screen bg-zinc-900 bg-opacity-30 backdrop-blur-md"
+        className="absolute left-0 top-0 z-[20] h-screen w-screen bg-zinc-900 bg-opacity-30 backdrop-blur-md"
       />
+      {images.length > 1 && (
+        <div className="z-20 flex gap-2 p-2">
+          {images.map((a, i) => (
+            <div
+              onClick={() => setImage(i)}
+              key={a}
+              className={`h-8 w-8 rounded-full bg-primary-light `}
+            >
+              {a === image && <Smiley />}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
