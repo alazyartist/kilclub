@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import HeaderMenu from "./HeaderMenu";
 import Link from "next/link";
-import Smiley from "./Icons";
 import Logotype from "./Logotype";
 
 const Header = () => {

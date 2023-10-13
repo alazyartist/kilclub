@@ -121,6 +121,7 @@ const CategoryFilter = ({
       {Array.isArray(categories) &&
         categories.map((c) => (
           <p
+            key={c.id}
             className={`rounded-md bg-zinc-200 p-2 ${
               filter === c.Category.name
                 ? "ring-2 ring-accent-light ring-offset-2 "

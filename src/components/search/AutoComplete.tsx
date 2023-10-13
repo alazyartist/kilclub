@@ -50,7 +50,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({ props, categories }) => {
           return {
             sourceId: g.name,
             templates: {
-              header({ items }) {
+              header() {
                 return <div className="font-bold underline">{g.name}</div>;
               },
               item({ item }) {

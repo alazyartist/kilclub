@@ -1,6 +1,5 @@
 import Link from "next/link";
 import React from "react";
-import { MdCheckCircle, MdClose } from "~/components/icons/MdIcons";
 import Smiley from "~/components/layout/Icons";
 import Logo from "~/components/layout/KilLogo";
 
@@ -62,8 +61,8 @@ const SetupSteps = () => {
             Upload Photos of Your Work
           </span>
           <span className="mt-2 text-zinc-700">
-            from your phone or any device that has internet connection, we'll
-            handle the rest
+            from your phone or any device that has internet connection,
+            we&apos;ll handle the rest
           </span>
         </div>
       </li>

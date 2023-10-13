@@ -1,5 +1,4 @@
 import { type Jobs } from "@prisma/client";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import UploadMediaForm from "~/forms/UploadMediaForm";
 import { api } from "~/utils/api";
@@ -266,7 +265,6 @@ const ActionsDropdown = ({
 };
 
 const ImagePopover = ({ image, setImage, length }) => {
-  const router = useRouter();
   return (
     <div className="flex-coll -center absolute left-0 top-0 h-screen w-screen ">
       <div className="z-10 flex max-h-[95vh] max-w-[95vw] place-items-center gap-2">
