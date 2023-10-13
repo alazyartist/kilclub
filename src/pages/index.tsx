@@ -71,7 +71,7 @@ export default function Home() {
             }
           />
         </div>
-        <div className="h-40 w-full bg-zinc-200">test</div>
+        {/* <div className="h-40 w-full bg-zinc-200">test</div> */}
       </main>
     </>
   );
