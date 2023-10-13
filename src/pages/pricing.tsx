@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { MdCheckCircle, MdClose } from "~/components/icons/MdIcons";
+import Smiley from "~/components/layout/Icons";
 import Logo from "~/components/layout/KilLogo";
 
 const Pricing = () => {
@@ -61,11 +62,12 @@ const SetupSteps = () => {
             Upload Photos of Your Work
           </span>
           <span className="mt-2 text-zinc-700">
-            from your phone or any device that has internet connection
+            from your phone or any device that has internet connection, we'll
+            handle the rest
           </span>
         </div>
       </li>
-      <li className="md:flex-1">
+      {/* <li className="md:flex-1">
         <div className="flex flex-col space-y-2 border-l-4 border-zinc-300 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
           <span className="text-sm font-medium text-accent-dark">Step 4</span>
           <span className="text-xl font-semibold">Request A Review</span>
@@ -81,21 +83,21 @@ const SetupSteps = () => {
             Now your old jobs are advertising for you.
           </span>
         </div>
-      </li>
+      </li> */}
     </ol>
   );
 };
 
 export const PriceBreakdown = () => {
   const pricingItems = [
-    { feature: "showcase your previous work", tier1: "yes", tier2: "yes" },
-    { feature: "collect social proof", tier1: "yes", tier2: "yes" },
-    { feature: "automatic messaging", tier1: "no", tier2: "yes" },
-    { feature: "unlimited uploads", tier1: "no", tier2: "yes" },
-    { feature: "featured section", tier1: "no", tier2: "yes" },
+    { feature: "Showcase your previous work", tier1: "yes", tier2: "yes" },
+    { feature: "Collect social proof", tier1: "yes", tier2: "yes" },
+    { feature: "Automatic messaging", tier1: "no", tier2: "yes" },
+    { feature: "Unlimited uploads", tier1: "no", tier2: "yes" },
+    { feature: "Featured section", tier1: "no", tier2: "yes" },
   ];
   return (
-    <div className="rouded-sm grid grid-cols-3 gap-2 border-[3px] border-zinc-200 bg-zinc-100 p-4">
+    <div className="rouded-sm grid grid-cols-3 gap-2 border-[3px] border-zinc-200 bg-zinc-100 p-4 md:text-2xl">
       <div
         className={`space-y-2 grid-rows-[${pricingItems.length}] grid content-center items-center`}
       >
@@ -103,7 +105,7 @@ export const PriceBreakdown = () => {
         {pricingItems.map((a) => (
           <p
             key={a.feature}
-            className="h-[70px]  rounded-md p-2 text-xs odd:bg-zinc-300 md:text-sm"
+            className="h-[70px]  rounded-md p-2 text-xs odd:bg-zinc-300 md:text-2xl"
           >
             {a.feature}
           </p>
@@ -120,7 +122,8 @@ export const PriceBreakdown = () => {
           >
             <p>
               {a.tier1 === "yes" && (
-                <MdCheckCircle className={"text-3xl text-emerald-500"} />
+                // <MdCheckCircle className={"text-3xl text-emerald-500"} />
+                <Smiley className={"w-[25px]"} />
               )}
             </p>
           </div>
@@ -137,7 +140,8 @@ export const PriceBreakdown = () => {
           >
             <p>
               {a.tier2 === "yes" && (
-                <MdCheckCircle className={"text-3xl text-emerald-500"} />
+                // <MdCheckCircle className={"text-3xl text-emerald-500"} />
+                <Smiley className={"w-[25px]"} />
               )}
             </p>
           </div>

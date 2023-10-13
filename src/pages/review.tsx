@@ -30,10 +30,10 @@ const ReviewList = ({ phone_number }) => {
             key={review.job_id}
             className=" space-y-4 rounded-md bg-zinc-200 p-2 text-zinc-900"
           >
-            {!review.isCompleted && <div>Job Not Complete</div>}
+            {!review.isReviewed && <div>Awaiting Review</div>}
             <div>{review.Business.business_name}</div>
             <div>{review.date.toDateString()}</div>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-2 lg:grid-cols-8">
               {Array.isArray(review.media) &&
                 review.media.map((img) => {
                   if (typeof img === "string") {

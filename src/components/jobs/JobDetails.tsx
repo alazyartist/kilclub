@@ -35,97 +35,14 @@ const JobDetails = ({
           image={images[image]}
         />
       )}
-      <div>
-        <div
-          key={job.job_id}
-          className="relative min-w-[320px] rounded-md border-4 border-zinc-200 bg-zinc-100 p-2 text-zinc-900"
-        >
-          {showDetails ? (
-            <>
-              <div className="flex justify-between">
-                <div onClick={() => setShowDetails(false)}>
-                  <div>
-                    {job.Categories.map((c) => (
-                      <p
-                        className="rounded-md bg-zinc-200 p-2 text-center font-bold"
-                        key={c.id}
-                      >
-                        {c.Category.name}
-                      </p>
-                    ))}
-                    {job.Categories.length === 0 && (
-                      <button
-                        onClick={() => setCategoryFormOpen(true)}
-                        className="rounded-md bg-emerald-200 p-2 text-center font-bold"
-                      >
-                        Add Category
-                      </button>
-                    )}
-                  </div>
-                  <span>{job.customer_phone_number} </span>
-                </div>
-                <div className="flex flex-col">
-                  <ActionsDropdown
-                    job={job}
-                    setCategoryFormOpen={setCategoryFormOpen}
-                  />
-                  <h1 className="text-right text-lg">{job.zip_code}</h1>
-                  <p className="text-right text-xs">
-                    {job.date.toDateString()}
-                  </p>
-                  <p className="place-self-end pt-2 text-xl">
-                    {job.isReviewed ? (
-                      <div className="flex items-center gap-1 text-xs">
-                        <MdCheckCircle className="inline text-emerald-500" />{" "}
-                        Review
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-1 text-xs">
-                        <MdClose className="inline text-red-500" /> Review
-                      </div>
-                    )}
-                  </p>
-                </div>
-              </div>
-              {Array.isArray(job.media) ? (
-                <div className="grid h-full w-full grid-cols-3 gap-2 space-y-2 lg:grid-cols-8">
-                  {job.media.map((img, index) => {
-                    if (typeof img === "string") {
-                      return (
-                        <div
-                          key={img}
-                          className="relative flex flex-col items-center"
-                        >
-                          <Image
-                            onClick={() => setImage(index)}
-                            alt={`job_detail_${img}`}
-                            className="aspect-square h-full w-full rounded-md object-cover drop-shadow-md"
-                            src={img}
-                            width={100}
-                            height={100}
-                          />
-                          <DeleteMedia job={job} objectKey={img} />
-                        </div>
-                      );
-                    }
-                  })}
-                  <UploadMediaForm job_id={job.job_id} />
-                </div>
-              ) : (
-                <div className="grid h-full w-full grid-cols-3 gap-2 space-y-2 lg:grid-cols-8">
-                  <UploadMediaForm job_id={job.job_id} />
-                </div>
-              )}
-              <div className="mt-4 rounded-md bg-zinc-200 p-1">
-                {job.review && <p className="text-sm">{job.review}</p>}
-              </div>
-            </>
-          ) : (
-            <div
-              onClick={() => setShowDetails(true)}
-              className="flex justify-between"
-            >
-              <div>
+      <div
+        key={job.job_id}
+        className="drop-shadow- relative min-w-[320px] rounded-lg border-4 border-zinc-200 bg-zinc-100 p-2 text-zinc-900"
+      >
+        {showDetails ? (
+          <>
+            <div className="flex justify-between">
+              <div onClick={() => setShowDetails(false)}>
                 <div>
                   {job.Categories.map((c) => (
                     <p
@@ -144,29 +61,111 @@ const JobDetails = ({
                     </button>
                   )}
                 </div>
-                <div className="flex place-content-center gap-2 place-self-end pt-1">
-                  <p className="place-self-center text-right text-xs">
-                    {job.date.toDateString()}
-                  </p>
-                  <p className="place-self-end text-xl">
-                    {job.isReviewed ? (
-                      <div className="flex items-center gap-1 text-xs">
-                        <MdCheckCircle className="inline text-emerald-500" />{" "}
-                        Review
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-1 text-xs">
-                        <MdClose className="inline text-red-500" /> Review
-                      </div>
-                    )}
-                  </p>
-                </div>
+                <span>{job.customer_phone_number} </span>
               </div>
-              <h1 className="text-right text-lg">{job.zip_code}</h1>
+              <div className="flex flex-col">
+                <ActionsDropdown
+                  job={job}
+                  setCategoryFormOpen={setCategoryFormOpen}
+                />
+                <h1 className="text-right text-lg">{job.zip_code}</h1>
+                <p className="text-right text-xs">{job.date.toDateString()}</p>
+                <p className="place-self-end pt-2 text-xl">
+                  {job.isReviewed ? (
+                    <div className="flex items-center gap-1 text-xs">
+                      <MdCheckCircle className="inline text-emerald-500" />{" "}
+                      Review
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-1 text-xs">
+                      <MdClose className="inline text-red-500" /> Review
+                    </div>
+                  )}
+                </p>
+              </div>
             </div>
-          )}
-        </div>
-        {/* {showDetails && (
+            {Array.isArray(job.media) ? (
+              <div className="grid h-fit w-full grid-cols-3 gap-2 lg:grid-cols-8 ">
+                {job.media.map((img, index) => {
+                  if (typeof img === "string") {
+                    return (
+                      <div
+                        key={img}
+                        className="relative flex aspect-square flex-col items-center"
+                      >
+                        <Image
+                          onClick={() => setImage(index)}
+                          alt={`job_detail_${img}`}
+                          className="aspect-square h-full w-full rounded-md object-cover drop-shadow-md"
+                          src={img}
+                          width={100}
+                          height={100}
+                        />
+                        <DeleteMedia job={job} objectKey={img} />
+                      </div>
+                    );
+                  }
+                })}
+                <UploadMediaForm job_id={job.job_id} />
+              </div>
+            ) : (
+              <div className="grid h-fit w-full grid-cols-3 gap-2 space-y-2 lg:grid-cols-8">
+                <UploadMediaForm job_id={job.job_id} />
+              </div>
+            )}
+            {job.review && (
+              <div className="mt-4 rounded-md bg-zinc-200 p-1">
+                <p className="text-sm">{job.review}</p>
+              </div>
+            )}
+          </>
+        ) : (
+          <div
+            onClick={() => setShowDetails(true)}
+            className="flex justify-between"
+          >
+            <div>
+              <div>
+                {job.Categories.map((c) => (
+                  <p
+                    className="rounded-md bg-zinc-200 p-2 text-center font-bold"
+                    key={c.id}
+                  >
+                    {c.Category.name}
+                  </p>
+                ))}
+                {job.Categories.length === 0 && (
+                  <button
+                    onClick={() => setCategoryFormOpen(true)}
+                    className="rounded-md bg-emerald-200 p-2 text-center font-bold"
+                  >
+                    Add Category
+                  </button>
+                )}
+              </div>
+              <div className="flex place-content-center gap-2 place-self-end pt-1">
+                <p className="place-self-center text-right text-xs">
+                  {job.date.toDateString()}
+                </p>
+                <p className="place-self-end text-xl">
+                  {job.isReviewed ? (
+                    <div className="flex items-center gap-1 text-xs">
+                      <MdCheckCircle className="inline text-emerald-500" />{" "}
+                      Review
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-1 text-xs">
+                      <MdClose className="inline text-red-500" /> Review
+                    </div>
+                  )}
+                </p>
+              </div>
+            </div>
+            <h1 className="text-right text-lg">{job.zip_code}</h1>
+          </div>
+        )}
+      </div>
+      {/* {showDetails && (
           <div className=" flex justify-between gap-2 rounded-md border-4 border-zinc-200 bg-base-light px-1 py-2">
             {!job.isCompleted ? (
               <button
@@ -187,7 +186,6 @@ const JobDetails = ({
             <DeleteJob job={job} />
           </div>
         )} */}
-      </div>
       {categoryFormOpen && (
         <CategoryPopup
           type="job"
@@ -214,7 +212,7 @@ const ActionsDropdown = ({
   const { mutate: markComplete } = api.jobs.markComplete.useMutation();
   const [isOpen, setOpen] = useState(false);
   return (
-    <div className="relative w-[129px] text-xs lg:w-[169px] lg:text-base lg:text-zinc-900">
+    <div className="relative w-[129px] flex-1 text-xs lg:w-[169px] lg:text-base lg:text-zinc-900">
       {isOpen && (
         <div className="absolute left-0 top-10 z-20 flex w-[129px] flex-col justify-between gap-2 rounded-md border-4 border-zinc-200 bg-base-light px-1 py-2 lg:w-[169px]">
           {!job.isCompleted ? (

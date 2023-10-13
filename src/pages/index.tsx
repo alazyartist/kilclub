@@ -24,9 +24,9 @@ export default function Home() {
       </Head>
 
       <main>
-        <div className=" flex-coll container relative  min-h-[80vh] lg:flex-row">
+        <div className=" flex-coll container relative  min-h-[80vh] lg:min-h-[40vh] lg:flex-row">
           <div id="padding_only" className="p-8 lg:p-[3vw] xl:p-[5vw]" />
-          <div className="flex-coll relative h-full place-items-start space-y-4 p-4 lg:p-24 lg:pr-12 ">
+          <div className="flex-coll relative h-fit place-items-start space-y-4 p-4 lg:p-24 lg:pr-12 ">
             <div className=" p-2 text-left text-4xl font-bold lg:text-5xl xl:text-7xl">
               Locally <span className="text-accent">owned</span>
               <br />
@@ -59,11 +59,11 @@ export default function Home() {
                 pricing
               </Link>{" "}
             </p>
-            <div className="h-[900px] w-full rounded-3xl bg-accent p-2 lg:absolute lg:right-[-20%] lg:top-[90%] lg:w-[480px] xl:right-[-30%] xl:top-[90%] xl:w-[540px]">
+            {/* <div className="h-[900px] w-full rounded-3xl bg-accent p-2 lg:absolute lg:right-[-20%] lg:top-[90%] lg:w-[480px] xl:right-[-30%] xl:top-[90%] xl:w-[540px]">
               <p className="p-4 text-3xl text-zinc-100 lg:text-8xl">
                 Insert FEATURED here
               </p>
-            </div>
+            </div> */}
           </div>
           <Logo
             className={
@@ -71,6 +71,7 @@ export default function Home() {
             }
           />
         </div>
+        <div className="h-40 w-full bg-zinc-200">test</div>
       </main>
     </>
   );

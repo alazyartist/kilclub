@@ -10,8 +10,8 @@ import Smiley, { Circle } from "~/components/layout/Icons";
 const Jobs = () => {
   const { data: user } = api.user.getUser.useQuery();
   const [formOpen, setFormOpen] = useState(false);
-  const [checkisreviewed, setCheckisreviewed] = useState(false);
-  const [checkisnotreviewed, setCheckisnotreviewed] = useState(false);
+  const [checkisreviewed, setCheckisreviewed] = useState(true);
+  const [checkisnotreviewed, setCheckisnotreviewed] = useState(true);
   const [filter, setFilter] = useState("");
 
   const { data: allCategories } = api.category.getCategories.useQuery();
@@ -50,34 +50,33 @@ const Jobs = () => {
               </p>
             ))}
           </div> */}
-          {!formOpen && (
-            <>
-              <JobDisplay
-                filter={filter}
-                checkisreviewed={checkisreviewed}
-                checkisnotreviewed={checkisnotreviewed}
-                allCategories={allCategories}
-                business_id={user.business_id}
-              >
-                <button className="absolute right-4 top-[-25px] z-10 mr-4">
-                  <div className="p-1">
-                    <Circle
-                      onClick={() => setFormOpen(true)}
-                      className={" h-[50px] w-[50px] place-self-end"}
-                    />
-                    <p className="text-xs">add job</p>
-                  </div>
-                </button>
-              </JobDisplay>
-              <FinishedJobDisplay
-                filter={filter}
-                checkisreviewed={checkisreviewed}
-                checkisnotreviewed={checkisnotreviewed}
-                allCategories={allCategories}
-                business_id={user.business_id}
-              />
-            </>
-          )}
+
+          <>
+            <JobDisplay
+              filter={filter}
+              checkisreviewed={checkisreviewed}
+              checkisnotreviewed={checkisnotreviewed}
+              allCategories={allCategories}
+              business_id={user.business_id}
+            >
+              <button className="absolute right-4 top-[-25px] z-10 mr-4">
+                <div className="p-1">
+                  <Circle
+                    onClick={() => setFormOpen(true)}
+                    className={" h-[50px] w-[50px] place-self-end"}
+                  />
+                  <p className="text-xs">add job</p>
+                </div>
+              </button>
+            </JobDisplay>
+            {/* <FinishedJobDisplay
+              filter={filter}
+              checkisreviewed={checkisreviewed}
+              checkisnotreviewed={checkisnotreviewed}
+              allCategories={allCategories}
+              business_id={user.business_id}
+            /> */}
+          </>
           {/* </div> */}
         </>
       )}
@@ -122,10 +121,10 @@ const CategoryFilter = ({
       {Array.isArray(categories) &&
         categories.map((c) => (
           <p
-            className={`rounded-md bg-zinc-200 p-2 shadow-sm ${
+            className={`rounded-md bg-zinc-200 p-2 ${
               filter === c.Category.name
-                ? "shadow-accent-light "
-                : "shadow-zinc-500"
+                ? "ring-2 ring-accent-light ring-offset-2 "
+                : ""
             }`}
             onClick={() => {
               setFilter((prev) =>
@@ -160,94 +159,97 @@ const JobDisplay = ({
   });
 
   return (
-    <div className="relative flex w-[95vw] flex-col gap-2 rounded-xl bg-zinc-200">
-      <p className="p-2 text-3xl font-bold">Jobs</p>
+    <div className="relative flex w-[95vw] flex-col gap-2 rounded-xl bg-zinc-200 ">
+      <p className="p-2 text-3xl font-bold lg:pl-4 lg:pt-4">Jobs</p>
       {children}
-      {jobs
-        ?.filter((job) => {
-          if (!!checkisreviewed && !checkisnotreviewed) {
-            return !job.isReviewed && job;
-          } else if (!!checkisnotreviewed && !checkisreviewed) {
-            return job.isReviewed && job;
-          } else if (!!checkisnotreviewed && !!checkisreviewed) {
-            return job;
-          } else {
-            return job;
-          }
-        })
-        .filter((job) => {
-          if (filter) {
-            return job.Categories.some((c) => c.Category.name.includes(filter));
-          } else {
-            return job;
-          }
-        })
-        .map(
-          (job) =>
-            !job.isCompleted && (
-              <JobDetails
-                business_id={business_id}
-                allCategories={allCategories}
-                visible={true}
-                key={`jobdetail${job.job_id}`}
-                job={job}
-              />
-            ),
-        )}
-      <p className="text-center text-xs">no more jobs to show</p>
+      <div className="flex flex-col gap-2 lg:grid lg:grid-cols-2">
+        {jobs
+          ?.filter((job) => {
+            if (!!checkisreviewed && !checkisnotreviewed) {
+              return !job.isReviewed && job;
+            } else if (!!checkisnotreviewed && !checkisreviewed) {
+              return job.isReviewed && job;
+            } else if (!!checkisnotreviewed && !!checkisreviewed) {
+              return job;
+            } else {
+              return job;
+            }
+          })
+          .filter((job) => {
+            if (filter) {
+              return job.Categories.some((c) =>
+                c.Category.name.includes(filter),
+              );
+            } else {
+              return job;
+            }
+          })
+          .map((job) => (
+            <JobDetails
+              business_id={business_id}
+              allCategories={allCategories}
+              visible={true}
+              key={`jobdetail${job.job_id}`}
+              job={job}
+            />
+          ))}
+      </div>
+      <p className="place-self-center text-center text-xs">
+        no more jobs to show
+      </p>
     </div>
   );
 };
-const FinishedJobDisplay = ({
-  business_id,
-  allCategories,
-  checkisreviewed,
-  checkisnotreviewed,
-  filter,
-}: {
-  filter: string;
-  business_id: string;
-  allCategories: GetCategories;
-  checkisreviewed: boolean;
-  checkisnotreviewed: boolean;
-}) => {
-  const { data: jobs } = api.jobs.getJobs.useQuery({
-    business_id: business_id,
-  });
-  return (
-    <div className="flex w-[95vw] flex-col gap-2 rounded-xl bg-zinc-200">
-      <p className="p-2 text-3xl font-bold">Finished Jobs</p>
-      {jobs
-        ?.filter((job) => {
-          if (!!checkisreviewed && !checkisnotreviewed) {
-            return !job.isReviewed && job;
-          } else if (!!checkisnotreviewed && !checkisreviewed) {
-            return job.isReviewed && job;
-          } else if (!!checkisnotreviewed && !!checkisreviewed) {
-            return job;
-          } else {
-            return job;
-          }
-        })
-        .filter((job) => {
-          if (filter) {
-            return job.Categories.some((c) => c.Category.name.includes(filter));
-          } else {
-            return job;
-          }
-        })
-        .map(
-          (job) =>
-            job.isCompleted && (
-              <JobDetails
-                business_id={business_id}
-                allCategories={allCategories}
-                key={`jobdetail${job.job_id}`}
-                job={job}
-              />
-            ),
-        )}
-      <p className="text-center text-xs">no more jobs to show</p>
-    </div>
-  );
-};
+// const FinishedJobDisplay = ({
+//   business_id,
+//   allCategories,
+//   checkisreviewed,
+//   checkisnotreviewed,
+//   filter,
+// }: {
+//   filter: string;
+//   business_id: string;
+//   allCategories: GetCategories;
+//   checkisreviewed: boolean;
+//   checkisnotreviewed: boolean;
+// }) => {
+//   const { data: jobs } = api.jobs.getJobs.useQuery({
+//     business_id: business_id,
+//   });
+//   return (
+//     <div className="flex w-[95vw] flex-col gap-2 rounded-xl bg-zinc-200">
+//       <p className="p-2 text-3xl font-bold">Finished Jobs</p>
+//       {jobs
+//         ?.filter((job) => {
+//           if (!!checkisreviewed && !checkisnotreviewed) {
+//             return !job.isReviewed && job;
+//           } else if (!!checkisnotreviewed && !checkisreviewed) {
+//             return job.isReviewed && job;
+//           } else if (!!checkisnotreviewed && !!checkisreviewed) {
+//             return job;
+//           } else {
+//             return job;
+//           }
+//         })
+//         .filter((job) => {
+//           if (filter) {
+//             return job.Categories.some((c) => c.Category.name.includes(filter));
+//           } else {
+//             return job;
+//           }
+//         })
+//         .map(
+//           (job) =>
+//             job.isCompleted && (
+//               <JobDetails
+//                 business_id={business_id}
+//                 allCategories={allCategories}
+//                 key={`jobdetail${job.job_id}`}
+//                 job={job}
+//               />
+//             ),
+//         )}
+//       <p className="text-center text-xs">no more jobs to show</p>
+//     </div>
+//   );
+// };
