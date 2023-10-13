@@ -11,7 +11,7 @@ export const businessRouter = createTRPCRouter({
     .input(z.object({ business_id: z.string() }))
     .query(async ({ ctx, input }) => {
       try {
-        const businesses = await ctx.prisma.businessInfo.findUnique({
+        const business = await ctx.prisma.businessInfo.findUnique({
           where: { business_id: input.business_id },
           include: {
             Jobs: {
@@ -21,7 +21,7 @@ export const businessRouter = createTRPCRouter({
             Categories: { include: { Category: true } },
           },
         });
-        return businesses;
+        return business;
       } catch (err) {
         console.log(err);
         throw new TRPCError({

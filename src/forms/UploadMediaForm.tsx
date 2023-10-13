@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Circle } from "~/components/layout/Icons";
 import { api } from "~/utils/api";
 
 const UploadMediaForm = ({ job_id }: { job_id: string }) => {
@@ -51,21 +52,21 @@ const UploadMediaForm = ({ job_id }: { job_id: string }) => {
     <form>
       {mediaFormOpen && (
         <div className="flex-coll -center absolute left-0 top-0 h-screen w-screen ">
-          <div className="absolute top-2 z-20 flex flex-col gap-2 rounded-md bg-accent-light p-4 drop-shadow-md ">
+          <div className="fixed top-[40vh] z-20 flex flex-col gap-2 rounded-md bg-zinc-200 p-4 drop-shadow-md ">
             <input onChange={handleUpload} multiple type="file" />
             <button
               type="button"
               onClick={() => {
                 setMediaFormOpen(false);
               }}
-              className="rounded-md bg-zinc-900 bg-opacity-20 p-2 text-zinc-100"
+              className="rounded-md bg-red-500  p-2 text-zinc-100"
             >
               cancel
             </button>
           </div>
           <div
             onClick={() => setMediaFormOpen(false)}
-            className="fixed left-0 top-0 z-[2] h-full w-full bg-zinc-900 bg-opacity-30 backdrop-blur-md"
+            className="fixed left-0 top-0 z-[2] h-full w-full bg-zinc-900 bg-opacity-30 backdrop-blur-sm"
           />
         </div>
       )}
@@ -74,9 +75,10 @@ const UploadMediaForm = ({ job_id }: { job_id: string }) => {
         onClick={() => {
           setMediaFormOpen(true);
         }}
-        className="aspect-square h-full w-full rounded-md bg-accent-light p-2 text-5xl font-black drop-shadow-md"
+        className="flex aspect-square h-full w-full flex-col place-content-center place-items-center rounded-md bg-zinc-200 p-2 text-5xl font-black drop-shadow-md"
       >
-        +<p className="text-xs font-normal">add media</p>
+        <Circle className={"h-[50px] w-[50px] "} />
+        <p className="text-xs font-normal">add media</p>
       </button>
     </form>
   );

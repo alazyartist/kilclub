@@ -22,7 +22,7 @@ const BusinessCategories: React.FC<BusinessType> = ({
 
   return (
     <div className="">
-      <div className="-center shadow-inner-top-bottom max-h-[25vh] min-h-[10vh] min-w-[100vw] flex-row flex-wrap gap-2 overflow-auto border-b-2 border-t-2 border-base-dark bg-zinc-200 px-2 pb-10 pt-6">
+      <div className="-center shadow-inner-top-bottom max-h-[25vh] min-h-[10vh] min-w-[100vw] flex-row flex-wrap gap-2 overflow-auto border-b-2 border-t-2 border-zinc-300 bg-zinc-100 px-2 pb-10 pt-6">
         {Array.isArray(business?.Categories) &&
           business.Categories.map((c) => (
             <div

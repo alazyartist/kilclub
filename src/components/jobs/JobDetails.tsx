@@ -1,11 +1,12 @@
 import { type Jobs } from "@prisma/client";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import UploadMediaForm from "~/forms/UploadMediaForm";
 import { api } from "~/utils/api";
 import CategoryPopup from "../account/CategoryPopup";
 import type { GetCategories, GetJobs } from "~/utils/RouterTypes";
 import Image from "next/image";
+import { MdCheckCircle, MdClose } from "../icons/MdIcons";
+import { CaretDown } from "../layout/Icons";
 type JobType = GetJobs[0];
 const JobDetails = ({
   job,
@@ -20,96 +21,151 @@ const JobDetails = ({
 }) => {
   const [showDetails, setShowDetails] = useState(visible);
   const [categoryFormOpen, setCategoryFormOpen] = useState(false);
-  const { mutate: markComplete } = api.jobs.markComplete.useMutation();
-  const router = useRouter();
-  const image = router.query.image;
+  const [image, setImage] = useState<number | string>("");
+  const images = job.media as string[];
+  // const router = useRouter();
+  // const image = router.query.image;
   return (
     <>
-      {image && <ImagePopover image={image} />}
-      <div>
-        <div
-          key={job.job_id}
-          className="relative min-w-[320px] rounded-md bg-accent p-2 text-zinc-100"
-        >
-          {showDetails ? (
-            <>
-              <div className="flex justify-between">
+      {image !== "" && (
+        <ImagePopover
+          length={images.length}
+          setImage={setImage}
+          image={images[image]}
+        />
+      )}
+      <div
+        key={job.job_id}
+        className="drop-shadow- relative min-w-[320px] rounded-lg border-4 border-zinc-200 bg-zinc-100 p-2 text-zinc-900"
+      >
+        {showDetails ? (
+          <>
+            <div className="flex justify-between">
+              <div onClick={() => setShowDetails(false)}>
                 <div>
-                  <div>
-                    {job.Categories.map((c) => (
-                      <p key={c.id}>{c.Category.name}</p>
-                    ))}
-                  </div>
-                  <span onClick={() => setShowDetails(false)}>
-                    {job.customer_phone_number}{" "}
-                  </span>
-                  <button
-                    onClick={() => {
-                      navigator.share({
-                        url: `http://keep-it-local-club.vercel.app/review?pnid=%2B${job.customer_phone_number.slice(
-                          1,
-                        )}`,
-                        title: `Review ${job.job_id}`,
-                      });
-
-                      console.log("gonna share");
-                    }}
-                  >
-                    share
-                  </button>
+                  {job.Categories.map((c) => (
+                    <p
+                      className="rounded-md bg-zinc-200 p-2 text-center font-bold"
+                      key={c.id}
+                    >
+                      {c.Category.name}
+                    </p>
+                  ))}
+                  {job.Categories.length === 0 && (
+                    <button
+                      onClick={() => setCategoryFormOpen(true)}
+                      className="rounded-md bg-emerald-200 p-2 text-center font-bold"
+                    >
+                      Add Category
+                    </button>
+                  )}
                 </div>
-                <div>
-                  <h1 className="text-right text-lg">{job.zip_code}</h1>
-                  <p className="text-right text-xs">
-                    {job.date.toDateString()}
-                  </p>
-                </div>
+                <span>{job.customer_phone_number} </span>
               </div>
-              {Array.isArray(job.media) ? (
-                <div className="grid h-full w-full grid-cols-3 gap-2 lg:grid-cols-8">
-                  {job.media.map((img) => {
-                    if (typeof img === "string") {
-                      return (
-                        <div
-                          key={img}
-                          className="relative flex flex-col items-center"
-                        >
-                          <Image
-                            onClick={() => router.push(`?image=${img}`)}
-                            alt={`job_detail_${img}`}
-                            className="aspect-square h-full w-full rounded-md object-cover drop-shadow-md"
-                            src={img}
-                            width={100}
-                            height={100}
-                          />
-                          <DeleteMedia job={job} objectKey={img} />
-                        </div>
-                      );
-                    }
-                  })}
-                  <UploadMediaForm job_id={job.job_id} />
-                </div>
-              ) : (
-                <div className="grid h-full w-full grid-cols-3 gap-2 lg:grid-cols-8">
-                  <UploadMediaForm job_id={job.job_id} />
-                </div>
-              )}
-            </>
-          ) : (
-            <div
-              onClick={() => setShowDetails(true)}
-              className="flex justify-between"
-            >
-              <p className="place-self-end text-right text-xs">
-                {job.date.toDateString()}
-              </p>
-              <h1 className="text-right text-lg">{job.zip_code}</h1>
+              <div className="flex flex-col">
+                <ActionsDropdown
+                  job={job}
+                  setCategoryFormOpen={setCategoryFormOpen}
+                />
+                <h1 className="text-right text-lg">{job.zip_code}</h1>
+                <p className="text-right text-xs">{job.date.toDateString()}</p>
+                <p className="place-self-end pt-2 text-xl">
+                  {job.isReviewed ? (
+                    <div className="flex items-center gap-1 text-xs">
+                      <MdCheckCircle className="inline text-emerald-500" />{" "}
+                      Review
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-1 text-xs">
+                      <MdClose className="inline text-red-500" /> Review
+                    </div>
+                  )}
+                </p>
+              </div>
             </div>
-          )}
-        </div>
-        {showDetails && (
-          <div className=" flex justify-between gap-2 rounded-md bg-base-light py-2">
-            {/* <UploadMediaForm job_id={job.job_id} /> */}
+            {Array.isArray(job.media) ? (
+              <div className="grid h-fit w-full grid-cols-3 gap-2 lg:grid-cols-8 ">
+                {job.media.map((img, index) => {
+                  if (typeof img === "string") {
+                    return (
+                      <div
+                        key={img}
+                        className="relative flex aspect-square flex-col items-center"
+                      >
+                        <Image
+                          onClick={() => setImage(index)}
+                          alt={`job_detail_${img}`}
+                          className="aspect-square h-full w-full rounded-md object-cover drop-shadow-md"
+                          src={img}
+                          width={100}
+                          height={100}
+                        />
+                        <DeleteMedia job={job} objectKey={img} />
+                      </div>
+                    );
+                  }
+                })}
+                <UploadMediaForm job_id={job.job_id} />
+              </div>
+            ) : (
+              <div className="grid h-fit w-full grid-cols-3 gap-2 space-y-2 lg:grid-cols-8">
+                <UploadMediaForm job_id={job.job_id} />
+              </div>
+            )}
+            {job.review && (
+              <div className="mt-4 rounded-md bg-zinc-200 p-1">
+                <p className="text-sm">{job.review}</p>
+              </div>
+            )}
+          </>
+        ) : (
+          <div
+            onClick={() => setShowDetails(true)}
+            className="flex justify-between"
+          >
+            <div>
+              <div>
+                {job.Categories.map((c) => (
+                  <p
+                    className="rounded-md bg-zinc-200 p-2 text-center font-bold"
+                    key={c.id}
+                  >
+                    {c.Category.name}
+                  </p>
+                ))}
+                {job.Categories.length === 0 && (
+                  <button
+                    onClick={() => setCategoryFormOpen(true)}
+                    className="rounded-md bg-emerald-200 p-2 text-center font-bold"
+                  >
+                    Add Category
+                  </button>
+                )}
+              </div>
+              <div className="flex place-content-center gap-2 place-self-end pt-1">
+                <p className="place-self-center text-right text-xs">
+                  {job.date.toDateString()}
+                </p>
+                <p className="place-self-end text-xl">
+                  {job.isReviewed ? (
+                    <div className="flex items-center gap-1 text-xs">
+                      <MdCheckCircle className="inline text-emerald-500" />{" "}
+                      Review
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-1 text-xs">
+                      <MdClose className="inline text-red-500" /> Review
+                    </div>
+                  )}
+                </p>
+              </div>
+            </div>
+            <h1 className="text-right text-lg">{job.zip_code}</h1>
+          </div>
+        )}
+      </div>
+      {/* {showDetails && (
+          <div className=" flex justify-between gap-2 rounded-md border-4 border-zinc-200 bg-base-light px-1 py-2">
             {!job.isCompleted ? (
               <button
                 onClick={() => markComplete({ job_id: job.job_id })}
@@ -128,8 +184,7 @@ const JobDetails = ({
             </button>
             <DeleteJob job={job} />
           </div>
-        )}
-      </div>
+        )} */}
       {categoryFormOpen && (
         <CategoryPopup
           type="job"
@@ -146,22 +201,96 @@ const JobDetails = ({
 
 export default JobDetails;
 
-const ImagePopover = ({ image }) => {
-  const router = useRouter();
+const ActionsDropdown = ({
+  job,
+  setCategoryFormOpen,
+}: {
+  job: Jobs;
+  setCategoryFormOpen: React.Dispatch<React.SetStateAction<Boolean>>;
+}) => {
+  const { mutate: markComplete } = api.jobs.markComplete.useMutation();
+  const [isOpen, setOpen] = useState(false);
+  return (
+    <div className="relative w-[129px] flex-1 text-xs lg:w-[169px] lg:text-base lg:text-zinc-900">
+      {isOpen && (
+        <div className="absolute left-0 top-10 z-20 flex w-[129px] flex-col justify-between gap-2 rounded-md border-4 border-zinc-200 bg-base-light px-1 py-2 lg:w-[169px]">
+          {!job.isCompleted ? (
+            <button
+              onClick={() => markComplete({ job_id: job.job_id })}
+              className="whitespace-nowrap rounded-md bg-zinc-900 bg-opacity-20 p-2 "
+            >
+              Mark Complete
+            </button>
+          ) : (
+            <p className="p-2">Completed</p>
+          )}
+          <button
+            onClick={() => setCategoryFormOpen(true)}
+            className="whitespace-nowrap rounded-md bg-zinc-900 bg-opacity-30 p-2 "
+          >
+            Manage Categories
+          </button>
+          <button
+            onClick={() => {
+              navigator.share({
+                url: `http://keep-it-local-club.vercel.app/review?pnid=%2B${job.customer_phone_number.slice(
+                  1,
+                )}`,
+                title: `Review ${job.job_id}`,
+              });
+
+              console.log("gonna share");
+            }}
+          >
+            Request Review
+          </button>
+          <DeleteJob job={job} />
+        </div>
+      )}
+      <div>
+        <div
+          className="flex min-w-[69px] justify-around rounded-md bg-zinc-200 p-2"
+          onClick={() => setOpen((prev) => !prev)}
+        >
+          <p className="flex gap-1">
+            actions{" "}
+            <span>
+              <CaretDown className={"inline w-[12px]"} />{" "}
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ImagePopover = ({ image, setImage, length }) => {
   return (
     <div className="flex-coll -center absolute left-0 top-0 h-screen w-screen ">
-      <div className="z-10 max-h-[95vh] max-w-[95vw]">
+      <div className="z-10 flex max-h-[95vh] max-w-[95vw] place-items-center gap-2">
+        <p
+          onClick={() => setImage((prev) => (prev < 1 ? length - 1 : prev - 1))}
+          className="rounded-full bg-zinc-200 bg-opacity-20 px-4 py-2 text-3xl font-black text-zinc-100"
+        >
+          &lt;
+        </p>
         <Image
           alt={`popover_${image}`}
+          width={1000}
+          height={1000}
           className="obj h-full w-full rounded-md object-contain"
           src={image}
-          width={100}
-          height={100}
         />
+        <p
+          onClick={() => setImage((prev) => (prev + 1) % length)}
+          className="rounded-full bg-zinc-200 bg-opacity-20 px-4 py-2 text-3xl font-black text-zinc-100"
+        >
+          &gt;
+        </p>
       </div>
       <div
-        onClick={() => router.push("/jobs")}
-        className="fixed left-0 top-0 z-[2] h-full w-full bg-zinc-900 bg-opacity-30 backdrop-blur-md"
+        onClick={() => setImage("")}
+        className="fixed left-0 top-0 z-[2] h-screen w-screen bg-zinc-900 bg-opacity-30 backdrop-blur-md"
       />
     </div>
   );
@@ -174,25 +303,25 @@ const DeleteJob = ({ job }: { job: Jobs }) => {
   return (
     <>
       {deleteCheck ? (
-        <div className="space-x-3">
+        <div className="flex flex-col gap-2">
+          <button
+            onClick={() => setDeleteCheck(false)}
+            className="min-w-[69px] rounded-md bg-emerald-500 p-2"
+          >
+            no
+          </button>
           <button
             onClick={() => deleteJob({ job_id: job.job_id })}
             className="min-w-[69px] rounded-md bg-red-500 p-2"
           >
             yes
           </button>
-          <button
-            onClick={() => setDeleteCheck(false)}
-            className="min-w-[69px] rounded-md bg-red-500 p-2"
-          >
-            no
-          </button>
         </div>
       ) : (
-        <div className="rounded-md bg-accent">
+        <div className="rounded-md bg-red-500">
           <button
             onClick={() => setDeleteCheck(true)}
-            className="rounded-md bg-zinc-900 bg-opacity-20 p-2 text-zinc-100"
+            className="lg: w-full rounded-md bg-zinc-900 bg-opacity-20 p-2  text-zinc-100"
           >
             delete job
           </button>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import HeaderMenu from "./HeaderMenu";
 import Link from "next/link";
+import Logotype from "./Logotype";
 
 const Header = () => {
   const [isOpen, openMenu] = useState(false);
@@ -10,18 +11,26 @@ const Header = () => {
         <Link
           onClick={() => openMenu(false)}
           href={"/"}
-          className="text-4xl font-extrabold tracking-tighter text-accent-light sm:text-[5rem] lg:text-6xl"
+          className="flex place-items-center text-4xl font-extrabold tracking-tighter text-accent-light sm:text-[5rem] lg:text-6xl"
         >
-          keep<span className="text-accent-dark">it</span>local.club
+          <Logotype className={"h-8 w-fit"} />
+          {/* keep<span className="text-accent-dark">it</span>local.club */}
         </Link>
         <p
           onClick={() => openMenu((prev) => !prev)}
-          className="w-12 p-2 text-3xl font-bold lg:w-16"
+          className="w-12 p-2 text-3xl font-bold lg:hidden lg:w-16"
         >
           <HamburgerSVG />
         </p>
+        <div className="hidden lg:inline">
+          <HeaderMenu close={openMenu} />
+        </div>
       </div>
-      {isOpen && <HeaderMenu close={openMenu} />}
+      {isOpen && (
+        <div className="lg:hidden ">
+          <HeaderMenu close={openMenu} />
+        </div>
+      )}
     </header>
   );
 };

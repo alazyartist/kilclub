@@ -7,6 +7,7 @@ import {
 } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import { api } from "~/utils/api";
 
@@ -16,7 +17,7 @@ const HeaderMenu = ({
   close: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (
-    <div className="flex-coll fixed right-[5vw] top-10 z-10 w-[90vw] gap-2 rounded-md bg-base-light p-2 text-center text-zinc-900">
+    <div className="flex-coll fixed right-[5vw] top-10 z-10 w-[90vw] gap-2 rounded-md bg-base-light p-2 text-center text-zinc-900 lg:relative lg:top-0 lg:flex lg:w-fit lg:flex-row lg:gap-8 lg:text-2xl">
       <SignedIn>
         <PrivateMenu close={close} />
       </SignedIn>
@@ -40,8 +41,14 @@ const MenuLink = ({
   title: string | React.ReactNode;
   close: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const router = useRouter();
+
   return (
-    <Link onClick={() => close(false)} className="" href={href}>
+    <Link
+      onClick={() => close(false)}
+      className={`${href === router.asPath ? "underline" : ""}`}
+      href={href}
+    >
       {title}
     </Link>
   );
@@ -58,10 +65,10 @@ const PrivateMenu = ({
     <>
       {user && (
         <>
-          {!user?.subscription_id ||
-            (user.subscription_status === "canceled" && (
-              <MenuLink close={close} href="/upgrade" title="Upgrade" />
-            ))}
+          {(!user?.subscription_id ||
+            user.subscription_status !== "active") && (
+            <MenuLink close={close} href="/upgrade" title="Upgrade" />
+          )}
           {!user?.isBusiness && (
             <MenuLink close={close} href="/history" title="History" />
           )}

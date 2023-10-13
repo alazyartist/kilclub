@@ -17,6 +17,18 @@ export const categoryRouter = createTRPCRouter({
     });
     return categories;
   }),
+  getBusinessCategories: protectedProcedure.query(async ({ ctx }) => {
+    const business = await ctx.prisma.user.findUnique({
+      where: { user_id: ctx.auth.userId },
+    });
+    const categories = await ctx.prisma.businessCategories.findMany({
+      where: { business_id: business.business_id },
+      include: {
+        Category: true,
+      },
+    });
+    return categories;
+  }),
   addCategory: protectedProcedure
     .input(
       z.object({

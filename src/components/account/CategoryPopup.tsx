@@ -49,8 +49,8 @@ const CategoryPopup = ({
   return (
     <>
       {categories && (
-        <div className="minimalistScroll absolute left-[0] top-[0vh] z-10 h-[100vh] w-[100vw] space-y-3 overflow-y-scroll rounded-md p-2 backdrop-blur-md">
-          <div className="minimalistScroll sticky top-1 z-20 h-[20vh] w-full space-y-2 overflow-y-scroll rounded-md bg-zinc-800 p-2">
+        <div className="minimalistScroll fixed left-[0] top-[0vh] z-30 h-[100vh] w-[100vw] space-y-3 overflow-y-scroll rounded-md p-2 backdrop-blur-md">
+          <div className="minimalistScroll sticky top-1 z-40 h-[20vh] w-full space-y-2 overflow-y-scroll rounded-md bg-zinc-800 p-2">
             <div
               className="top-2s absolute right-4 z-20 text-xl font-black text-zinc-200"
               onClick={() => close(false)}
@@ -85,7 +85,7 @@ const CategoryPopup = ({
                       className="border-b-2 border-zinc-800 p-1 pb-0 text-xl"
                       onClick={() => {
                         setOpenCats((prev) => {
-                          return openCats.some((cat) => cat.includes(c.name))
+                          return prev.some((cat) => cat.includes(c.name))
                             ? prev.filter((pc) => pc !== c.name)
                             : Array.from(new Set([...prev, c.name]));
                         });
@@ -96,12 +96,12 @@ const CategoryPopup = ({
                     </p>
                     <div className="space-y-2">
                       {Array.isArray(c.Children) &&
+                        openCats.includes(c.name) &&
                         c.Children.map(
                           (child) =>
-                            child.Child?.name &&
-                            openCats.includes(c.name) && (
+                            child.Child?.name && (
                               <p
-                                key={c.name}
+                                key={child.Child.name}
                                 onClick={() => {
                                   setSelected((prev) =>
                                     selected.some((e) =>
@@ -137,7 +137,7 @@ const CategoryPopup = ({
       )}
       <button
         onClick={() => handleSave()}
-        className="fixed bottom-2 left-[40vw] z-20 rounded-3xl bg-accent px-6 py-2 text-xl text-zinc-100"
+        className="fixed bottom-2 left-[40vw] z-50 rounded-3xl bg-accent px-6 py-2 text-xl text-zinc-100"
       >
         save
       </button>
