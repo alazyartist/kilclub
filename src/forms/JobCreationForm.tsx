@@ -84,7 +84,10 @@ const JobCreationForm = ({
           Create Job
         </button>
       </form>
-      <div className="absolute z-[-1] h-full w-full bg-zinc-900 bg-opacity-30 backdrop-blur-md" />
+      <div
+        onClick={() => setFormOpen(false)}
+        className="absolute z-[-1] h-full w-full bg-zinc-900 bg-opacity-30 backdrop-blur-md"
+      />
     </div>
   );
 };

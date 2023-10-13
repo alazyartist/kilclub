@@ -52,7 +52,7 @@ const UploadMediaForm = ({ job_id }: { job_id: string }) => {
     <form>
       {mediaFormOpen && (
         <div className="flex-coll -center absolute left-0 top-0 h-screen w-screen ">
-          <div className="fixed top-[40vh] z-20 flex flex-col gap-2 rounded-md bg-zinc-200 p-4 drop-shadow-md ">
+          <div className="fixed top-[40vh] z-40 flex flex-col gap-2 rounded-md bg-zinc-200 p-4 drop-shadow-md ">
             <input onChange={handleUpload} multiple type="file" />
             <button
               type="button"
@@ -66,7 +66,7 @@ const UploadMediaForm = ({ job_id }: { job_id: string }) => {
           </div>
           <div
             onClick={() => setMediaFormOpen(false)}
-            className="fixed left-0 top-0 z-[2] h-full w-full bg-zinc-900 bg-opacity-30 backdrop-blur-sm"
+            className="fixed left-0 top-0 z-[20] h-full w-full bg-zinc-900 bg-opacity-30 backdrop-blur-md"
           />
         </div>
       )}
