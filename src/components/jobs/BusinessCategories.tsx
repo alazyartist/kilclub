@@ -3,6 +3,7 @@ import { useState } from "react";
 import CategoryPopup from "../account/CategoryPopup";
 import { api } from "~/utils/api";
 import type { GetBusinessWithJobs, GetMyBusiness } from "~/utils/RouterTypes";
+import { Circle } from "../layout/Icons";
 
 // TEMP CATEGORIES
 type BusinessType = {
@@ -29,9 +30,9 @@ const BusinessCategories: React.FC<BusinessType> = ({
               key={c.Category.category_id}
               className={`${
                 filter === c.Category.name
-                  ? "-light shadow-accent-light "
-                  : "shadow-zinc-500"
-              } strong flex-grow cursor-pointer rounded-md bg-base-light px-2 py-1 text-center font-sans text-lg text-black shadow-md `}
+                  ? "-light ring-2 ring-accent-light "
+                  : ""
+              } strong flex-grow cursor-pointer rounded-md bg-base-light px-2 py-1 text-center font-sans text-lg text-black drop-shadow-md `}
               onClick={() => {
                 setFilter((prev) =>
                   prev !== c.Category.name ? c.Category.name : "",
@@ -44,17 +45,23 @@ const BusinessCategories: React.FC<BusinessType> = ({
           ))}
       </div>
 
-      <div className="absolute w-full min-w-[80vw] flex-row justify-end">
-        {isProfile && (
-          <div
+      {isProfile && (
+        <div className="absolute w-full min-w-[80vw] flex-row justify-end">
+          {/* <div
             className="relative -left-8 -top-5 h-10 w-10 cursor-pointer rounded-full bg-base-light px-2 py-1 text-4xl leading-5 text-black shadow-md shadow-zinc-500"
             onClick={() => setOpenCategoryForm(!openCategoryForm)}
           >
             {" "}
             +
+          </div> */}
+          <div
+            className="relative -left-8 -top-5 h-10 w-10 cursor-pointer rounded-full bg-base-light text-black shadow-md shadow-zinc-500"
+            onClick={() => setOpenCategoryForm(!openCategoryForm)}
+          >
+            <Circle className={"h-full w-full"} />
           </div>
-        )}
-      </div>
+        </div>
+      )}
       {openCategoryForm && (
         <CategoryPopup
           startCategories={business.Categories.map((c) => c.Category.name)}

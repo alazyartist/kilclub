@@ -50,14 +50,14 @@ const CategoryPopup = ({
     <>
       {categories && (
         <div className="minimalistScroll fixed left-[0] top-[0vh] z-30 h-[100vh] w-[100vw] space-y-3 overflow-y-scroll rounded-md p-2 backdrop-blur-md">
-          <div className="minimalistScroll sticky top-1 z-40 h-[20vh] w-full space-y-2 overflow-y-scroll rounded-md bg-zinc-800 p-2">
+          <div className="minimalistScroll sticky top-1 z-40 h-fit w-full space-y-2 overflow-y-scroll rounded-md bg-zinc-800 p-2">
             <div
-              className="top-2s absolute right-4 z-20 text-xl font-black text-zinc-200"
+              className="absolute right-4 top-2 z-20 text-xl font-black text-zinc-200"
               onClick={() => close(false)}
             >
               X
             </div>
-            <p className="sticky top-0 border-b-2 border-zinc-200 bg-zinc-800 text-xl text-zinc-100">
+            <p className=" top-0 border-b-2 border-zinc-200 bg-zinc-800 text-xl text-zinc-100">
               active categories
             </p>
             <div className=" flex flex-wrap gap-2  ">
@@ -137,7 +137,7 @@ const CategoryPopup = ({
       )}
       <button
         onClick={() => handleSave()}
-        className="fixed bottom-2 left-[40vw] z-50 rounded-3xl bg-accent px-6 py-2 text-xl text-zinc-100"
+        className="fixed bottom-[4vh] left-[40vw] z-50 rounded-3xl bg-accent px-6 py-2 text-xl text-zinc-100"
       >
         save
       </button>

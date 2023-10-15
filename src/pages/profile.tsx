@@ -5,7 +5,7 @@ import BusinessCategories from "~/components/jobs/BusinessCategories";
 import { type GetMyBusiness } from "~/utils/RouterTypes";
 const Logo = ({ business }: { business: GetMyBusiness }) => {
   return (
-    <div className=" flex-coll -center max-h-[20vh] max-w-[80vw] rounded-lg bg-accent p-4 text-white">
+    <div className=" flex-coll -center max-h-[20vh] max-w-[80vw] rounded-lg bg-accent-light p-4 text-white">
       <span className="text-center text-4xl font-bold">
         {business.business_name}
       </span>
@@ -34,6 +34,7 @@ const Profile = () => {
 
       <div className="flex-coll -center gap-8">
         {jobs
+          .filter((job) => job.isCompleted && job)
           .filter((job) =>
             job.Categories.some((c) => c.Category.name.includes(filter)),
           )
@@ -43,6 +44,7 @@ const Profile = () => {
               key={job.job_id}
               zipcode={job.zip_code}
               date={new Date(job.date)}
+              review={job.review}
               photos={job.media as string[]}
               star_rating={Math.trunc(Math.random() * 6)}
               /*

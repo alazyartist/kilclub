@@ -9,6 +9,7 @@ interface PostingProps {
   star_rating: number;
   date: Date;
   photos: string[];
+  review: string;
   jobCategories: Category[];
 }
 
@@ -18,6 +19,7 @@ const Posting: React.FC<PostingProps> = ({
   star_rating,
   date,
   photos,
+  review,
   jobCategories,
 }) => {
   // const [showLocation, setShowLocation] = useState(true);
@@ -36,9 +38,9 @@ const Posting: React.FC<PostingProps> = ({
   };
 
   return (
-    <div className="flex-coll -center w-[95vw] max-w-[800px] rounded-lg border-2 border-accent bg-base-light text-white">
-      <div className="flex-coll font-strong w-full border-b-2 border-accent bg-accent p-1">
-        <span className="w-full text-center text-2xl font-bold">
+    <div className="flex-coll -center w-[95vw] max-w-[800px] rounded-lg border-2 border-accent-light bg-base-light text-white">
+      <div className="flex-coll w-full border-b-2 border-accent bg-accent-light p-1">
+        <span className="w-full text-left text-2xl font-bold">
           {jobCategories.map((j) => j.name)}
         </span>
         <div className="w-full flex-row justify-around text-lg">
@@ -55,7 +57,7 @@ const Posting: React.FC<PostingProps> = ({
               .map((photo, index) => (
                 <Image
                   width={200}
-                  className="aspect-square object-cover"
+                  className="aspect-square h-full w-full rounded-xl object-cover"
                   key={photo}
                   height={200}
                   src={photo}
@@ -69,7 +71,7 @@ const Posting: React.FC<PostingProps> = ({
               .slice(1, 3)
               .map((photo, index) => (
                 <Image
-                  className="aspect-square object-cover"
+                  className="aspect-square h-full w-full rounded-xl object-cover"
                   key={photo}
                   width={200}
                   height={200}
@@ -79,23 +81,33 @@ const Posting: React.FC<PostingProps> = ({
                 />
               ))}
         </div>
-        <div className="grid grid-cols-4 gap-4">
-          {Array.isArray(photos) &&
-            photos
-              .slice(3)
-              .map((photo, index) => (
-                <Image
-                  className="aspect-square object-cover"
-                  key={photo}
-                  width={100}
-                  height={100}
-                  src={photo}
-                  alt={`Photo ${index + 1}`}
-                  onClick={() => openImageModal(photo)}
-                />
-              ))}
-        </div>
+        {Array.isArray(photos) && photos.length > 3 && (
+          <div className="grid grid-cols-4 gap-4">
+            {photos.slice(3).map((photo, index) => (
+              <Image
+                className="aspect-square rounded-xl object-cover"
+                key={photo}
+                width={100}
+                height={100}
+                src={photo}
+                alt={`Photo ${index + 1}`}
+                onClick={() => openImageModal(photo)}
+              />
+            ))}
+          </div>
+        )}
       </div>
+      {review && (
+        <div className="relative w-full p-2">
+          {/* <p className="absolute -top-4 rounded-t-md bg-zinc-300 p-2 text-xl font-bold text-zinc-900 mix-blend-darken"> */}
+          <p className="w-full rounded-t-md bg-zinc-300 p-2 text-xl font-bold text-zinc-900">
+            customer says
+          </p>
+          <p className="w-full rounded-b-md bg-zinc-300 p-2 text-zinc-900">
+            {review}
+          </p>
+        </div>
+      )}
 
       {selectedImage && (
         <ImageModal imageUrl={selectedImage} onClose={closeImageModal} />
