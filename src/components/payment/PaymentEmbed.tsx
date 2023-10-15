@@ -35,7 +35,7 @@ const PaymentEmbed = ({ clientSecret }: { clientSecret: string }) => {
         border: "0",
       },
       ".Tab--selected, .Tab--selected:hover": {
-        backgroundColor: "#ff4081",
+        backgroundColor: "#FD974E",
         color: "#fff",
         border: "2px solid #fff",
       },
@@ -78,9 +78,9 @@ const CheckoutForm = () => {
           <p>{error.message}</p>
         </div>
       )}
-      <PaymentElement className="mb-4 flex max-h-[60vh] " />
+      <PaymentElement className="mb-4 flex  " />
       <button
-        className="rounded-md bg-accent-light p-2"
+        className="rounded-md bg-accent-light p-2 text-zinc-100"
         type="submit"
         disabled={!stripe}
       >

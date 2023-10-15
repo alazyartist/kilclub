@@ -22,8 +22,12 @@ const HeaderMenu = ({
         <PrivateMenu close={close} />
       </SignedIn>
       <SignedOut>
-        <SignInButton mode="modal" />
-        <SignUpButton mode="modal" />
+        <p onClick={() => close(false)}>
+          <SignInButton mode="modal" />
+        </p>
+        <p onClick={() => close(false)}>
+          <SignUpButton mode="modal" />
+        </p>
         <MenuLink close={close} href="pricing" title="Pricing" />
       </SignedOut>
     </div>

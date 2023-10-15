@@ -1,3 +1,4 @@
+import { SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
 import React from "react";
 import Smiley from "~/components/layout/Icons";
@@ -14,12 +15,7 @@ const Pricing = () => {
           Showcase your work
           <br /> in seconds
         </p>
-        <Link
-          href={"/register"}
-          className="rounded-md bg-zinc-800 p-2 font-bold text-zinc-100"
-        >
-          Get Started
-        </Link>
+        <GetStartedButton />
       </div>
       <SetupSteps />
 
@@ -91,12 +87,17 @@ export const PriceBreakdown = () => {
   const pricingItems = [
     { feature: "Showcase your previous work", tier1: "yes", tier2: "yes" },
     { feature: "Collect social proof", tier1: "yes", tier2: "yes" },
-    { feature: "Automatic messaging", tier1: "no", tier2: "yes" },
-    { feature: "Unlimited uploads", tier1: "no", tier2: "yes" },
-    { feature: "Featured section", tier1: "no", tier2: "yes" },
+    {
+      feature: "",
+      tier1: <GetStartedButton />,
+      tier2: "yes",
+    },
+    // { feature: "Automatic messaging", tier1: "no", tier2: "yes" },
+    // { feature: "Unlimited uploads", tier1: "no", tier2: "yes" },
+    // { feature: "Featured section", tier1: "no", tier2: "yes" },
   ];
   return (
-    <div className="rouded-sm grid grid-cols-3 gap-2 border-[3px] border-zinc-200 bg-zinc-100 p-4 md:text-2xl">
+    <div className="rouded-sm grid grid-cols-2 gap-2 border-[3px] border-zinc-200 bg-zinc-100 p-4 md:text-2xl">
       <div
         className={`space-y-2 grid-rows-[${pricingItems.length}] grid content-center items-center`}
       >
@@ -122,8 +123,9 @@ export const PriceBreakdown = () => {
             <p>
               {a.tier1 === "yes" && (
                 // <MdCheckCircle className={"text-3xl text-emerald-500"} />
-                <Smiley className={"w-[25px]"} />
+                <Smiley className={"h-[25px] w-[25px]"} />
               )}
+              {typeof a.tier1 === "object" && a.tier1}
             </p>
           </div>
         ))}
@@ -131,7 +133,7 @@ export const PriceBreakdown = () => {
       <div
         className={`space-y-2 grid-rows-[${pricingItems.length}] grid content-center items-center`}
       >
-        <p className="text-center">Premium</p>
+        {/* <p className="text-center">Premium</p>
         {pricingItems.map((a) => (
           <div
             key={`tier2${a.feature}`}
@@ -140,12 +142,38 @@ export const PriceBreakdown = () => {
             <p>
               {a.tier2 === "yes" && (
                 // <MdCheckCircle className={"text-3xl text-emerald-500"} />
-                <Smiley className={"w-[25px]"} />
+                <Smiley className={"h-[25px] w-[25px]"} />
               )}
-            </p>
+            </p> 
           </div>
         ))}
+            */}
       </div>
     </div>
+  );
+};
+
+const GetStartedButton = () => {
+  return (
+    <>
+      <SignedIn>
+        <Link href={"/upgrade/business"}>
+          <p className="rounded-md bg-zinc-800 p-2 font-bold text-zinc-100">
+            Upgrade
+          </p>
+        </Link>
+      </SignedIn>
+      <SignedOut>
+        <SignUpButton
+          afterSignUpUrl="/upgrade/business"
+          afterSignInUrl="/upgrade/business"
+          mode="modal"
+        >
+          <p className="rounded-md bg-zinc-800 p-2 font-bold text-zinc-100">
+            Get Started
+          </p>
+        </SignUpButton>
+      </SignedOut>
+    </>
   );
 };

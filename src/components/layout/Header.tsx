@@ -7,7 +7,7 @@ const Header = () => {
   const [isOpen, openMenu] = useState(false);
   return (
     <header>
-      <div className="sticky top-0 flex w-full justify-between border-b-2 border-accent bg-base-light p-2 py-2 pb-2 lg:border-b-4 lg:py-4">
+      <div className="sticky top-0 flex h-[8vh] w-full justify-between border-b-2 border-accent bg-base-light p-2 py-2 pb-2 lg:h-[8vh] lg:border-b-4 lg:py-4">
         <Link
           onClick={() => openMenu(false)}
           href={"/"}

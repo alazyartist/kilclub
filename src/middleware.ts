@@ -16,6 +16,8 @@ export default authMiddleware({
     "/search(.*)",
     "/business/(.*)",
     "/testing",
+    "/register",
+    "/login",
     "/pricing",
     "/review",
   ],
