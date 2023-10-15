@@ -33,7 +33,7 @@ const SearchResults = ({ query }: { query: string }) => {
         <Link
           key={business.business_id}
           href={`/business/${business.business_id}`}
-          className="flex w-full flex-col p-2"
+          className="flex w-full flex-col place-items-center p-2"
         >
           <BusinessSearchDisplay business={business} />
         </Link>
@@ -44,7 +44,10 @@ const SearchResults = ({ query }: { query: string }) => {
 
 const BusinessSearchDisplay = ({ business }: { business: BusinessInfo }) => {
   return (
-    <div className="rounded-md bg-zinc-200 p-2" key={business.business_id}>
+    <div
+      className="w-[55rem] justify-around rounded-md bg-zinc-200 p-2"
+      key={business.business_id}
+    >
       <p>{business.business_name}</p>
       <p className="text-xs">{business.phone_number}</p>
       <p className="text-xs">

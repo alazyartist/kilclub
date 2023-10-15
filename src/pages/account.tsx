@@ -70,8 +70,8 @@ const SubscriptionDetails = ({
 
   return (
     <div
-      className="flex w-[55rem] min-w-[320px] max-w-[calc(100vw-0.75rem)] justify-between place-self-center rounded-md bg-base-light p-2 lg:max-w-[calc(100vw-5rem)]"
-      style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 24px 48px" }}
+      className="flex w-[55rem] min-w-[320px] max-w-[calc(100vw-0.75rem)] justify-between place-self-center rounded-md border-[1px] border-white bg-base-light p-2 lg:max-w-[calc(100vw-5rem)]"
+      style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 12px 24px" }}
     >
       <div className="flex flex-col">
         <p className="text-xl font-bold text-zinc-900">{tier}</p>

@@ -35,7 +35,7 @@ const JobDetails = ({
       )}
       <div
         key={job.job_id}
-        className="drop-shadow- relative min-w-[320px] rounded-lg border-4 border-zinc-200 bg-zinc-100 p-2 text-zinc-900"
+        className="drop-shadow- relative min-w-[320px] rounded-lg border-[1px] border-white bg-zinc-100 p-2 text-zinc-900"
       >
         {showDetails ? (
           <>
@@ -84,7 +84,7 @@ const JobDetails = ({
               </div>
             </div>
             {Array.isArray(job.media) ? (
-              <div className="grid h-fit w-full grid-cols-3 gap-2 lg:grid-cols-8 ">
+              <div className="grid h-fit w-full grid-cols-3 gap-2 lg:grid-cols-6 ">
                 {job.media.map((img, index) => {
                   if (typeof img === "string") {
                     return (
@@ -95,7 +95,7 @@ const JobDetails = ({
                         <Image
                           onClick={() => setImage(index)}
                           alt={`job_detail_${img}`}
-                          className="aspect-square h-full w-full rounded-md object-cover drop-shadow-md"
+                          className="aspect-square h-full w-full rounded-md border-[1px] border-white object-cover drop-shadow-md"
                           src={img}
                           width={100}
                           height={100}
@@ -108,7 +108,7 @@ const JobDetails = ({
                 <UploadMediaForm job_id={job.job_id} />
               </div>
             ) : (
-              <div className="grid h-fit w-full grid-cols-3 gap-2 space-y-2 lg:grid-cols-8">
+              <div className="grid h-fit w-full grid-cols-3 gap-2 space-y-2 lg:grid-cols-6">
                 <UploadMediaForm job_id={job.job_id} />
               </div>
             )}
@@ -229,7 +229,7 @@ const ActionsDropdown = ({
       )}
       <div>
         <div
-          className="flex min-w-[69px] justify-around rounded-md bg-zinc-200 p-2"
+          className="flex min-w-[69px] justify-around rounded-md border-[1px] border-white bg-zinc-200 p-2 drop-shadow-sm"
           onClick={() => setOpen((prev) => !prev)}
         >
           <p className="flex gap-1">
@@ -355,7 +355,7 @@ const DeleteMedia = ({ job, objectKey }: { job: Jobs; objectKey: string }) => {
       ) : (
         <button
           onClick={() => setDeleteCheck(true)}
-          className="absolute right-0 top-0 rounded-bl-md rounded-tr-md bg-red-500 p-1 text-xs"
+          className="absolute right-0 top-0 rounded-bl-md rounded-tr-md border-r-[1px] border-t-[1px] border-white bg-red-500 p-1 text-xs"
         >
           delete
         </button>

@@ -56,10 +56,11 @@ const Posting: React.FC<PostingProps> = ({
               .slice(0, 1)
               .map((photo, index) => (
                 <Image
-                  width={200}
+                  width={1000}
                   className="aspect-square h-full w-full rounded-xl object-cover"
                   key={photo}
-                  height={200}
+                  height={1000}
+                  quality={100}
                   src={photo}
                   alt={`Photo ${index + 1}`}
                   style={{ gridColumn: "span 2", gridRow: "span 2" }}
@@ -73,8 +74,8 @@ const Posting: React.FC<PostingProps> = ({
                 <Image
                   className="aspect-square h-full w-full rounded-xl object-cover"
                   key={photo}
-                  width={200}
-                  height={200}
+                  width={600}
+                  height={600}
                   src={photo}
                   alt={`Photo ${index + 1}`}
                   onClick={() => openImageModal(photo)}

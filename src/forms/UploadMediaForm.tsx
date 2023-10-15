@@ -75,7 +75,7 @@ const UploadMediaForm = ({ job_id }: { job_id: string }) => {
         onClick={() => {
           setMediaFormOpen(true);
         }}
-        className="flex aspect-square h-full w-full flex-col place-content-center place-items-center rounded-md bg-zinc-200 p-2 text-5xl font-black drop-shadow-md"
+        className="flex aspect-square h-full w-full flex-col place-content-center place-items-center rounded-md border-[1px] border-white bg-zinc-200 p-2 text-5xl font-black drop-shadow-md"
       >
         <Circle className={"h-[50px] w-[50px] "} />
         <p className="text-xs font-normal">add media</p>

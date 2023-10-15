@@ -160,8 +160,8 @@ const JobDisplay = ({
   });
 
   return (
-    <div className="relative flex w-[95vw] flex-col gap-2 rounded-xl bg-zinc-200 ">
-      <p className="p-2 text-3xl font-bold lg:pl-4 lg:pt-4">Jobs</p>
+    <div className="relative flex w-[95vw] flex-col gap-2 rounded-xl bg-zinc-200 px-2 ">
+      <p className="p-2 text-3xl font-bold lg:pl-2 lg:pt-2">Jobs</p>
       {children}
       <div className="flex flex-col gap-2 lg:grid lg:grid-cols-2">
         {jobs
