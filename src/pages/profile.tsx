@@ -3,6 +3,8 @@ import { api } from "~/utils/api";
 import JobPosting from "~/components/JobPosting";
 import BusinessCategories from "~/components/jobs/BusinessCategories";
 import { type GetMyBusiness } from "~/utils/RouterTypes";
+import BusinessSetupForm from "~/forms/BusinessSetupForm";
+import Link from "next/link";
 const Logo = ({ business }: { business: GetMyBusiness }) => {
   return (
     <div className=" flex-coll -center max-h-[20vh] max-w-[80vw] rounded-lg bg-accent-light p-4 text-white">
@@ -18,7 +20,17 @@ const Logo = ({ business }: { business: GetMyBusiness }) => {
 const Profile = () => {
   const [filter, setFilter] = useState("");
   const { data: business } = api.business.getMyBusiness.useQuery();
-  if (!business) return null;
+  if (!business)
+    return (
+      <div className="flex flex-col place-items-center gap-2 p-8">
+        <h1>Looks like you still need to </h1>
+        <Link href={"/jobs"}>
+          <p className="rounded-md bg-zinc-800 p-2 font-bold text-zinc-100">
+            Setup Your Business
+          </p>
+        </Link>
+      </div>
+    );
   const { Jobs: jobs } = business;
   if (!jobs) return null;
 

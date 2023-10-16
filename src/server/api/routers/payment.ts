@@ -25,7 +25,11 @@ export const paymentRouter = createTRPCRouter({
       z.object({
         email: z.string(),
         name: z.string(),
-        price_id: z.union([z.literal("founder"), z.literal("local")]),
+        price_id: z.union([
+          z.literal("founder"),
+          z.literal("local"),
+          z.literal("premium"),
+        ]),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -53,7 +57,7 @@ export const paymentRouter = createTRPCRouter({
       }
     }),
 });
-const price_id = "founder" || ("local" as const);
+const price_id = "founder" || "premium" || ("local" as const);
 const findOrCreateCustomer = async (
   input: { email?: string; name?: string; price_id?: typeof price_id },
   user_id: string,
@@ -98,6 +102,46 @@ const findOrCreateSubscription = async (
   const subscriptions = customer.subscriptions.data;
   if (subscriptions.length > 0) {
     const latestSubscription = subscriptions[subscriptions.length - 1];
+    if (latestSubscription.plan.id !== price_id) {
+      try {
+        const subscription = await stripe.subscriptions.create({
+          customer: customer_id,
+          items: [
+            {
+              price: price_id,
+            },
+          ],
+          payment_behavior: "default_incomplete",
+          payment_settings: { save_default_payment_method: "on_subscription" },
+          expand: ["latest_invoice.payment_intent"],
+        });
+
+        if (subscription) {
+          await prisma.user.update({
+            where: { user_id: user_id },
+            data: {
+              subscription_id: subscription.id,
+              subscription_status: subscription.status,
+              subscription_tier: price_id,
+              isBusiness: price_id !== "local" ? true : false,
+            },
+          });
+          console.log(subscription.latest_invoice);
+          return {
+            id: subscription.id,
+            client_secret:
+              //@ts-ignore
+              subscription.latest_invoice.payment_intent.client_secret,
+            //@ts-ignore
+            paid: subscription.latest_invoice.paid,
+          };
+        }
+      } catch (err) {
+        console.log(err);
+        console.log("FAILED_TO_CREATE_SUBSCRIPTION");
+      }
+    }
+
     const latestInvoice = await stripe.invoices.retrieve(
       latestSubscription.latest_invoice,
       { expand: ["payment_intent"] },

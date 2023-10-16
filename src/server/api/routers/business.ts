@@ -35,7 +35,7 @@ export const businessRouter = createTRPCRouter({
       const user = await ctx.prisma.user.findUnique({
         where: { user_id: ctx.auth.userId },
       });
-      const businesses = await ctx.prisma.businessInfo.findUnique({
+      const myBusiness = await ctx.prisma.businessInfo.findUnique({
         where: { business_id: user.business_id },
         include: {
           Jobs: {
@@ -46,7 +46,7 @@ export const businessRouter = createTRPCRouter({
           Categories: { include: { Category: true } },
         },
       });
-      return businesses;
+      return myBusiness;
     } catch (err) {
       console.log(err);
       throw new TRPCError({

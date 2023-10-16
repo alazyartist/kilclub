@@ -9,7 +9,7 @@ interface UpgradeProps {
   cost: string | number;
   discount?: number;
   description?: string;
-  price_id: "founder" | "local";
+  price_id: "founder" | "local" | "premium";
   features?: string[];
 }
 const UpgradeCard: React.FC<UpgradeProps> = ({

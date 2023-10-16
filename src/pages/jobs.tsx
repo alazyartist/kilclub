@@ -7,6 +7,7 @@ import JobDetails from "~/components/jobs/JobDetails";
 import { type GetCategories } from "~/utils/RouterTypes";
 import { MdCheckCircle, MdClose } from "~/components/icons/MdIcons";
 import Smiley, { Circle } from "~/components/layout/Icons";
+import UpgradeCard from "~/components/upgrade/UpgradeCard";
 const Jobs = () => {
   const { data: user } = api.user.getUser.useQuery();
   const [formOpen, setFormOpen] = useState(false);
@@ -16,12 +17,18 @@ const Jobs = () => {
 
   const { data: allCategories } = api.category.getCategories.useQuery();
   if (!user) return <p className="w-full text-center">Loading User Info..</p>;
+
+  if (user.subscription_status !== "active")
+    return (
+      <InactiveSubscription
+        tier={user.subscription_tier}
+        status={user.subscription_status}
+      />
+    );
   return (
     <div className="flex w-full flex-col items-center gap-2">
-      {!user.business_id && (
-        <div className="flex h-[85vh] flex-col place-content-center">
-          <BusinessSetupForm />
-        </div>
+      {!user.business_id && user.subscription_status === "active" && (
+        <BusinessSetupForm />
       )}
       {user.business_id && (
         <>
@@ -253,3 +260,58 @@ const JobDisplay = ({
 //     </div>
 //   );
 // };
+
+const InactiveSubscription = ({ status, tier }) => {
+  const getSubscription = (tier) => {
+    switch (tier) {
+      case "founder":
+        return (
+          <UpgradeCard
+            cost={45}
+            discount={15}
+            // description="Unlock the potential for business growth and community engagement with our 'Founder' tier. Build with us and get a lifetime of savings, expand your reach, and elevate your business to new heights within our vibrant community."
+            features={["showcase your work", "collect social proof"]}
+            upgrade="Founder"
+            price_id="founder"
+          />
+        );
+        break;
+
+      case "premium":
+        return (
+          <UpgradeCard
+            cost={150}
+            discount={50}
+            features={[
+              "showcase your work",
+              "collect social proof",
+              "automatic messaging",
+              "unlimited uploads",
+            ]}
+            // description="Unlock the potential for business growth and community engagement with our 'Premium' tier. Build with us and get a lifetime of savings, expand your reach, and elevate your business to new heights within our vibrant community."
+            upgrade="Premium"
+            price_id="founder"
+          />
+        );
+        break;
+    }
+  };
+  return (
+    <div className="flex w-full flex-col items-center gap-2">
+      <div className="space-y-4">
+        <div>
+          <h1 className="text-center text-4xl font-black">Oh No,</h1>
+          <p className="text-center ">
+            it looks like
+            <br /> your <span className="font-bold">{tier}</span> subscription
+            is <span className="font-bold">{status}</span>
+          </p>
+        </div>
+        {getSubscription(tier)}
+        {/* <p className="rounded-md bg-zinc-800 p-2 font-bold text-zinc-100">
+        Upgrade
+      </p> */}
+      </div>
+    </div>
+  );
+};
