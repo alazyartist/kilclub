@@ -4,6 +4,27 @@
 
 @import "./flex.css";
 
+body {
+  @apply no-scrollbar;
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    "Noto Sans",
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    "Noto Color Emoji";
+}
+@layer base {
+}
+
 @layer components {
   .abs-top {
     @apply top-o absolute z-0;
@@ -72,10 +93,6 @@
       0px 20px 15px -22px rgba(0, 0, 0, 0.29) inset,
       0px -20px 15px -22px rgba(0, 0, 0, 0.29) inset;
   }
-}
-
-body {
-  @apply no-scrollbar;
 }
 
 /* file upload button */

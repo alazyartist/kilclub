@@ -17,7 +17,7 @@ const PaymentEmbed = ({ clientSecret }: { clientSecret: string }) => {
       borderRadius: "10px",
 
       colorPrimary: "#f4f4f5",
-      colorPrimaryText: "202030",
+      colorPrimaryText: "#202030",
       colorIconTabSelected: "#fff",
       spacingGridRow: "16px",
     },
@@ -78,13 +78,13 @@ const CheckoutForm = () => {
           <p>{error.message}</p>
         </div>
       )}
-      <PaymentElement className="mb-4 flex  " />
+      <PaymentElement className="mb-4 flex place-content-center " />
       <button
         className="rounded-md bg-accent-light p-2 text-zinc-100"
         type="submit"
         disabled={!stripe}
       >
-        Join
+        Pay
       </button>
     </form>
   );

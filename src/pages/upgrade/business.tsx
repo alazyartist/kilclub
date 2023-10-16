@@ -3,13 +3,27 @@ import UpgradeCard from "~/components/upgrade/UpgradeCard";
 
 const Business = () => {
   return (
-    <div className="flex h-full min-h-[100vh] w-full flex-col items-center space-y-2 py-4">
-      <p className="text-3xl font-bold">Pricing made painless</p>
+    <div className="flex h-full min-h-[100vh] w-full flex-col items-center gap-2 place-self-center py-4 lg:w-[55rem] lg:flex-row">
+      {/* <p className="text-3xl font-bold">Pricing made painless</p> */}
+      <UpgradeCard
+        cost={45}
+        discount={15}
+        // description="Unlock the potential for business growth and community engagement with our 'Founder' tier. Build with us and get a lifetime of savings, expand your reach, and elevate your business to new heights within our vibrant community."
+        features={["showcase your work", "collect social proof"]}
+        upgrade="Founder"
+        price_id="founder"
+      />
       <UpgradeCard
         cost={150}
-        discount={15}
-        description="Unlock the potential for business growth and community engagement with our 'Founder' tier. Build with us and get a lifetime of savings, expand your reach, and elevate your business to new heights within our vibrant community."
-        upgrade="Founder"
+        discount={50}
+        features={[
+          "showcase your work",
+          "collect social proof",
+          "automatic messaging",
+          "unlimited uploads",
+        ]}
+        // description="Unlock the potential for business growth and community engagement with our 'Premium' tier. Build with us and get a lifetime of savings, expand your reach, and elevate your business to new heights within our vibrant community."
+        upgrade="Premium"
         price_id="founder"
       />
 

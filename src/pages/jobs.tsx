@@ -19,10 +19,9 @@ const Jobs = () => {
   return (
     <div className="flex w-full flex-col items-center gap-2">
       {!user.business_id && (
-        <>
-          <h1>Business Setup</h1>
+        <div className="flex h-[85vh] flex-col place-content-center">
           <BusinessSetupForm />
-        </>
+        </div>
       )}
       {user.business_id && (
         <>
