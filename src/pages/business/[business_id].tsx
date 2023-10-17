@@ -44,6 +44,7 @@ const Business = () => {
           )
           .map((job) => (
             <JobPosting
+              review={job.review}
               jobCategories={job.Categories.map((c) => c.Category)}
               key={job.job_id}
               zipcode={job.zip_code}

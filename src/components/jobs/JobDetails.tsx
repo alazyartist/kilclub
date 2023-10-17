@@ -5,7 +5,7 @@ import { api } from "~/utils/api";
 import CategoryPopup from "../account/CategoryPopup";
 import type { GetCategories, GetJobs } from "~/utils/RouterTypes";
 import Image from "next/image";
-import { MdCheckCircle, MdClose } from "../icons/MdIcons";
+import { MdClose } from "../icons/MdIcons";
 import Smiley, { CaretDown } from "../layout/Icons";
 type JobType = GetJobs[0];
 const JobDetails = ({

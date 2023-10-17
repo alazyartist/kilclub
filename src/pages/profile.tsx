@@ -3,7 +3,6 @@ import { api } from "~/utils/api";
 import JobPosting from "~/components/JobPosting";
 import BusinessCategories from "~/components/jobs/BusinessCategories";
 import { type GetMyBusiness } from "~/utils/RouterTypes";
-import BusinessSetupForm from "~/forms/BusinessSetupForm";
 import Link from "next/link";
 const Logo = ({ business }: { business: GetMyBusiness }) => {
   return (

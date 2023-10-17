@@ -56,8 +56,8 @@ const UpgradeCard: React.FC<UpgradeProps> = ({
       {features && (
         <div className="flex h-full w-full flex-1 flex-col place-items-center ">
           {features &&
-            features.map((f) => (
-              <p className="w-[80%] space-x-2 text-xl lg:min-w-[65%]">
+            features.map((f, i) => (
+              <p key={i} className="w-[80%] space-x-2 text-xl lg:min-w-[65%]">
                 <Smiley className={"inline h-6 w-6"} />
                 <span className="text-zinc-900">{f}</span>
               </p>

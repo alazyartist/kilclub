@@ -6,7 +6,7 @@ import BusinessDetail from "~/components/jobs/BusinessDetail";
 import JobDetails from "~/components/jobs/JobDetails";
 import { type GetCategories } from "~/utils/RouterTypes";
 import { MdCheckCircle, MdClose } from "~/components/icons/MdIcons";
-import Smiley, { Circle } from "~/components/layout/Icons";
+import { Circle } from "~/components/layout/Icons";
 import UpgradeCard from "~/components/upgrade/UpgradeCard";
 const Jobs = () => {
   const { data: user } = api.user.getUser.useQuery();

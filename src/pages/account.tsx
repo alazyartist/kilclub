@@ -1,4 +1,4 @@
-import { UserButton, UserProfile } from "@clerk/nextjs";
+import { UserProfile } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import ManageCategories from "~/components/account/ManageCategories";
