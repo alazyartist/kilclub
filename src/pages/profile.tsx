@@ -45,6 +45,29 @@ const Profile = () => {
       />
 
       <div className="flex-coll -center gap-8">
+        {jobs.length === 0 && (
+          <div className="flex flex-col gap-2">
+            <p>You have no jobs yet</p>
+            <Link href={"/jobs"}>
+              <p className="rounded-md bg-zinc-800 p-2 text-center font-bold text-zinc-100">
+                Add Jobs
+              </p>
+            </Link>
+          </div>
+        )}
+        {jobs.length > 0 &&
+          jobs.filter((job) => job.isCompleted && job).length === 0 && (
+            <div className="flex flex-col gap-2">
+              <p>You have no completed jobs</p>
+              <Link href={"/jobs"}>
+                <p className="rounded-md bg-zinc-800 p-2 text-center font-bold text-zinc-100">
+                  Manage Jobs
+                </p>
+              </Link>
+            </div>
+          )}
+      </div>
+      <div className="flex-coll -center gap-8">
         {jobs
           .filter((job) => job.isCompleted && job)
           .filter((job) =>

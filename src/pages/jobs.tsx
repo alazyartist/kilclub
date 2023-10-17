@@ -201,7 +201,7 @@ const JobDisplay = ({
             />
           ))}
       </div>
-      <p className="place-self-center text-center text-xs">
+      <p className="place-self-center p-2 text-center text-xs">
         no more jobs to show
       </p>
     </div>

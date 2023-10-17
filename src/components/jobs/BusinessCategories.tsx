@@ -4,6 +4,7 @@ import CategoryPopup from "../account/CategoryPopup";
 import { api } from "~/utils/api";
 import type { GetBusinessWithJobs, GetMyBusiness } from "~/utils/RouterTypes";
 import { Circle } from "../layout/Icons";
+import Link from "next/link";
 
 // TEMP CATEGORIES
 type BusinessType = {
@@ -43,6 +44,16 @@ const BusinessCategories: React.FC<BusinessType> = ({
               {c.Category.name}
             </div>
           ))}
+        {business.Categories.length < 1 && isProfile && (
+          <div>
+            <p>You have no associated categories</p>
+            <Link href={"/jobs"}>
+              <p className="rounded-md bg-zinc-800 p-2 text-center font-bold text-zinc-100">
+                Categorize Jobs
+              </p>
+            </Link>
+          </div>
+        )}
       </div>
 
       {isProfile && (
