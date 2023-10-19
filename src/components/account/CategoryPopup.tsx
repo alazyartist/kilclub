@@ -49,10 +49,10 @@ const CategoryPopup = ({
   return (
     <>
       {categories && (
-        <div className="minimalistScroll fixed left-[0] top-[0vh] z-30 h-[100vh] w-[100vw] space-y-3 overflow-y-scroll rounded-md p-2 backdrop-blur-md">
-          <div className="minimalistScroll sticky top-1 z-40 h-fit w-full space-y-2 overflow-y-scroll rounded-md bg-zinc-800 p-2">
+        <div className="no-scrollbar fixed left-[0] top-[2.5vh] z-30 h-[95vh] w-[100vw] space-y-3 overflow-y-scroll rounded-xl bg-white p-2 backdrop-blur-md lg:left-[30vw] lg:w-[40vw]">
+          <div className="minimalistScroll sticky top-1 z-50 h-fit w-full space-y-2 overflow-y-scroll rounded-md bg-zinc-800 p-2">
             <div
-              className="absolute right-4 top-2 z-20 text-xl font-black text-zinc-200"
+              className="absolute right-4 top-2 z-50 text-xl font-black text-zinc-200"
               onClick={() => close(false)}
             >
               X
@@ -137,10 +137,14 @@ const CategoryPopup = ({
       )}
       <button
         onClick={() => handleSave()}
-        className="fixed bottom-[4vh] left-[40vw] z-50 rounded-3xl bg-accent px-6 py-2 text-xl text-zinc-100"
+        className="fixed bottom-[4vh] left-[40vw] z-50 rounded-3xl bg-accent px-6 py-2 text-xl text-zinc-100 lg:left-[47vw]"
       >
         save
       </button>
+      <div
+        onClick={() => close(false)}
+        className="fixed left-0 top-0 z-10 h-full w-full bg-zinc-900 bg-opacity-30 backdrop-blur-sm"
+      />
     </>
   );
 };

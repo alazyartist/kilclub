@@ -1,4 +1,4 @@
-import { type BusinessInfo } from "@prisma/client";
+import { Jobs, type BusinessInfo } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -43,15 +43,19 @@ const SearchResults = ({ query }: { query: string }) => {
 };
 
 const BusinessSearchDisplay = ({ business }: { business: BusinessInfo }) => {
+  const { data: Jobs } = api.business.getJobsforBusiness.useQuery({
+    business_id: business.business_id,
+  });
+
   return (
     <div
-      className="w-[55rem] justify-around rounded-md bg-zinc-200 p-2"
+      className="w-[55rem] max-w-[calc(100vw-1rem)] justify-around rounded-md bg-zinc-200 p-2"
       key={business.business_id}
     >
       <p>{business.business_name}</p>
       <p className="text-xs">{business.phone_number}</p>
       <p className="text-xs">
-        {1 + Math.floor(Math.random() * 6)} jobs completed
+        {Array.isArray(Jobs) && Jobs.length} jobs completed
       </p>
     </div>
   );

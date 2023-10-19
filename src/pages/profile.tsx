@@ -18,7 +18,11 @@ const Logo = ({ business }: { business: GetMyBusiness }) => {
 
 const Profile = () => {
   const [filter, setFilter] = useState("");
-  const { data: business } = api.business.getMyBusiness.useQuery();
+  const { data: business, isLoading } = api.business.getMyBusiness.useQuery();
+  if (isLoading) {
+    return <div>Finding user</div>;
+  }
+
   if (!business)
     return (
       <div className="flex flex-col place-items-center gap-2 p-8">

@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
 import Logo from "~/components/layout/KilLogo";
+import WhyKIL from "~/components/marketing/WhyKIL";
 import SearchBar from "~/components/search/SearchBar";
 
 export default function Home() {
@@ -71,6 +72,7 @@ export default function Home() {
             }
           />
         </div>
+        <WhyKIL />
         {/* <div className="h-40 w-full bg-zinc-200">test</div> */}
       </main>
     </>

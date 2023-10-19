@@ -1,4 +1,4 @@
-import { UserProfile } from "@clerk/nextjs";
+import { SignOutButton, UserProfile } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import ManageCategories from "~/components/account/ManageCategories";
@@ -43,6 +43,7 @@ const Account = () => {
         />
       </div>
       <ManageCategories />
+      <SignOutButton></SignOutButton>
     </div>
   );
 };
@@ -75,7 +76,7 @@ const SubscriptionDetails = ({
       style={{ boxShadow: "rgba(0, 0, 0, 0.16) 0px 12px 24px" }}
     >
       <h1 className="pb-2 text-2xl font-bold">Subscription Details</h1>
-      <div className="flex justify-between text-zinc-900">
+      <div className="flex flex-col justify-between gap-6 text-zinc-900 lg:flex-row">
         <div className="flex flex-col gap-2 ">
           <div className="flex min-w-[320px] place-items-center gap-2 rounded-lg border-[1px] border-white bg-zinc-200">
             <p className="flex-[2] whitespace-nowrap p-4 ">current plan</p>

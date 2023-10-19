@@ -68,6 +68,14 @@ export const businessRouter = createTRPCRouter({
       });
     }
   }),
+  getJobsforBusiness: publicProcedure
+    .input(z.object({ business_id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const jobs = await ctx.prisma.jobs.findMany({
+        where: { business_id: input.business_id },
+      });
+      return jobs;
+    }),
   findBusinessSearch: publicProcedure
     .input(z.object({ query: z.string() }))
     .query(async ({ ctx, input }) => {
