@@ -20,7 +20,11 @@ const Profile = () => {
   const [filter, setFilter] = useState("");
   const { data: business, isLoading } = api.business.getMyBusiness.useQuery();
   if (isLoading) {
-    return <div>Finding user</div>;
+    return (
+      <div className="w-full p-8 text-center text-xl font-bold">
+        Finding Business...
+      </div>
+    );
   }
 
   if (!business)

@@ -126,6 +126,37 @@ export const jobsRouter = createTRPCRouter({
         console.log(err);
       }
     }),
+  uploadLogo: protectedProcedure
+    .input(
+      z.object({
+        filename: z.string().transform((arg) => arg.replace(/\s|\,|\-/g, "")),
+        business_id: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      console.log(input.filename);
+      try {
+        const bucketName = "keep-it-local-club";
+        const objectKey = `${ctx.auth.userId}/logo/${input.filename}`;
+        const s3objectKey = `https://keep-it-local-club.s3.amazonaws.com/${objectKey}`;
+
+        const logoMedia = await ctx.prisma.businessInfo.update({
+          where: { business_id: input.business_id },
+          data: { logo: s3objectKey },
+        });
+        console.log(logoMedia);
+
+        const uploadUrl = s3.getSignedUrl("putObject", {
+          Bucket: bucketName,
+          Key: objectKey,
+          Expires: 3600,
+        });
+        console.log(uploadUrl);
+        return uploadUrl;
+      } catch (err) {
+        console.log(err);
+      }
+    }),
   deleteMedia: protectedProcedure
     .input(
       z.object({

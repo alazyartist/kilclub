@@ -48,14 +48,6 @@ const Jobs = () => {
               business_id={user.business_id}
             />
           )}
-          {/* <div className="flex"> */}
-          {/* <div className="flex gap-2  ">
-            {["Manage", "Job", "See Profile"].map((a) => (
-              <p className="whitespace-nowrap rounded-md bg-zinc-200 p-2">
-                {a}
-              </p>
-            ))}
-          </div> */}
 
           <>
             <JobDisplay
@@ -75,15 +67,7 @@ const Jobs = () => {
                 </div>
               </button>
             </JobDisplay>
-            {/* <FinishedJobDisplay
-              filter={filter}
-              checkisreviewed={checkisreviewed}
-              checkisnotreviewed={checkisnotreviewed}
-              allCategories={allCategories}
-              business_id={user.business_id}
-            /> */}
           </>
-          {/* </div> */}
         </>
       )}
     </div>

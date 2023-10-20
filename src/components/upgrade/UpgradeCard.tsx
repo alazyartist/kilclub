@@ -3,6 +3,7 @@ import React from "react";
 import { api } from "~/utils/api";
 import PaymentEmbed from "../payment/PaymentEmbed";
 import Smiley from "../layout/Icons";
+import Link from "next/link";
 
 interface UpgradeProps {
   upgrade: string;
@@ -31,6 +32,7 @@ const UpgradeCard: React.FC<UpgradeProps> = ({
   };
   return (
     <div className="flex min-h-[18rem] min-w-[320px] max-w-[80vw] flex-col space-y-2 rounded-md border-2 border-accent bg-base-light p-4 text-accent drop-shadow-lg lg:min-h-[22rem] lg:min-w-[420px] ">
+      {user && <ActivePlan plan={price_id} />}
       <div className="-center flex h-full justify-between">
         <h1 className="place-self-start p-2 text-3xl font-bold text-zinc-900">
           {upgrade}
@@ -78,12 +80,17 @@ const UpgradeCard: React.FC<UpgradeProps> = ({
         </>
       )}
       {subscription && subscription.paid && (
-        <div>
+        <div className="flex flex-col place-items-center gap-1 text-zinc-900">
           <h1 className="text-center text-lg font-bold">Already a member</h1>
-          <p className="text-xs">
+          <p className="text-center text-xs">
             To manage your membership
             <br /> please use the account settings
           </p>
+          <Link href={"/account"}>
+            <p className="w-fit rounded-md bg-zinc-800 p-2 font-bold text-zinc-100">
+              View Account
+            </p>
+          </Link>
         </div>
       )}
       {subscription && !subscription.paid && (
@@ -98,3 +105,9 @@ const UpgradeCard: React.FC<UpgradeProps> = ({
 };
 
 export default UpgradeCard;
+
+const ActivePlan = ({ plan }: { plan: string }) => {
+  const { data: activeUser } = api.user.getUser.useQuery();
+  if (!activeUser) return null;
+  return activeUser.subscription_tier === plan && <p>Active Plan</p>;
+};

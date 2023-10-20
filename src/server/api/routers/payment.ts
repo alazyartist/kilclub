@@ -177,7 +177,7 @@ const findOrCreateSubscription = async (
             subscription_id: subscription.id,
             subscription_status: subscription.status,
             subscription_tier: price_id,
-            isBusiness: price_id === "founder" ? true : false,
+            isBusiness: price_id !== "local" ? true : false,
           },
         });
         console.log(subscription.latest_invoice);
