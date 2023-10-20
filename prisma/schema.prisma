@@ -30,6 +30,7 @@ model BusinessInfo{
     business_id String @id @unique @default(cuid())
     User User? @relation(fields: [business_id],references: [business_id])
     business_name String
+    logo String?
     website String?
     phone_number String
     zip_code String
