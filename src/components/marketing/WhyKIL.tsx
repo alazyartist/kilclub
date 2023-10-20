@@ -1,8 +1,7 @@
 import React from "react";
-
 const WhyKIL = () => {
   return (
-    <div>
+    <div className="lg:relative lg:left-[25vw] lg:max-w-[50vw]">
       <h1 className="px-8 text-center text-3xl font-bold">
         Why use Keep it local
       </h1>

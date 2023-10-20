@@ -14,18 +14,7 @@ const SearchBar = ({
 
   return (
     <div className="">
-      <div className="-center w-fit flex-row gap-4 lg:place-content-start ">
-        {/* <label className="whitespace-nowrap font-bold text-primary-dark">
-        Zip Code:{" "}
-      </label> */}
-        {/* <input
-        className="border-2 border-primary-dark"
-        onKeyPress={(event) => {
-          if (!/[0-9]/.test(event.key)) {
-            event.preventDefault();
-          }
-        }}
-      /> */}
+      <div className="-center w-fit flex-row lg:place-content-start ">
         <AutoComplete
           businesses={businesses}
           categories={categories}
