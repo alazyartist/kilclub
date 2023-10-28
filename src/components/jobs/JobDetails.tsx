@@ -35,16 +35,36 @@ const JobDetails = ({
       )}
       <div
         key={job.job_id}
-        className="drop-shadow- relative min-w-[320px] rounded-lg border-[1px] border-white bg-zinc-100 p-2 text-zinc-900"
+        className="bg-zinc-100 drop-shadow-lg relative min-w-[320px] rounded-lg border-[1px] border-white p-2 text-zinc-900"
       >
         {showDetails ? (
           <>
-            <div className="flex justify-between">
+            <div className="bg-accent-dark flex justify-between items-center mb-4 rounded-t-sm ring-[6px] ring-accent-dark">
+              <ActionsDropdown
+                job={job}
+                setCategoryFormOpen={setCategoryFormOpen}
+              />
+              <p className="text-xl">
+                {job.isReviewed ? (
+                  <div className="flex items-center gap-1 text-xs">
+                    {/* <MdCheckCircle className="inline text-emerald-500" />{" "} */}
+                    <Smiley className={"h-6 w-6"} />
+                    Reviewed
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-1 text-xs">
+                    <MdClose className="inline text-red-500" /> Review
+                  </div>
+                )}
+              </p>
+            </div>
+            
+            <div className="flex flex-col gap-2">
               <div onClick={() => setShowDetails(false)}>
-                <div>
+                <div className="flex flex-wrap gap-2">
                   {job.Categories.map((c) => (
                     <p
-                      className="rounded-md bg-zinc-200 p-2 text-center font-bold"
+                      className="rounded-md bg-zinc-200 px-2 py-1 text-center font-bold border-2 border-white"
                       key={c.id}
                     >
                       {c.Category.name}
@@ -59,28 +79,13 @@ const JobDetails = ({
                     </button>
                   )}
                 </div>
-                <span>{job.customer_phone_number} </span>
+                {/* TODO: Add phone number to ActionsDropdown
+                  <span>{job.customer_phone_number} </span>
+                */}
               </div>
-              <div className="flex flex-col">
-                <ActionsDropdown
-                  job={job}
-                  setCategoryFormOpen={setCategoryFormOpen}
-                />
-                <h1 className="text-right text-lg">{job.zip_code}</h1>
-                <p className="text-right text-xs">{job.date.toDateString()}</p>
-                <p className="place-self-end pt-2 text-xl">
-                  {job.isReviewed ? (
-                    <div className="flex items-center gap-1 text-xs">
-                      {/* <MdCheckCircle className="inline text-emerald-500" />{" "} */}
-                      <Smiley className={"h-6 w-6"} />
-                      Review
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-1 text-xs">
-                      <MdClose className="inline text-red-500" /> Review
-                    </div>
-                  )}
-                </p>
+              <div className="flex gap-2 items-center justify-around">
+                <h1 className="text-lg">{job.zip_code}</h1>
+                <p className="text-xs">{job.date.toDateString()}</p>
               </div>
             </div>
             {Array.isArray(job.media) ? (
@@ -191,7 +196,7 @@ const ActionsDropdown = ({
   const { mutate: markComplete } = api.jobs.markComplete.useMutation();
   const [isOpen, setOpen] = useState(false);
   return (
-    <div className="relative w-[129px] flex-1 text-xs lg:w-[169px] lg:text-base lg:text-zinc-900">
+    <div className="relative w-[129px] text-xs lg:w-[169px] lg:text-base lg:text-zinc-900">
       {isOpen && (
         <div className="absolute left-0 top-10 z-20 flex w-[129px] flex-col justify-between gap-2 rounded-md border-4 border-zinc-200 bg-base-light px-1 py-2 lg:w-[169px]">
           {!job.isCompleted ? (
@@ -229,11 +234,11 @@ const ActionsDropdown = ({
       )}
       <div>
         <div
-          className="flex min-w-[69px] justify-around rounded-md border-[1px] border-white bg-zinc-200 p-2 drop-shadow-sm"
+          className="flex min-w-[69px] justify-around rounded-md border-[1px] border-primary-dark bg-zinc-200 p-2 drop-shadow-sm"
           onClick={() => setOpen((prev) => !prev)}
         >
           <p className="flex gap-1">
-            actions{" "}
+            Actions{" "}
             <span>
               <CaretDown className={"inline w-[12px]"} />{" "}
             </span>

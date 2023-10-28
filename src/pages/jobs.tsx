@@ -8,16 +8,16 @@ import { type GetCategories } from "~/utils/RouterTypes";
 import { MdCheckCircle, MdClose } from "~/components/icons/MdIcons";
 import { Circle } from "~/components/layout/Icons";
 import UpgradeCard from "~/components/upgrade/UpgradeCard";
+
 const Jobs = () => {
   const { data: user } = api.user.getUser.useQuery();
   const [formOpen, setFormOpen] = useState(false);
   const [checkisreviewed, setCheckisreviewed] = useState(true);
   const [checkisnotreviewed, setCheckisnotreviewed] = useState(true);
   const [filter, setFilter] = useState("");
-
   const { data: allCategories } = api.category.getCategories.useQuery();
-  if (!user) return <p className="w-full text-center">Loading User Info..</p>;
 
+  if (!user) return <p className="w-full text-center">Loading User Info..</p>;
   if (user.subscription_status !== "active")
     return (
       <InactiveSubscription
@@ -25,6 +25,7 @@ const Jobs = () => {
         status={user.subscription_status}
       />
     );
+
   return (
     <div className="flex w-full flex-col items-center gap-2">
       {!user.business_id && user.subscription_status === "active" && (
@@ -33,14 +34,25 @@ const Jobs = () => {
       {user.business_id && (
         <>
           <BusinessDetail business_id={user.business_id} />
-          <div className="flex gap-3">
-            <CategoryFilter filter={filter} setFilter={setFilter} />
-            <FinishedFilter
+          <div className="">
+            <CategoryFilter
+              filter={filter}
+              setFilter={setFilter}
               checkisreviewed={checkisreviewed}
               setCheckisreviewed={setCheckisreviewed}
               checkisnotreviewed={checkisnotreviewed}
               setCheckisnotreviewed={setCheckisnotreviewed}
-            />
+            >
+              <button className="">
+                <div className="p-1">
+                  <Circle
+                    //TODO: Replace with Category Adder
+                    onClick={() => { console.log("Add Category") }}
+                    className={" h-[50px] w-[50px] place-self-end"}
+                  />
+                </div>
+              </button>
+            </CategoryFilter>
           </div>
           {formOpen && (
             <JobCreationForm
@@ -57,13 +69,12 @@ const Jobs = () => {
               allCategories={allCategories}
               business_id={user.business_id}
             >
-              <button className="absolute right-4 top-[-25px] z-10 mr-4">
+              <button className="">
                 <div className="p-1">
                   <Circle
                     onClick={() => setFormOpen(true)}
                     className={" h-[50px] w-[50px] place-self-end"}
                   />
-                  <p className="text-xs">add job</p>
                 </div>
               </button>
             </JobDisplay>
@@ -73,59 +84,66 @@ const Jobs = () => {
     </div>
   );
 };
-
 export default Jobs;
-const FinishedFilter = ({
-  checkisreviewed,
-  setCheckisreviewed,
-  setCheckisnotreviewed,
-  checkisnotreviewed,
-}) => {
-  return (
-    <div className="flex place-items-center gap-3 text-5xl">
-      <p onClick={() => setCheckisreviewed((prev) => !prev)}>
-        <MdCheckCircle
-          className={`${
-            checkisreviewed ? "text-emerald-200" : "text-emerald-500"
-          }`}
-        />
-      </p>
-      <p onClick={() => setCheckisnotreviewed((prev) => !prev)}>
-        <MdClose
-          className={`${checkisnotreviewed ? "text-red-200" : "text-red-500"}`}
-        />
-      </p>
-    </div>
-  );
-};
+
 const CategoryFilter = ({
   setFilter,
   filter,
+  checkisreviewed,
+  setCheckisreviewed,
+  checkisnotreviewed,
+  setCheckisnotreviewed,
+  children,
 }: {
-  filter: string;
   setFilter: React.Dispatch<React.SetStateAction<string>>;
+  filter: string;
+  checkisreviewed: boolean;
+  setCheckisreviewed: React.Dispatch<React.SetStateAction<boolean>>;
+  checkisnotreviewed: boolean;
+  setCheckisnotreviewed: React.Dispatch<React.SetStateAction<boolean>>;
+  children: React.ReactNode;
 }) => {
   const { data: categories } = api.category.getBusinessCategories.useQuery();
+
   return (
-    <div className="flex max-w-[70vw] flex-wrap gap-2 py-2 text-xs md:text-lg">
-      {Array.isArray(categories) &&
-        categories.map((c) => (
-          <p
-            key={c.id}
-            className={`rounded-md bg-zinc-200 p-2 ${
-              filter === c.Category.name
-                ? "ring-2 ring-accent-light ring-offset-2 "
-                : ""
-            }`}
-            onClick={() => {
-              setFilter((prev) =>
-                prev !== c.Category.name ? c.Category.name : "",
-              );
-            }}
-          >
-            {c.Category.name}
+    <div className="relative flex w-[95vw] flex-col gap-2 rounded-xl bg-zinc-200 px-2 border-2 border-accent-light">
+      <div className="flex justify-between pr-2">
+        <p className="p-2 text-3xl font-bold lg:pl-2 lg:pt-2">Categories</p>
+        {children}
+      </div>
+      <div className="flex flex-col justify-center drop-shadow-lg relative min-w-[320px] rounded-lg border-[1px] border-white bg-zinc-100 p-2 mb-2 text-zinc-900">
+        <div className="w-full flex justify-center flex-wrap gap-2 py-2 text-xs md:text-lg">
+          {Array.isArray(categories) &&
+            categories.map((c) => (
+              <p
+                key={c.id}
+                className={`border-white border-2 rounded-md bg-zinc-200 p-2 ${filter === c.Category.name
+                  ? "ring-2 ring-accent-light ring-offset-2 "
+                  : ""
+                  }`}
+                onClick={() => { setFilter((prev) => prev !== c.Category.name ? c.Category.name : ""); }}
+              >
+                {c.Category.name}
+              </p>
+            ))
+          }
+        </div>
+        <div className="">
+          <p className="border-white border-2 text-center bg-zinc-200 p-1 rounded-md text-xs md:text-lg"
+            onClick={() => { console.log("reviewed") }}
+          >Reviewed</p>
+        </div>
+        {/*
+        <div className="flex flex-grow justify-center gap-3 text-5xl">
+          <p onClick={() => setCheckisreviewed((prev) => !prev)}>
+            <MdCheckCircle className={`${checkisreviewed ? "text-emerald-200" : "text-emerald-500"}`} />
           </p>
-        ))}
+          <p onClick={() => setCheckisnotreviewed((prev) => !prev)}>
+            <MdClose className={`${checkisnotreviewed ? "text-red-200" : "text-red-500"}`} />
+          </p>
+        </div>
+        */}
+      </div>
     </div>
   );
 };
@@ -150,10 +168,12 @@ const JobDisplay = ({
   });
 
   return (
-    <div className="relative flex w-[95vw] flex-col gap-2 rounded-xl bg-zinc-200 px-2 ">
-      <p className="p-2 text-3xl font-bold lg:pl-2 lg:pt-2">Jobs</p>
-      {children}
-      <div className="flex flex-col gap-2 lg:grid lg:grid-cols-2">
+    <div className="relative flex w-[95vw] flex-col gap-2 rounded-xl bg-zinc-200 px-2 border-2 border-accent-light">
+      <div className="flex justify-between pr-2">
+        <p className="p-2 text-3xl font-bold lg:pl-2 lg:pt-2">Jobs</p>
+        {children}
+      </div>
+      <div className="flex flex-col gap-8 lg:grid lg:grid-cols-2">
         {jobs
           ?.filter((job) => {
             if (!!checkisreviewed && !checkisnotreviewed) {

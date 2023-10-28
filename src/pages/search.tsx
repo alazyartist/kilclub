@@ -47,16 +47,25 @@ const BusinessSearchDisplay = ({ business }: { business: BusinessInfo }) => {
     business_id: business.business_id,
   });
 
+  if (!Jobs) { return null; }
   return (
     <div
-      className="w-[55rem] max-w-[calc(100vw-1rem)] justify-around rounded-md bg-zinc-200 p-2"
+      className="w-[55rem] max-w-[calc(100vw-1rem)] flex justify-around items-center gap-4 rounded-md bg-zinc-200 py-2 px-4"
       key={business.business_id}
     >
-      <p>{business.business_name}</p>
-      <p className="text-xs">{business.phone_number}</p>
-      <p className="text-xs">
-        {Array.isArray(Jobs) && Jobs.length} jobs completed
-      </p>
+      {/*TODO:  Square Space for Image */}
+      <div className="min-h-[4rem] min-w-[4rem] bg-gray-300 rounded-md border-2 border-accent-light">
+      </div>
+
+      <div className="flex flex-col w-full">
+        <p className="font-bold">{business.business_name}</p>
+        <p className="text-xs">{business.phone_number}</p>
+      </div>
+
+      <div className="flex flex-col items-center text-xs text-primary-dark">
+        <p> {Array.isArray(Jobs) && Jobs?.length} job{Jobs.length !== 1 ? 's' : ''} </p>
+        <p> completed </p>
+      </div>
     </div>
   );
 };
