@@ -58,10 +58,10 @@ const JobDetails = ({
                 )}
               </p>
             </div>
-            
+
             <div className="flex flex-col gap-2">
-              <div onClick={() => setShowDetails(false)}>
-                <div className="flex flex-wrap gap-2">
+              <div>{/* onClick={() => setShowDetails(false)}>*/}
+                <div className="flex gap-2 overflow-auto whitespace-nowrap">
                   {job.Categories.map((c) => (
                     <p
                       className="rounded-md bg-zinc-200 px-2 py-1 text-center font-bold border-2 border-white"
@@ -89,28 +89,31 @@ const JobDetails = ({
               </div>
             </div>
             {Array.isArray(job.media) ? (
-              <div className="grid h-fit w-full grid-cols-3 gap-2 lg:grid-cols-6 ">
-                {job.media.map((img, index) => {
-                  if (typeof img === "string") {
-                    return (
-                      <div
-                        key={img}
-                        className="relative flex aspect-square flex-col items-center"
-                      >
-                        <Image
-                          onClick={() => setImage(index)}
-                          alt={`job_detail_${img}`}
-                          className="aspect-square h-full w-full rounded-md border-[1px] border-white object-cover drop-shadow-md"
-                          src={img}
-                          width={100}
-                          height={100}
-                        />
-                        <DeleteMedia job={job} objectKey={img} />
-                      </div>
-                    );
-                  }
-                })}
+              /*<div className="grid h-fit w-full grid-cols-3 gap-2 lg:grid-cols-6 ">*/
+              <div className="w-full flex gap-2 ">
+                <div className="w-full flex gap-2 overflow-auto">
                 <UploadMediaForm job_id={job.job_id} />
+                  {job.media.map((img, index) => {
+                    if (typeof img === "string") {
+                      return (
+                        <div
+                          key={img}
+                          className="relative flex aspect-square flex-col items-center"
+                        >
+                          <Image
+                            onClick={() => setImage(index)}
+                            alt={`job_detail_${img}`}
+                            className="aspect-square h-full w-full rounded-md border-[1px] border-white object-cover drop-shadow-md"
+                            src={img}
+                            width={100}
+                            height={100}
+                          />
+                          <DeleteMedia job={job} objectKey={img} />
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
               </div>
             ) : (
               <div className="grid h-fit w-full grid-cols-3 gap-2 space-y-2 lg:grid-cols-6">

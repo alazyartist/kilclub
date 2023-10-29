@@ -12,8 +12,7 @@ import UpgradeCard from "~/components/upgrade/UpgradeCard";
 const Jobs = () => {
   const { data: user } = api.user.getUser.useQuery();
   const [formOpen, setFormOpen] = useState(false);
-  const [checkisreviewed, setCheckisreviewed] = useState(true);
-  const [checkisnotreviewed, setCheckisnotreviewed] = useState(true);
+  const [reviewFilter, setReviewFilter] = useState("all");
   const [filter, setFilter] = useState("");
   const { data: allCategories } = api.category.getCategories.useQuery();
 
@@ -38,10 +37,8 @@ const Jobs = () => {
             <CategoryFilter
               filter={filter}
               setFilter={setFilter}
-              checkisreviewed={checkisreviewed}
-              setCheckisreviewed={setCheckisreviewed}
-              checkisnotreviewed={checkisnotreviewed}
-              setCheckisnotreviewed={setCheckisnotreviewed}
+              reviewFilter={reviewFilter}
+              setReviewFilter={setReviewFilter}
             >
               <button className="">
                 <div className="p-1">
@@ -61,11 +58,10 @@ const Jobs = () => {
             />
           )}
 
-          <>
+          <div className="mb-2">
             <JobDisplay
               filter={filter}
-              checkisreviewed={checkisreviewed}
-              checkisnotreviewed={checkisnotreviewed}
+              reviewFilter={reviewFilter}
               allCategories={allCategories}
               business_id={user.business_id}
             >
@@ -78,7 +74,7 @@ const Jobs = () => {
                 </div>
               </button>
             </JobDisplay>
-          </>
+          </div>
         </>
       )}
     </div>
@@ -89,18 +85,14 @@ export default Jobs;
 const CategoryFilter = ({
   setFilter,
   filter,
-  checkisreviewed,
-  setCheckisreviewed,
-  checkisnotreviewed,
-  setCheckisnotreviewed,
+  reviewFilter,
+  setReviewFilter,
   children,
 }: {
   setFilter: React.Dispatch<React.SetStateAction<string>>;
   filter: string;
-  checkisreviewed: boolean;
-  setCheckisreviewed: React.Dispatch<React.SetStateAction<boolean>>;
-  checkisnotreviewed: boolean;
-  setCheckisnotreviewed: React.Dispatch<React.SetStateAction<boolean>>;
+  reviewFilter: string;
+  setReviewFilter: React.Dispatch<React.SetStateAction<string>>;
   children: React.ReactNode;
 }) => {
   const { data: categories } = api.category.getBusinessCategories.useQuery();
@@ -129,20 +121,24 @@ const CategoryFilter = ({
           }
         </div>
         <div className="">
-          <p className="border-white border-2 text-center bg-zinc-200 p-1 rounded-md text-xs md:text-lg"
-            onClick={() => { console.log("reviewed") }}
+          <p className={`border-white border-2 text-center bg-zinc-200 p-1 rounded-md text-xs md:text-lg
+            ${reviewFilter === "reviewed" ? "bg-green-500 " : reviewFilter === "unreviewed" ? "bg-red-300 " : ""}`}
+            onClick={() => { 
+              console.log("reviewFilter: " + reviewFilter) 
+              switch (reviewFilter) {
+                case "reviewed":
+                  setReviewFilter("unreviewed");
+                  break;
+                case "unreviewed":
+                  setReviewFilter("all");
+                  break;
+                default:
+                  setReviewFilter("reviewed");
+                  break;
+              }
+            }}
           >Reviewed</p>
         </div>
-        {/*
-        <div className="flex flex-grow justify-center gap-3 text-5xl">
-          <p onClick={() => setCheckisreviewed((prev) => !prev)}>
-            <MdCheckCircle className={`${checkisreviewed ? "text-emerald-200" : "text-emerald-500"}`} />
-          </p>
-          <p onClick={() => setCheckisnotreviewed((prev) => !prev)}>
-            <MdClose className={`${checkisnotreviewed ? "text-red-200" : "text-red-500"}`} />
-          </p>
-        </div>
-        */}
       </div>
     </div>
   );
@@ -151,16 +147,14 @@ const CategoryFilter = ({
 const JobDisplay = ({
   business_id,
   allCategories,
-  checkisreviewed,
-  checkisnotreviewed,
+  reviewFilter,
   filter,
   children,
 }: {
   filter: string;
   business_id: string;
   allCategories: GetCategories;
-  checkisreviewed: boolean;
-  checkisnotreviewed: boolean;
+  reviewFilter: string;
   children?: React.ReactNode;
 }) => {
   const { data: jobs } = api.jobs.getJobs.useQuery({
@@ -176,11 +170,11 @@ const JobDisplay = ({
       <div className="flex flex-col gap-8 lg:grid lg:grid-cols-2">
         {jobs
           ?.filter((job) => {
-            if (!!checkisreviewed && !checkisnotreviewed) {
-              return !job.isReviewed && job;
-            } else if (!!checkisnotreviewed && !checkisreviewed) {
+            if (reviewFilter === "reviewed") {
               return job.isReviewed && job;
-            } else if (!!checkisnotreviewed && !!checkisreviewed) {
+            } else if (reviewFilter === "unreviewed") {
+              return !job.isReviewed && job;
+            } else if (reviewFilter === "all") {
               return job;
             } else {
               return job;
