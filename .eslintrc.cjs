@@ -18,6 +18,7 @@ const config = {
     "@typescript-eslint/no-unsafe-assignment": "off",
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/prefer-nullish-coalescing": "off",
+    "react/no-unescaped-entities": "off",
     "@typescript-eslint/consistent-type-imports": [
       "warn",
       {

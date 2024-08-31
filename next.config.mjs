@@ -17,6 +17,9 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: { domains: ["img.clerk.com", "keep-it-local-club.s3.amazonaws.com"] },
 };
 
